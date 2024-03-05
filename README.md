@@ -16,7 +16,7 @@
   <h3 align="center">ChatMLX</h3>
 
   <p align="center">
-    ChatMLX is a large model real-time conversation app implemented using MLX.
+    ChatMLX is a large model real-time conversation app implemented using <a href="https://github.com/ml-explore/mlx-swift">MLX</a>
     <br />
     <br />
     <a href="https://github.com/maiqingqiang/ChatMLX/issues">Report Bug</a>
