@@ -10,7 +10,7 @@ import SwiftUI
 struct WelcomeView: View {
     var body: some View {
         VStack(spacing: 0) {
-            Image(nsImage: NSImage(resource: ImageResource(name: "logo", bundle: .main)))
+            Image(nsImage: NSImage(resource: ImageResource(name: "logo", bundle: .module)))
                 .resizable()
                 .frame(width: 64, height: 64)
             Text("How can I help you today?")

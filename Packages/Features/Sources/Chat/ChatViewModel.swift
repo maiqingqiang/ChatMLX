@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @Observable
 public class ChatViewModel {
@@ -22,21 +23,27 @@ public class ChatViewModel {
 
     func add() {
         let conversation = Conversation(model: "")
-        conversations.append(conversation)
-        selectedConversation = conversation
+        withAnimation {
+            conversations.append(conversation)
+            selectedConversation = conversation
+        }
     }
 
     func remove(conversation: Conversation) {
         if let index = conversations.firstIndex(of: conversation) {
-            conversations.remove(at: index)
-            selectedConversation = nil
+            withAnimation {
+                conversations.remove(at: index)
+                selectedConversation = nil
+            }
         }
     }
 
     func submit() {
         if let conversation = selectedConversation, let index = conversations.firstIndex(of: conversation) {
-            conversations[index].messages.append(Message(content: content, role: .user))
-            content = ""
+            withAnimation {
+                conversations[index].messages.append(Message(content: content, role: .user))
+                content = ""
+            }
         } else {
             add()
             submit()

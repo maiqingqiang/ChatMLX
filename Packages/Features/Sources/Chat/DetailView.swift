@@ -13,7 +13,7 @@ struct DetailView: View {
     var body: some View {
         @Bindable var vm = vm
         VStack(spacing: 0) {
-            if let conversation = vm.selectedConversation {
+            if let conversation = vm.selectedConversation,!conversation.messages.isEmpty {
                 ScrollViewReader { proxy in
                     ScrollView {
                         LazyVStack(alignment: .leading) {
@@ -42,6 +42,7 @@ struct DetailView: View {
         model: "",
         messages: [
             Message(content: "hi！", role: .user),
+            Message(content: "hi！", role: .assistant),
         ]
     )
     return DetailView()

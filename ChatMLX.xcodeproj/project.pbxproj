@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		52DFC5262B9F387200D85E46 /* Features in Frameworks */ = {isa = PBXBuildFile; productRef = 52DFC5252B9F387200D85E46 /* Features */; };
 		52EE8C512B8F6CB400A66B03 /* ChatMLXApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52EE8C502B8F6CB400A66B03 /* ChatMLXApp.swift */; };
-		52EE8C572B8F6CB500A66B03 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52EE8C562B8F6CB500A66B03 /* Assets.xcassets */; };
 		52EE8C5A2B8F6CB500A66B03 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52EE8C592B8F6CB500A66B03 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -30,7 +29,6 @@
 		52DFC5242B9F36D100D85E46 /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
 		52EE8C4D2B8F6CB400A66B03 /* ChatMLX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatMLX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52EE8C502B8F6CB400A66B03 /* ChatMLXApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMLXApp.swift; sourceTree = "<group>"; };
-		52EE8C562B8F6CB500A66B03 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52EE8C592B8F6CB500A66B03 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		52EE8C5B2B8F6CB500A66B03 /* ChatMLX.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatMLX.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -50,7 +48,6 @@
 		525C6E4B2B90CE6C000CCE50 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				52EE8C562B8F6CB500A66B03 /* Assets.xcassets */,
 				52EE8C5B2B8F6CB500A66B03 /* ChatMLX.entitlements */,
 			);
 			path = Resources;
@@ -172,7 +169,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				52EE8C5A2B8F6CB500A66B03 /* Preview Assets.xcassets in Resources */,
-				52EE8C572B8F6CB500A66B03 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

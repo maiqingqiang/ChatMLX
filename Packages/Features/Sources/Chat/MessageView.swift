@@ -15,7 +15,7 @@ struct MessageView: View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
                 if message.role == .assistant {
-                    Image(nsImage: NSImage(resource: ImageResource(name: "logo", bundle: .main)))
+                    Image(nsImage: NSImage(resource: ImageResource(name: "logo", bundle: .module)))
                         .resizable()
                         .frame(width: 24, height: 24)
                         .background(.white)
@@ -45,6 +45,8 @@ struct MessageView: View {
 #Preview {
     List{
         MessageView(message: Message(content: "hi！", role: .user))
+            .listRowSeparator(.hidden)
         MessageView(message: Message(content: "hi！", role: .assistant))
-    }.frame(maxWidth: .infinity, maxHeight: .infinity)
+            .listRowSeparator(.hidden)
+    }
 }

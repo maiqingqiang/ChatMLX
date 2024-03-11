@@ -16,7 +16,7 @@ struct SidebarItemView: View {
 
     var body: some View {
         HStack {
-            Text(conversation.messages.last?.content.prefix(20) ?? "New Chat")
+            Text(conversation.messages.first?.content.prefix(20) ?? "New Chat")
                 .font(.title3)
                 .fontWeight(.bold)
             Spacer()
