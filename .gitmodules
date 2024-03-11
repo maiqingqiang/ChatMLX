@@ -1,0 +1,3 @@
+[submodule "mlx-swift"]
+	path = mlx-swift
+	url = https://github.com/ml-explore/mlx-swift.git
