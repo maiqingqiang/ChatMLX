@@ -1,23 +1,33 @@
 //
 //  Message.swift
-//  ChatMLX
 //
-//  Created by John Mai on 2024/3/2.
+//
+//  Created by John Mai on 2024/3/11.
 //
 
 import Foundation
+import SwiftData
 
-enum Role: String {
-    case assistant = "Assistant"
-    case user = "User"
-}
+@Model
+public final class Message {
+    enum Role: String, Codable {
+        case assistant = "Assistant"
+        case user = "User"
+    }
 
-struct Message: Equatable, Identifiable {
-    var id: UUID = .init()
+    @Attribute(.unique) public var id: UUID = UUID()
 
     var role: Role
     var content: String
-    var done: Bool = false
-    var error: Bool = false
-    var createdAt: Date = .now
+
+    var createdAt: Date = Date.now
+
+    //    @Relationship var conversation: Conversation?
+
+    init(role: Role, content: String) {
+        self.role = role
+        self.content = content
+    }
 }
+
+extension Message: Equatable, Hashable, Identifiable {}
