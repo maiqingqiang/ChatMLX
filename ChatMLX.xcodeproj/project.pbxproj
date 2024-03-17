@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		520928A52BA6E9F000D2FEFE /* ChatMLXApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520928A42BA6E9F000D2FEFE /* ChatMLXApp.swift */; };
-		520928A72BA6E9F000D2FEFE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520928A62BA6E9F000D2FEFE /* ContentView.swift */; };
-		520928A92BA6E9F000D2FEFE /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520928A82BA6E9F000D2FEFE /* Item.swift */; };
 		520928AE2BA6E9F100D2FEFE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 520928AD2BA6E9F100D2FEFE /* Preview Assets.xcassets */; };
 		520928B92BA6E9F100D2FEFE /* ChatMLXTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520928B82BA6E9F100D2FEFE /* ChatMLXTests.swift */; };
 		520928C32BA6E9F100D2FEFE /* ChatMLXUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520928C22BA6E9F100D2FEFE /* ChatMLXUITests.swift */; };
@@ -47,6 +45,24 @@
 		5209291D2BA6EABD00D2FEFE /* CompactSlider in Frameworks */ = {isa = PBXBuildFile; productRef = 5209291C2BA6EABD00D2FEFE /* CompactSlider */; };
 		5209291F2BA6EABD00D2FEFE /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 5209291E2BA6EABD00D2FEFE /* MarkdownUI */; };
 		520929212BA6EABD00D2FEFE /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 520929202BA6EABD00D2FEFE /* SwiftUIIntrospect */; };
+		521C3BCD2BA6FC620079AB83 /* MLX in Frameworks */ = {isa = PBXBuildFile; productRef = 521C3BCC2BA6FC620079AB83 /* MLX */; };
+		521C3BCF2BA6FC620079AB83 /* MLXFast in Frameworks */ = {isa = PBXBuildFile; productRef = 521C3BCE2BA6FC620079AB83 /* MLXFast */; };
+		521C3BD12BA6FC620079AB83 /* MLXNN in Frameworks */ = {isa = PBXBuildFile; productRef = 521C3BD02BA6FC620079AB83 /* MLXNN */; };
+		521C3BD32BA6FC620079AB83 /* MLXRandom in Frameworks */ = {isa = PBXBuildFile; productRef = 521C3BD22BA6FC620079AB83 /* MLXRandom */; };
+		521C3BD52BA6FC620079AB83 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = 521C3BD42BA6FC620079AB83 /* AsyncAlgorithms */; };
+		521C3BD62BA6FCAB0079AB83 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE90B2BA6F63F0056DB68 /* Configuration.swift */; };
+		521C3BD72BA6FCAB0079AB83 /* Evaluate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE90C2BA6F63F0056DB68 /* Evaluate.swift */; };
+		521C3BD82BA6FCAB0079AB83 /* Gemma.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE90D2BA6F63F0056DB68 /* Gemma.swift */; };
+		521C3BD92BA6FCAB0079AB83 /* Llama.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE90E2BA6F63F0056DB68 /* Llama.swift */; };
+		521C3BDA2BA6FCAB0079AB83 /* LLMModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE9102BA6F63F0056DB68 /* LLMModel.swift */; };
+		521C3BDB2BA6FCAB0079AB83 /* Load.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE9112BA6F63F0056DB68 /* Load.swift */; };
+		521C3BDC2BA6FCAB0079AB83 /* Models.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE9122BA6F63F0056DB68 /* Models.swift */; };
+		521C3BDD2BA6FCAB0079AB83 /* Phi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE9132BA6F63F0056DB68 /* Phi.swift */; };
+		521C3BDE2BA6FCAB0079AB83 /* Qwen2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE9142BA6F63F0056DB68 /* Qwen2.swift */; };
+		521C3BDF2BA6FCAB0079AB83 /* Starcoder2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE9162BA6F63F0056DB68 /* Starcoder2.swift */; };
+		521C3BE02BA6FCAB0079AB83 /* Tokenizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52CBE9172BA6F63F0056DB68 /* Tokenizer.swift */; };
+		5264B9752BA6F22200B94330 /* LoadState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5264B9742BA6F22200B94330 /* LoadState.swift */; };
+		52CBE9222BA6F63F0056DB68 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 52CBE9152BA6F63F0056DB68 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,11 +82,22 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		5264B9C12BA6F5FF00B94330 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		520928A12BA6E9F000D2FEFE /* ChatMLX.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChatMLX.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		520928A42BA6E9F000D2FEFE /* ChatMLXApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMLXApp.swift; sourceTree = "<group>"; };
-		520928A62BA6E9F000D2FEFE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		520928A82BA6E9F000D2FEFE /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		520928AD2BA6E9F100D2FEFE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		520928B42BA6E9F100D2FEFE /* ChatMLXTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChatMLXTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		520928B82BA6E9F100D2FEFE /* ChatMLXTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMLXTests.swift; sourceTree = "<group>"; };
@@ -107,6 +134,20 @@
 		520928F32BA6EA4300D2FEFE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		520928F42BA6EA4300D2FEFE /* ChatMLX.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ChatMLX.entitlements; sourceTree = "<group>"; };
 		520928F62BA6EA4300D2FEFE /* ModelUtility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelUtility.swift; sourceTree = "<group>"; };
+		521C3BCB2BA6FBDA0079AB83 /* LLM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LLM.h; sourceTree = "<group>"; };
+		5264B9742BA6F22200B94330 /* LoadState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadState.swift; sourceTree = "<group>"; };
+		52CBE90B2BA6F63F0056DB68 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		52CBE90C2BA6F63F0056DB68 /* Evaluate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Evaluate.swift; sourceTree = "<group>"; };
+		52CBE90D2BA6F63F0056DB68 /* Gemma.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Gemma.swift; sourceTree = "<group>"; };
+		52CBE90E2BA6F63F0056DB68 /* Llama.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Llama.swift; sourceTree = "<group>"; };
+		52CBE9102BA6F63F0056DB68 /* LLMModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMModel.swift; sourceTree = "<group>"; };
+		52CBE9112BA6F63F0056DB68 /* Load.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Load.swift; sourceTree = "<group>"; };
+		52CBE9122BA6F63F0056DB68 /* Models.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Models.swift; sourceTree = "<group>"; };
+		52CBE9132BA6F63F0056DB68 /* Phi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Phi.swift; sourceTree = "<group>"; };
+		52CBE9142BA6F63F0056DB68 /* Qwen2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Qwen2.swift; sourceTree = "<group>"; };
+		52CBE9152BA6F63F0056DB68 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		52CBE9162BA6F63F0056DB68 /* Starcoder2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Starcoder2.swift; sourceTree = "<group>"; };
+		52CBE9172BA6F63F0056DB68 /* Tokenizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tokenizer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,9 +155,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				521C3BCF2BA6FC620079AB83 /* MLXFast in Frameworks */,
 				5209291F2BA6EABD00D2FEFE /* MarkdownUI in Frameworks */,
+				521C3BD52BA6FC620079AB83 /* AsyncAlgorithms in Frameworks */,
 				5209291B2BA6EABD00D2FEFE /* Transformers in Frameworks */,
+				521C3BD32BA6FC620079AB83 /* MLXRandom in Frameworks */,
 				5209291D2BA6EABD00D2FEFE /* CompactSlider in Frameworks */,
+				521C3BCD2BA6FC620079AB83 /* MLX in Frameworks */,
+				521C3BD12BA6FC620079AB83 /* MLXNN in Frameworks */,
 				520929212BA6EABD00D2FEFE /* SwiftUIIntrospect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -162,17 +208,15 @@
 		520928A32BA6E9F000D2FEFE /* ChatMLX */ = {
 			isa = PBXGroup;
 			children = (
+				520928A42BA6E9F000D2FEFE /* ChatMLXApp.swift */,
 				520928D92BA6EA4300D2FEFE /* Components */,
 				520928F22BA6EA4300D2FEFE /* Enums */,
 				520928DC2BA6EA4300D2FEFE /* Extensions */,
 				520928EF2BA6EA4300D2FEFE /* Features */,
 				520928D62BA6EA4300D2FEFE /* Models */,
+				520928AC2BA6E9F100D2FEFE /* Preview Content */,
 				520928F52BA6EA4300D2FEFE /* Resources */,
 				520928F72BA6EA4300D2FEFE /* Utilities */,
-				520928A42BA6E9F000D2FEFE /* ChatMLXApp.swift */,
-				520928A62BA6E9F000D2FEFE /* ContentView.swift */,
-				520928A82BA6E9F000D2FEFE /* Item.swift */,
-				520928AC2BA6E9F100D2FEFE /* Preview Content */,
 			);
 			path = ChatMLX;
 			sourceTree = "<group>";
@@ -276,6 +320,7 @@
 			children = (
 				520928F02BA6EA4300D2FEFE /* HuggingfaceEndpoint.swift */,
 				520928F12BA6EA4300D2FEFE /* Preferences.swift */,
+				5264B9742BA6F22200B94330 /* LoadState.swift */,
 			);
 			path = Enums;
 			sourceTree = "<group>";
@@ -292,6 +337,7 @@
 		520928F72BA6EA4300D2FEFE /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				52CBE92B2BA6F6600056DB68 /* LLM */,
 				520928F62BA6EA4300D2FEFE /* ModelUtility.swift */,
 			);
 			path = Utilities;
@@ -304,6 +350,26 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		52CBE92B2BA6F6600056DB68 /* LLM */ = {
+			isa = PBXGroup;
+			children = (
+				521C3BCB2BA6FBDA0079AB83 /* LLM.h */,
+				52CBE9152BA6F63F0056DB68 /* README.md */,
+				52CBE90B2BA6F63F0056DB68 /* Configuration.swift */,
+				52CBE90C2BA6F63F0056DB68 /* Evaluate.swift */,
+				52CBE90D2BA6F63F0056DB68 /* Gemma.swift */,
+				52CBE90E2BA6F63F0056DB68 /* Llama.swift */,
+				52CBE9102BA6F63F0056DB68 /* LLMModel.swift */,
+				52CBE9112BA6F63F0056DB68 /* Load.swift */,
+				52CBE9122BA6F63F0056DB68 /* Models.swift */,
+				52CBE9132BA6F63F0056DB68 /* Phi.swift */,
+				52CBE9142BA6F63F0056DB68 /* Qwen2.swift */,
+				52CBE9162BA6F63F0056DB68 /* Starcoder2.swift */,
+				52CBE9172BA6F63F0056DB68 /* Tokenizer.swift */,
+			);
+			path = LLM;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -314,6 +380,7 @@
 				5209289D2BA6E9F000D2FEFE /* Sources */,
 				5209289E2BA6E9F000D2FEFE /* Frameworks */,
 				5209289F2BA6E9F000D2FEFE /* Resources */,
+				5264B9C12BA6F5FF00B94330 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -325,6 +392,11 @@
 				5209291C2BA6EABD00D2FEFE /* CompactSlider */,
 				5209291E2BA6EABD00D2FEFE /* MarkdownUI */,
 				520929202BA6EABD00D2FEFE /* SwiftUIIntrospect */,
+				521C3BCC2BA6FC620079AB83 /* MLX */,
+				521C3BCE2BA6FC620079AB83 /* MLXFast */,
+				521C3BD02BA6FC620079AB83 /* MLXNN */,
+				521C3BD22BA6FC620079AB83 /* MLXRandom */,
+				521C3BD42BA6FC620079AB83 /* AsyncAlgorithms */,
 			);
 			productName = ChatMLX;
 			productReference = 520928A12BA6E9F000D2FEFE /* ChatMLX.app */;
@@ -403,6 +475,8 @@
 				520929162BA6EA9D00D2FEFE /* XCRemoteSwiftPackageReference "CompactSlider" */,
 				520929172BA6EAA700D2FEFE /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				520929182BA6EAAF00D2FEFE /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
+				5264B96D2BA6F1C000B94330 /* XCRemoteSwiftPackageReference "mlx-swift" */,
+				5264B9922BA6F53400B94330 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 			);
 			productRefGroup = 520928A22BA6E9F000D2FEFE /* Products */;
 			projectDirPath = "";
@@ -420,6 +494,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52CBE9222BA6F63F0056DB68 /* README.md in Resources */,
 				520928AE2BA6E9F100D2FEFE /* Preview Assets.xcassets in Resources */,
 				520929132BA6EA4300D2FEFE /* Assets.xcassets in Resources */,
 			);
@@ -446,6 +521,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				521C3BD62BA6FCAB0079AB83 /* Configuration.swift in Sources */,
+				521C3BD72BA6FCAB0079AB83 /* Evaluate.swift in Sources */,
+				521C3BD82BA6FCAB0079AB83 /* Gemma.swift in Sources */,
+				521C3BD92BA6FCAB0079AB83 /* Llama.swift in Sources */,
+				521C3BDA2BA6FCAB0079AB83 /* LLMModel.swift in Sources */,
+				521C3BDB2BA6FCAB0079AB83 /* Load.swift in Sources */,
+				521C3BDC2BA6FCAB0079AB83 /* Models.swift in Sources */,
+				521C3BDD2BA6FCAB0079AB83 /* Phi.swift in Sources */,
+				521C3BDE2BA6FCAB0079AB83 /* Qwen2.swift in Sources */,
+				521C3BDF2BA6FCAB0079AB83 /* Starcoder2.swift in Sources */,
+				521C3BE02BA6FCAB0079AB83 /* Tokenizer.swift in Sources */,
 				520929142BA6EA4300D2FEFE /* ModelUtility.swift in Sources */,
 				520929002BA6EA4300D2FEFE /* View++.swift in Sources */,
 				5209290D2BA6EA4300D2FEFE /* ModelsSettingsView.swift in Sources */,
@@ -461,14 +547,13 @@
 				520928FF2BA6EA4300D2FEFE /* Binding++.swift in Sources */,
 				520929012BA6EA4300D2FEFE /* ChatView.swift in Sources */,
 				5209290B2BA6EA4300D2FEFE /* ModelItemDetails.swift in Sources */,
-				520928A72BA6E9F000D2FEFE /* ContentView.swift in Sources */,
 				520929022BA6EA4300D2FEFE /* ChatViewModel.swift in Sources */,
 				520928F92BA6EA4300D2FEFE /* Message.swift in Sources */,
 				520928FA2BA6EA4300D2FEFE /* MLXModel.swift in Sources */,
 				520929092BA6EA4300D2FEFE /* WelcomeView.swift in Sources */,
-				520928A92BA6E9F000D2FEFE /* Item.swift in Sources */,
 				520928FB2BA6EA4300D2FEFE /* SettingsPage.swift in Sources */,
 				5209290C2BA6EA4300D2FEFE /* ModelItemView.swift in Sources */,
+				5264B9752BA6F22200B94330 /* LoadState.swift in Sources */,
 				520929042BA6EA4300D2FEFE /* InputBarView.swift in Sources */,
 				5209290F2BA6EA4300D2FEFE /* SettingsView.swift in Sources */,
 				520929032BA6EA4300D2FEFE /* DetailView.swift in Sources */,
@@ -634,9 +719,11 @@
 		520928C92BA6E9F100D2FEFE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ChatMLX/Resources/ChatMLX.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -661,13 +748,16 @@
 		520928CA2BA6E9F100D2FEFE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = ChatMLX/Resources/ChatMLX.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatMLX/Preview Content\"";
+				DEVELOPMENT_TEAM = RFGFKQEKRH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -826,6 +916,22 @@
 				minimumVersion = 1.1.3;
 			};
 		};
+		5264B96D2BA6F1C000B94330 /* XCRemoteSwiftPackageReference "mlx-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ml-explore/mlx-swift";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		5264B9922BA6F53400B94330 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-async-algorithms.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -848,6 +954,31 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 520929182BA6EAAF00D2FEFE /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
 			productName = SwiftUIIntrospect;
+		};
+		521C3BCC2BA6FC620079AB83 /* MLX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5264B96D2BA6F1C000B94330 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLX;
+		};
+		521C3BCE2BA6FC620079AB83 /* MLXFast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5264B96D2BA6F1C000B94330 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXFast;
+		};
+		521C3BD02BA6FC620079AB83 /* MLXNN */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5264B96D2BA6F1C000B94330 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXNN;
+		};
+		521C3BD22BA6FC620079AB83 /* MLXRandom */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5264B96D2BA6F1C000B94330 /* XCRemoteSwiftPackageReference "mlx-swift" */;
+			productName = MLXRandom;
+		};
+		521C3BD42BA6FC620079AB83 /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5264B9922BA6F53400B94330 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

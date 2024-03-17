@@ -1,5 +1,5 @@
 {
-  "originHash" : "cdc83bbc8a46b9ab538087e6308010675cdc742dd4f85ae35d96e304e55d5b90",
+  "originHash" : "0fb3e4743c0a39d50d7c433859b2bf1fb993c2b8990483716438563ed94ff33c",
   "pins" : [
     {
       "identity" : "compactslider",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "6d591a76caecd583ad69fbcd06f2fb83135318c0",
         "version" : "1.1.5"
+      }
+    },
+    {
+      "identity" : "mlx-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ml-explore/mlx-swift",
+      "state" : {
+        "branch" : "main",
+        "revision" : "24e71937e12efe01a0d28a429a703036fae2ff8a"
       }
     },
     {
@@ -29,12 +38,39 @@
       }
     },
     {
+      "identity" : "swift-async-algorithms",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-async-algorithms.git",
+      "state" : {
+        "revision" : "da4e36f86544cdf733a40d59b3a2267e3a7bbf36",
+        "version" : "1.0.0"
+      }
+    },
+    {
+      "identity" : "swift-collections",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-collections.git",
+      "state" : {
+        "revision" : "94cf62b3ba8d4bed62680a282d4c25f9c63c2efb",
+        "version" : "1.1.0"
+      }
+    },
+    {
       "identity" : "swift-markdown-ui",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gonzalezreal/swift-markdown-ui",
       "state" : {
         "revision" : "ae799d015a5374708f7b4c85f3294c05f2a564e2",
         "version" : "2.3.0"
+      }
+    },
+    {
+      "identity" : "swift-numerics",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-numerics",
+      "state" : {
+        "revision" : "0a5bc04095a675662cf24757cc0640aa2204253b",
+        "version" : "1.0.2"
       }
     },
     {

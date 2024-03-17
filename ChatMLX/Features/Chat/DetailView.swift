@@ -47,8 +47,12 @@ struct DetailView: View {
                     .onAppear {
                         scrollToBottom(scrollViewProxy)
                     }
-                }.onAppear {
+                }
+                .onAppear {
                     vm.loadFromModelDirectory()
+                }
+                .task {
+                    try! await vm.load()
                 }
 
             } else {
@@ -94,7 +98,8 @@ struct DetailView: View {
             isPresented: $isPresented,
             content: {
                 ParametersView()
-            })
+            }
+        )
     }
 
     func scrollToBottom(_ scrollViewProxy: ScrollViewProxy) {
