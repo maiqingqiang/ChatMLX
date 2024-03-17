@@ -1,12 +1,22 @@
 {
+  "originHash" : "0fb3e4743c0a39d50d7c433859b2bf1fb993c2b8990483716438563ed94ff33c",
   "pins" : [
+    {
+      "identity" : "compactslider",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/buh/CompactSlider.git",
+      "state" : {
+        "revision" : "6d591a76caecd583ad69fbcd06f2fb83135318c0",
+        "version" : "1.1.5"
+      }
+    },
     {
       "identity" : "mlx-swift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ml-explore/mlx-swift",
       "state" : {
-        "revision" : "7838f8cd93499f3d9e9a35b87cb74fe2664b325f",
-        "version" : "0.10.0"
+        "branch" : "main",
+        "revision" : "24e71937e12efe01a0d28a429a703036fae2ff8a"
       }
     },
     {
@@ -48,7 +58,7 @@
     {
       "identity" : "swift-markdown-ui",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/gonzalezreal/swift-markdown-ui.git",
+      "location" : "https://github.com/gonzalezreal/swift-markdown-ui",
       "state" : {
         "revision" : "ae799d015a5374708f7b4c85f3294c05f2a564e2",
         "version" : "2.3.0"
@@ -66,12 +76,21 @@
     {
       "identity" : "swift-transformers",
       "kind" : "remoteSourceControl",
-      "location" : "https://github.com/huggingface/swift-transformers",
+      "location" : "https://github.com/huggingface/swift-transformers.git",
       "state" : {
-        "revision" : "564442fba36b0b694d730a62d0593e5f54043b55",
-        "version" : "0.1.2"
+        "revision" : "3bd02269b7797ade67c15679a575cd5c6f203ce6",
+        "version" : "0.1.5"
+      }
+    },
+    {
+      "identity" : "swiftui-introspect",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/siteline/swiftui-introspect.git",
+      "state" : {
+        "revision" : "0cd2a5a5895306bc21d54a2254302d24a9a571e4",
+        "version" : "1.1.3"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
