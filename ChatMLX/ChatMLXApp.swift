@@ -5,13 +5,16 @@
 //  Created by John Mai on 2024/3/17.
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct ChatMLXApp: App {
     @State var chatViewModel: ChatViewModel
     @State var settingsViewModel: SettingsViewModel
+    @State var promptViewModel: PromptViewModel
+    @State var appViewModel: AppViewModel
+    @State var appStroe: AppStroe
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -31,14 +34,22 @@ struct ChatMLXApp: App {
         let modelContext = sharedModelContainer.mainContext
         _chatViewModel = State(wrappedValue: ChatViewModel(modelContext: modelContext))
         _settingsViewModel = State(wrappedValue: SettingsViewModel())
+        _promptViewModel = State(wrappedValue: PromptViewModel())
+        _appViewModel = State(wrappedValue: AppViewModel())
+        _appStroe = State(wrappedValue: AppStroe())
     }
 
     var body: some Scene {
         WindowGroup {
-            ChatView()
+            AppView()
                 .environment(chatViewModel)
+                .environment(promptViewModel)
+                .environment(appViewModel)
+                .environment(appStroe)
         }
+        .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
+        
 
         Settings {
             SettingsView()

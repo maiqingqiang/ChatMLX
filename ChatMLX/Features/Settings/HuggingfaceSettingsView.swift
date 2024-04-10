@@ -14,7 +14,7 @@ struct HuggingfaceSettingsView: View {
         HuggingfaceEndpoint = .official
 
     var body: some View {
-        SettingsForm {
+        Form {
             Section {
                 SecureField(text: $token, prompt: Text("Enter Huggingface Token")) {
                     Text("Token")
@@ -31,6 +31,7 @@ struct HuggingfaceSettingsView: View {
                 }
             }
         }
+        .formStyle(.grouped)
     }
 }
 

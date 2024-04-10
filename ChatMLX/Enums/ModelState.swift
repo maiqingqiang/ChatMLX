@@ -7,8 +7,9 @@
 
 import Foundation
 import Tokenizers
+import MLXLLM
 
-enum LoadState {
+enum ModelState {
     case idle
-    case loaded(LLMModel, Tokenizer)
+    case loaded(String, LLMModel, Tokenizer)
 }

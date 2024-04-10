@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import SwiftUI
 import os
+import SwiftUI
 
 struct ModelItemView: View {
     @Environment(SettingsViewModel.self) private var vm
@@ -23,14 +23,28 @@ struct ModelItemView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                if model.isDownloading {
+                if case .downloading(let progress, let totalFileCount, let completedFileCount) = model.state {
                     Rectangle()
                         .foregroundColor(.blue.opacity(0.3))
-                        .frame(width: geometry.size.width * CGFloat(model.progress))
-                        .animation(.snappy, value: model.progress)
+                        .frame(width: geometry.size.width * CGFloat(progress))
+                        .animation(.snappy, value: progress)
                 }
                 HStack {
-                    if model.isDownloading {
+                    switch model.state {
+                    case .unavailable, .availabled:
+                        Text(model.name)
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .textSelection(.enabled)
+                        if model.name == activeModel {
+                            Text("default")
+                                .padding(5)
+                                .font(.footnote)
+                                .foregroundColor(.green)
+                                .background(.green.opacity(0.1))
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                        }
+                    case .downloading(let progress, let totalFileCount, let completedFileCount):
                         ProgressView()
                             .progressViewStyle(.circular)
                             .controlSize(.small)
@@ -42,28 +56,15 @@ struct ModelItemView: View {
                                 .textSelection(.enabled)
 
                             HStack {
-                                Text("\(model.completedFileCount)/\(model.totalFileCount)")
-                                Text(model.progress, format: .percent)
+                                Text("\(completedFileCount)/\(totalFileCount)")
+                                Text(progress, format: .percent)
                             }
                             .font(.subheadline)
                             .foregroundColor(.secondary)
                         }
                         .padding(.horizontal)
-                    } else {
-                        Text(model.name)
-                            .font(.title3)
-                            .fontWeight(.bold)
-                            .textSelection(.enabled)
-
-                        if model.name == activeModel, model.isAvailable {
-                            Text("default")
-                                .padding(5)
-                                .font(.footnote)
-                                .foregroundColor(.green)
-                                .background(.green.opacity(0.1))
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                        }
                     }
+
                     Spacer()
                     control
                 }
@@ -83,15 +84,27 @@ struct ModelItemView: View {
 
     var control: some View {
         HStack {
-            if model.isAvailable {
+            switch model.state {
+            case .unavailable:
+                Button(
+                    action: {
+                        Task {
+                            await vm.download(model: model)
+                        }
+
+                    },
+                    label: {
+                        Image(systemName: "square.and.arrow.down")
+                            .foregroundColor(.blue)
+                    })
+            case .availabled:
                 Button(
                     action: {
                         activeModel = model.name
                     },
                     label: {
                         Image(systemName: model.name == activeModel ? "checkmark.circle" : "circle")
-                    }
-                ).foregroundColor(model.name == activeModel ? .green : .gray)
+                    }).foregroundColor(model.name == activeModel ? .green : .gray)
 
                 Button(
                     action: {
@@ -101,18 +114,8 @@ struct ModelItemView: View {
                         Image(systemName: "trash")
                             .foregroundColor(.red)
                     })
-            } else {
-                if model.isDownloading {
-                } else {
-                    Button(
-                        action: {
-                            vm.download(model: model)
-                        },
-                        label: {
-                            Image(systemName: "square.and.arrow.down")
-                                .foregroundColor(.blue)
-                        })
-                }
+            default:
+                EmptyView()
             }
         }
         .buttonStyle(.plain)

@@ -1,27 +1,29 @@
-// Copyright © 2024 Apple Inc.
+//
+//  Load.swift
+//  ChatMLX
+//
+//  Created by John Mai on 2024/4/8.
+//
 
-import AsyncAlgorithms
+//import AsyncAlgorithms
 import Foundation
 import Hub
 import MLX
+import MLXLLM
 import MLXNN
 import MLXRandom
 import Tokenizers
 
-struct LLMError: Error {
-    let message: String
-}
-
 /// Load and return the model and tokenizer
 public func load(
-    hub: HubApi = HubApi(), configuration: ModelConfiguration,
+    hub: HubApi = HubApi(), modelName: String,
     progressHandler: @escaping (Progress) -> Void = { _ in }) async throws -> (LLMModel, Tokenizer)
 {
     // note: this doesn't have a way to pass the HubApi
-    let tokenizer = try await loadTokenizer(configuration: configuration)
+    let tokenizer = try await loadTokenizer(modelName: modelName)
 
     // download the model weights and config
-    let repo = Hub.Repo(id: configuration.id)
+    let repo = Hub.Repo(id: modelName)
     let modelFiles = ["config.json", "*.safetensors"]
     let modelDirectory = try await hub.snapshot(
         from: repo, matching: modelFiles, progressHandler: progressHandler)
@@ -60,51 +62,31 @@ public func load(
     return (model, tokenizer)
 }
 
-public func loadFromDisk(
-    configuration: ModelConfiguration,
-    progressHandler: @escaping (Progress) -> Void = { _ in }) async throws -> (LLMModel, Tokenizer)
-{
-    // note: this doesn't have a way to pass the HubApi
-    let tokenizer = try await loadTokenizer(configuration: configuration)
+public struct BaseConfiguration: Codable {
+    public let modelType: ModelType
 
-    let documents = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-    let modelDirectory = documents.appending(components: "huggingface/models").appending(components: configuration.id)
+    public struct Quantization: Codable {
+        public init(groupSize: Int, bits: Int) {
+            self.groupSize = groupSize
+            self.bits = bits
+        }
 
-    // create the model (no weights loaded)
-    let configurationURL = modelDirectory.appending(component: "config.json")
-    let baseConfig = try JSONDecoder().decode(
-        BaseConfiguration.self, from: Data(contentsOf: configurationURL))
+        let groupSize: Int
+        let bits: Int
 
-    let model = try baseConfig.modelType.createModel(configuration: configurationURL)
-
-    // load the weights
-    var weights = [String: MLXArray]()
-    let enumerator = FileManager.default.enumerator(
-        at: modelDirectory, includingPropertiesForKeys: nil)!
-    for case let url as URL in enumerator {
-        if url.pathExtension == "safetensors" {
-            let w = try loadArrays(url: url)
-            for (key, value) in w {
-                weights[key] = value
-            }
+        enum CodingKeys: String, CodingKey {
+            case groupSize = "group_size"
+            case bits
         }
     }
 
-    // quantize if needed
-    if let quantization = baseConfig.quantization {
-        quantizeIfNeeded(model: model, weights: weights, quantization: quantization)
+    public var quantization: Quantization?
+
+    enum CodingKeys: String, CodingKey {
+        case modelType = "model_type"
+        case quantization
     }
-
-    // apply the loaded weights
-    let parameters = ModuleParameters.unflattened(weights)
-    try model.update(parameters: parameters, verify: [.all])
-
-    eval(model)
-
-    return (model, tokenizer)
 }
-
-// MARK: - Quantization
 
 private func quantizeIfNeeded(
     model: LLMModel, weights: [String: MLXArray], quantization: BaseConfiguration.Quantization)

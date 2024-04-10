@@ -11,8 +11,8 @@ import SwiftData
 @Model
 public final class Message {
     enum Role: String, Codable {
-        case assistant = "Assistant"
-        case user = "User"
+        case assistant
+        case user
     }
 
     @Attribute(.unique) public var id: UUID = UUID()

@@ -74,7 +74,7 @@ public struct SettingsView: View {
                 }
             }
         }
-        .titlebarAppearsTransparentWithUnified("com_apple_SwiftUI_Settings_window")
+        .titlebarUnified("com_apple_SwiftUI_Settings_window")
     }
 }
 

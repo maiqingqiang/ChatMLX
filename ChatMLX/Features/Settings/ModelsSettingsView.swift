@@ -17,10 +17,10 @@ struct ModelsSettingsView: View {
     var body: some View {
         @Bindable var vm = vm
 
-        SettingsForm {
+        Form {
             Section("Recommended") {
                 ForEach(vm.models.indices, id: \.self) { index in
-                    if vm.models[index].isRecommended {
+                    if vm.models[index].recommended {
                         ModelItemView(
                             model: $vm.models[index]
                         )
@@ -30,7 +30,7 @@ struct ModelsSettingsView: View {
 
             Section("Other") {
                 ForEach(vm.models.indices, id: \.self) { index in
-                    if !vm.models[index].isRecommended {
+                    if !vm.models[index].recommended {
                         ModelItemView(
                             model: $vm.models[index]
                         )
@@ -38,6 +38,7 @@ struct ModelsSettingsView: View {
                 }
             }
         }
+        .formStyle(.grouped)
         .alert("Add Other Model", isPresented: $isPresented) {
             TextField(
                 "HuggingFace Model Repo",
@@ -56,13 +57,18 @@ struct ModelsSettingsView: View {
         }
         .toolbar(content: {
             ToolbarItem {
-                Button(action: {
-                    isPresented = true
-                }) {
+                Menu {
+                    Button("Add Huggingface Model") {
+                        // 在这里添加点击"Add Other Model"后的逻辑
+                        print("Add Other Model")
+                    }
+                    Button("Add Local Model") {
+                        isPresented = true
+                    }
+                } label: {
                     Image(systemName: "plus")
                         .symbolRenderingMode(.multicolor)
                 }
-                .buttonStyle(.accessoryBar)
             }
         })
     }

@@ -13,11 +13,11 @@ public class SettingsViewModel {
     var scrolledToTop: Bool = false
 
     var models: [MLXModel] = [
-        MLXModel(name: "mlx-community/quantized-gemma-7b-it", isRecommended: true),
-        MLXModel(name: "mlx-community/Mistral-7B-Instruct-v0.2-4bit-mlx", isRecommended: true),
-        MLXModel(name: "mlx-community/Qwen1.5-0.5B-Chat-4bit", isRecommended: true),
-        MLXModel(name: "mlx-community/phi-2-hf-4bit-mlx", isRecommended: true),
-        MLXModel(name: "mlx-community/starcoder2-3b-4bit", isRecommended: true),
+        MLXModel(name: "mlx-community/quantized-gemma-7b-it", recommended: true),
+        MLXModel(name: "mlx-community/Mistral-7B-Instruct-v0.2-4bit-mlx", recommended: true),
+        MLXModel(name: "mlx-community/Qwen1.5-0.5B-Chat-4bit", recommended: true),
+        MLXModel(name: "mlx-community/phi-2-hf-4bit-mlx", recommended: true),
+        MLXModel(name: "mlx-community/starcoder2-3b-4bit", recommended: true),
     ]
 
     public init() {
@@ -36,9 +36,11 @@ public class SettingsViewModel {
 
             let index = self.models.firstIndex(where: { $0.name == model })
             if index != nil {
-                self.models[index!].isAvailable = true
+                self.models[index!].state = .availabled
             } else {
-                self.models.append(MLXModel(name: model, isAvailable: true))
+                var model = MLXModel(name: model)
+                model.state = .availabled
+                self.models.append(model)
             }
         }
 
@@ -47,58 +49,56 @@ public class SettingsViewModel {
         }
     }
 
-    func download(model: MLXModel) {
-        Task {
-            await MainActor.run {
-                let index = models.firstIndex(where: { $0.name == model.name })
-                self.models[index!].isDownloading = true
+    func download(model: MLXModel) async {
+        await MainActor.run {
+            let index = models.firstIndex(where: { $0.name == model.name })
+            self.models[index!].state = .downloading(progress: 0, totalFileCount: 0, completedFileCount: 0)
+        }
+        do {
+            let repo = Hub.Repo(id: model.name)
+
+            var token: String?
+            if let hfToken = UserDefaults.standard.string(
+                forKey: Preferences.huggingfaceToken.rawValue), !hfToken.isEmpty
+            {
+                token = hfToken
             }
-            do {
-                let repo = Hub.Repo(id: model.name)
 
-                var token: String? = nil
-                if let hfToken = UserDefaults.standard.string(
-                    forKey: Preferences.huggingfaceToken.rawValue), !hfToken.isEmpty
-                {
-                    token = hfToken
-                }
-
-                let endpointType =
+            let endpointType =
+                UserDefaults.standard.string(
+                    forKey: Preferences.huggingfaceEdpointType.rawValue) ?? ""
+            var endpoint = endpointType
+            if endpoint.isEmpty {
+                endpoint =
                     UserDefaults.standard.string(
-                        forKey: Preferences.huggingfaceEdpointType.rawValue) ?? ""
-                var endpoint = endpointType
-                if endpoint.isEmpty {
-                    endpoint =
-                        UserDefaults.standard.string(
-                            forKey: Preferences.huggingfaceEdpoint.rawValue)
-                        ?? HuggingfaceEndpoint.official.rawValue
-                }
-
-                let hub = HubApi(hfToken: token, endpoint: endpoint)
-                let modelFiles = ["config.json", "*.safetensors"]
-                try await hub.snapshot(
-                    from: repo, matching: modelFiles
-                ) { progress in
-                    print("progress: \(progress)")
-                    Task { @MainActor in
-                        let index = self.models.firstIndex(where: { $0.name == model.name })
-                        self.models[index!].progress = progress.fractionCompleted
-                        self.models[index!].totalFileCount = progress.totalUnitCount
-                        self.models[index!].completedFileCount = progress.completedUnitCount
-                    }
-                }
-
-                await MainActor.run {
-                    let index = models.firstIndex(where: { $0.name == model.name })
-                    self.models[index!].isAvailable = true
-                }
-            } catch {
-                //                logger.error("\(error)")
+                        forKey: Preferences.huggingfaceEdpoint.rawValue)
+                    ?? HuggingfaceEndpoint.official.rawValue
             }
+
+            let hub = HubApi(hfToken: token, endpoint: endpoint)
+            let modelFiles = ["config.json", "*.safetensors"]
+            try await hub.snapshot(
+                from: repo, matching: modelFiles)
+            { progress in
+                Task { @MainActor in
+                    let index = self.models.firstIndex(where: { $0.name == model.name })
+                    self.models[index!].state = .downloading(progress: progress.fractionCompleted, totalFileCount: progress.totalUnitCount, completedFileCount: progress.completedUnitCount)
+                }
+            }
+
             await MainActor.run {
                 let index = models.firstIndex(where: { $0.name == model.name })
-                self.models[index!].isDownloading = false
+                self.models[index!].state = .availabled
             }
+            DispatchQueue.main.async {
+                let index = self.models.firstIndex(where: { $0.name == model.name })
+                self.models[index!].state = .availabled
+            }
+        } catch {
+        }
+        await MainActor.run {
+            let index = models.firstIndex(where: { $0.name == model.name })
+            self.models[index!].state = .availabled
         }
     }
 
@@ -114,19 +114,18 @@ public class SettingsViewModel {
             try fileManager.removeItem(at: modelDirectory)
 
             let index = models.firstIndex(where: { $0.name == model.name })
-            if model.isRecommended {
-                models[index!].isAvailable = false
+            if model.recommended {
+                models[index!].state = .unavailable
             } else {
                 models.remove(at: index!)
             }
         } catch {
-            //            logger.error("\(error)")
         }
     }
 
     func add(model: String) {
         let model = MLXModel(name: model)
         models.append(model)
-        download(model: model)
+//        download(model: model)
     }
 }
