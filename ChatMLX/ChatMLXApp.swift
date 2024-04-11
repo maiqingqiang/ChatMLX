@@ -21,7 +21,7 @@ struct ChatMLXApp: App {
             Conversation.self,
             Message.self,
         ])
-        let modelConfiguration = SwiftData.ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])

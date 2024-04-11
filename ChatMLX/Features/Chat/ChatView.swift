@@ -8,6 +8,7 @@
 import MarkdownUI
 import SwiftData
 import SwiftUI
+import AlertToast
 
 struct ChatView: View {
     @Environment(ChatViewModel.self) private var vm
@@ -55,11 +56,11 @@ struct ChatView: View {
                         }
                         .buttonStyle(.borderless)
                         .disabled(text.isEmpty)
-                        
-                        Button("Send") {
-//                            output = text
-                        }
-                        .buttonStyle(.borderedProminent)
+                    
+                        Button(action: {}, label: {
+                            Label("Send", systemImage: "paperplane")
+                        })
+                        .buttonStyle(BlackButtonStyle())
                         .controlSize(.large)
                         .buttonBorderShape(.automatic)
                         .tint(.black)
@@ -73,6 +74,9 @@ struct ChatView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(.white)
             .ignoresSafeArea()
+            .toast(isPresenting: $vm.showToast) {
+                AlertToast(type: .complete(.green), title: vm.toastTitle)
+            }
         } else {
             Text("Not Found")
         }

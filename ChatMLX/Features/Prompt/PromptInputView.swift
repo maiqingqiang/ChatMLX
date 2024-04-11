@@ -7,19 +7,7 @@
 
 import SwiftUI
 
-struct CustomButtonStyle: ButtonStyle {
-    @Environment(\.isEnabled) private var isEnabled: Bool
 
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(8)
-            .background(isEnabled ? Color.black : Color.gray)
-            .foregroundColor(.white)
-            .clipShape(RoundedRectangle(cornerRadius: 10))
-            .opacity(configuration.isPressed ? 0.5 : 1.0)
-            .shadow(radius: 2)
-    }
-}
 
 struct PromptInputView: View {
     @Environment(PromptViewModel.self) private var vm
@@ -91,11 +79,10 @@ struct PromptInputView: View {
                     if vm.running {
                         Label("Stop Generation", systemImage: "stop")
                     } else {
-                        Label("Run Playground", systemImage: "arrow.right.square")
+                        Label("Run Playground", systemImage: "paperplane")
                     }
                 }
-                //            .buttonStyle(.borderedProminent)
-                .buttonStyle(CustomButtonStyle())
+                .buttonStyle(BlackButtonStyle())
                 .controlSize(.large)
                 .buttonBorderShape(.automatic)
                 .tint(.black)

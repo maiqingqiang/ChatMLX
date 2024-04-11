@@ -24,7 +24,9 @@ class PromptViewModel {
     var isPresentedParameters: Bool = false
     var temperature: Float = 0.6
     var topP: Float = 0.9
-    var maxTokens: Int = 128
+    var maxTokens: Int = 256
+    var repetitionPenalty: Float = 1.0
+    var repetitionContextSize: Int = 20
 
     let displayEveryNTokens = 4
 
@@ -38,6 +40,8 @@ class PromptViewModel {
 
     var showErrorToast: Bool = false
     var error: String = ""
+
+    var tokensPerSecond: Double = 0
 
     func openPromptParameters() {
         isPresentedParameters = true
@@ -84,53 +88,50 @@ class PromptViewModel {
     }
 
     func run() async {
-        let startTime = Date()
         do {
             await MainActor.run {
                 running = true
                 output = ""
+                self.tokensPerSecond = 0
             }
 
             let (model, tokenizer) = try await loadModel()
 
-            let promptTokens = MLXArray(tokenizer.encode(text: text))
+            let promptTokens = tokenizer.encode(text: text)
 
             MLXRandom.seed(UInt64(Date.timeIntervalSinceReferenceDate * 1000))
 
-            var outputTokens: [Int] = []
-
-            for token in TokenIterator(prompt: promptTokens, model: model, temp: temperature, topP: topP) {
-                if stopping {
-                    stopping = false
-                    break
-                }
-                let tokenId = token.item(Int.self)
-
-                if tokenId == tokenizer.unknownTokenId || tokenId == tokenizer.eosTokenId {
-                    break
-                }
-
-                outputTokens.append(tokenId)
-                let text = tokenizer.decode(tokens: outputTokens)
-
-                if outputTokens.count % displayEveryNTokens == 0 {
+            let result = await MLXLLM.generate(
+                promptTokens: promptTokens,
+                parameters: GenerateParameters(
+                    temperature: temperature,
+                    topP: topP,
+                    repetitionPenalty: repetitionPenalty,
+                    repetitionContextSize: repetitionContextSize
+                ),
+                model: model,
+                tokenizer: tokenizer
+            ) { tokens in
+                if tokens.count % displayEveryNTokens == 0 {
+                    let text = tokenizer.decode(tokens: tokens)
                     await MainActor.run {
-                        output = text
+                        self.output = text
                     }
                 }
 
-                if outputTokens.count == maxTokens {
-                    break
+                if tokens.count >= maxTokens {
+                    return .stop
+                } else {
+                    return .more
                 }
             }
 
-            let finalText = tokenizer.decode(tokens: outputTokens)
-
             await MainActor.run {
-                if finalText != output {
-                    output = finalText
+                if result.output != output {
+                    output = result.output
                 }
                 running = false
+                self.tokensPerSecond = result.tokensPerSecond
             }
         } catch {
             await MainActor.run {

@@ -26,6 +26,13 @@ struct PromptOutputView: View {
                 
                 Spacer()
                 
+                if vm.tokensPerSecond > 0 {
+                    Text("\(vm.tokensPerSecond, specifier: "%.2f") tokens/s")
+                        .foregroundColor(.gray)
+                        .font(.caption2)
+                        .help("Generation tokens per second")
+                }
+                
                 Button(action: vm.copyToClipboard, label: {
                     Image(systemName: "doc.on.doc")
                 })
@@ -47,6 +54,12 @@ struct PromptOutputView: View {
             ScrollView {
                 if vm.selectedDisplayStyle == .markdown {
                     Markdown(vm.output)
+                        .markdownTheme(.gitHub)
+                        .markdownCodeSyntaxHighlighter(
+                            .splash(
+                                theme: .sunset(withFont: .init(size: 16))
+                            )
+                        )
                 } else {
                     Text(vm.output)
                 }
@@ -56,6 +69,7 @@ struct PromptOutputView: View {
                 maxHeight: .infinity,
                 alignment: .topLeading
             )
+            .textSelection(.enabled)
         }
     }
 }

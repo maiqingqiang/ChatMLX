@@ -36,6 +36,12 @@ class ChatViewModel {
     var models: [MLXModel] = []
 
     var loadState = ModelState.idle
+    
+    var showToast: Bool = false
+    var toastTitle: String = ""
+
+    var showErrorToast: Bool = false
+    var error: String = ""
 
     @ObservationIgnored
     private var modelContext: ModelContext
@@ -52,6 +58,28 @@ class ChatViewModel {
             selectedModel = model
         }
     }
+    
+    func copyToClipboard(_ text:String) {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(text, forType: .string)
+        showToast("Copied!")
+    }
+    
+    func showToast(_ title: String) {
+        if !title.isEmpty {
+            showToast = true
+            toastTitle = title
+        }
+    }
+
+    func showErrorToast(_ error: Error) {
+        showErrorToast = true
+        self.error = error.localizedDescription
+    }
+    
+    
+    
 
     func load() async -> (LLMModel, Tokenizer)? {
 //        if let conversation = selectedConversation {
@@ -174,26 +202,26 @@ class ChatViewModel {
                 }
                 
                 let messageIndex = conversations[index].messages.firstIndex(of: message)!
-                for token in TokenIterator(prompt: promptTokens, model: model, temp: selectedConversation!.temperature) {
-                    let tokenId = token.item(Int.self)
-                    
-                    if tokenId == tokenizer.unknownTokenId || tokenId == tokenizer.eosTokenId {
-                        break
-                    }
-                    
-                    outputTokens.append(tokenId)
-                    let text = tokenizer.decode(tokens: outputTokens)
-                    
-                    // update the output -- this will make the view show the text as it generates
-                    await MainActor.run {
-                        self.conversations[index].messages[messageIndex].content = text
-                    }
-                    print(text)
-                    
-                    if outputTokens.count == selectedConversation!.maxToken {
-                        break
-                    }
-                }
+//                for token in TokenIterator(prompt: promptTokens, model: model, temp: selectedConversation!.temperature) {
+//                    let tokenId = token.item(Int.self)
+//                    
+//                    if tokenId == tokenizer.unknownTokenId || tokenId == tokenizer.eosTokenId {
+//                        break
+//                    }
+//                    
+//                    outputTokens.append(tokenId)
+//                    let text = tokenizer.decode(tokens: outputTokens)
+//                    
+//                    // update the output -- this will make the view show the text as it generates
+//                    await MainActor.run {
+//                        self.conversations[index].messages[messageIndex].content = text
+//                    }
+//                    print(text)
+//                    
+//                    if outputTokens.count == selectedConversation!.maxToken {
+//                        break
+//                    }
+//                }
                 
                 //                await MainActor.run {
                 //                    running = false
@@ -211,4 +239,7 @@ class ChatViewModel {
             self.models.append(MLXModel(name: model))
         }
     }
+    
+    
+    
 }

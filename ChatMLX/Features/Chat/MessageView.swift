@@ -5,11 +5,15 @@
 //  Created by John Mai on 2024/4/7.
 //
 
-import SwiftUI
 import MarkdownUI
+import SwiftData
+import SwiftUI
 
 struct MessageView: View {
+    @Environment(ChatViewModel.self) private var vm
+
     let message: Message
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -33,19 +37,41 @@ struct MessageView: View {
 
                 Spacer()
                 if message.role == .assistant {
-                    Button(action: {}, label: {
+                    Button(action: {
+                        vm.copyToClipboard(message.content)
+                    }, label: {
                         Image(systemName: "doc.on.doc")
-                    }).buttonStyle(.borderless)
+                    })
+                    .buttonStyle(.borderless)
+                    .padding(.horizontal)
+                    .help("Copy to clipboard")
                 }
             }
             .foregroundColor(.primary)
 
             Markdown(message.content)
+                .markdownTheme(.gitHub)
+                .textSelection(.enabled)
         }
         .padding(.bottom, 25)
     }
 }
 
-//#Preview {
-//    MessageView()
-//}
+#Preview {
+    let schema = Schema([
+        Conversation.self,
+        Message.self,
+    ])
+    let modelConfiguration = ModelConfiguration(
+        schema: schema,
+        isStoredInMemoryOnly: true
+    )
+
+    let modelContainer = try! ModelContainer(for: schema, configurations: [modelConfiguration])
+
+    return List {
+        MessageView(message: Message(role: .user, content: "User"))
+        MessageView(message: Message(role: .assistant, content: "Assistant"))
+    }
+    .environment(ChatViewModel(modelContext: modelContainer.mainContext))
+}

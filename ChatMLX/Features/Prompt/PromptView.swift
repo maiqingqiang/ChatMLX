@@ -14,11 +14,6 @@ struct PromptView: View {
 
     var body: some View {
         @Bindable var vm = vm
-//        VStack(alignment: .leading) {
-//            PromptInputView()
-//            Divider()
-//            PromptOutputView()
-//        }
         VSplitView {
             PromptInputView()
             PromptOutputView()

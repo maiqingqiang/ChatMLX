@@ -20,6 +20,8 @@ struct PromptParametersSheetView: View {
                 TemperatureView
                 TopPView
                 MaxTokenView()
+                RepetitionPenaltyView()
+                RepetitionContextSizeView()
             }
         }
         .formStyle(.grouped)
@@ -58,9 +60,6 @@ struct PromptParametersSheetView: View {
         .compactSliderSecondaryColor(
             vm.temperature <= 0.5 ? .blue : .red
         )
-        .help(
-            "Controls randomness: Lowering results in less random completions. As the temperature approaches zero, the model will become deterministic and repetitive."
-        )
     }
 
     @ViewBuilder
@@ -70,19 +69,15 @@ struct PromptParametersSheetView: View {
             value: $vm.topP, in: 0 ... 1,
             step: 0.1
         ) {
-            Text("Top K")
+            Text("Top P")
             Spacer()
             Text("\(vm.topP, specifier: "%.1f")")
         }
         .compactSliderSecondaryColor(.blue)
-        .help(
-            "Sort predicted tokens by probability and discards those below the k-th one. A top-k value of 1 is equivalent to greedy search (select the most probable token)"
-        )
     }
 
     @ViewBuilder
     func MaxTokenView() -> some View {
-        @Bindable var vm = vm
         CompactSlider(
             value: Binding {
                 CFloat(vm.maxTokens)
@@ -93,6 +88,35 @@ struct PromptParametersSheetView: View {
             Text("Maximum Length")
             Spacer()
             Text("\(vm.maxTokens)")
+        }
+        .compactSliderSecondaryColor(.blue)
+    }
+
+    @ViewBuilder
+    func RepetitionPenaltyView() -> some View {
+        @Bindable var vm = vm
+        CompactSlider(
+            value: $vm.repetitionPenalty, in: 1 ... 5, step: 0.1
+        ) {
+            Text("Repetition Penalty")
+            Spacer()
+            Text("\(vm.repetitionPenalty, specifier: "%.1f")")
+        }
+        .compactSliderSecondaryColor(.blue)
+    }
+
+    @ViewBuilder
+    func RepetitionContextSizeView() -> some View {
+        CompactSlider(
+            value: Binding {
+                CFloat(vm.repetitionContextSize)
+            } set: {
+                vm.repetitionContextSize = Int($0)
+            }, in: CFloat(1) ... CFloat(256), step: 1
+        ) {
+            Text("Repetition Context Size")
+            Spacer()
+            Text("\(vm.repetitionContextSize)")
         }
         .compactSliderSecondaryColor(.blue)
     }

@@ -1,5 +1,5 @@
 {
-  "originHash" : "23a1e1dc70d8ed5435019127761aee17625a658c1c6330e49b236048f3f44c05",
+  "originHash" : "daffe03c248408e733cb3cfed6fef36288372bad2f9ae01748ebce751e8968fb",
   "pins" : [
     {
       "identity" : "alerttoast",
@@ -43,7 +43,7 @@
       "location" : "https://github.com/ml-explore/mlx-swift-examples/",
       "state" : {
         "branch" : "main",
-        "revision" : "2d0fdfe3a9ed150fbd2e4e9e52db31522677ae67"
+        "revision" : "96b94b0df6b815858c002ed9de095107809cc991"
       }
     },
     {
@@ -53,6 +53,15 @@
       "state" : {
         "revision" : "7aff8d1b31148d32c5933d75557d42f6323ee3d1",
         "version" : "6.0.0"
+      }
+    },
+    {
+      "identity" : "splash",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/johnsundell/splash.git",
+      "state" : {
+        "revision" : "7f4df436eb78fe64fe2c32c58006e9949fa28ad8",
+        "version" : "0.16.0"
       }
     },
     {
