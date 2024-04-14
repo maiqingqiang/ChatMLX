@@ -18,14 +18,24 @@ public final class Message {
     @Attribute(.unique) public var id: UUID = UUID()
 
     var role: Role
-    var content: String
+    var content: String = ""
 
     var createdAt: Date = Date.now
-
-    //    @Relationship var conversation: Conversation?
+    
+    init(role: Role) {
+        self.role = role
+    }
 
     init(role: Role, content: String) {
         self.role = role
+        self.content = content
+    }
+    
+    func appendContent(_ content:String) {
+        self.content += content
+    }
+    
+    func updateContent(_ content:String) {
         self.content = content
     }
 }

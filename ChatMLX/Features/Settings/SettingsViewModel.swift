@@ -30,7 +30,7 @@ public class SettingsViewModel {
         var hasActiveModel = false
 
         for model in models {
-            if model == UserDefaults.standard.string(forKey: Preferences.activeModel.rawValue) {
+            if model == UserDefaults.standard.string(forKey: Preferences.defaultModel.rawValue) {
                 hasActiveModel = true
             }
 
@@ -45,7 +45,7 @@ public class SettingsViewModel {
         }
 
         if !hasActiveModel {
-            UserDefaults.standard.removeObject(forKey: Preferences.activeModel.rawValue)
+            UserDefaults.standard.removeObject(forKey: Preferences.defaultModel.rawValue)
         }
     }
 

@@ -12,5 +12,5 @@ enum Preferences: String {
     case huggingfaceEdpoint
     case huggingfaceEdpointType
 
-    case activeModel
+    case defaultModel
 }

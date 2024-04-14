@@ -13,7 +13,7 @@ struct DetailView: View {
     var body: some View {
         switch vm.selectedTab {
         case .chat:
-            ChatView()
+            ChatDetailView()
 //            Text("ChatView")
         case .prompt:
             PromptView()

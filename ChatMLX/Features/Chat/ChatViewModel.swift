@@ -8,33 +8,26 @@
 import Cmlx
 import Foundation
 import MLX
+import MLXLLM
 import MLXRandom
 import SwiftData
 import SwiftUI
 import Tokenizers
-import MLXLLM
 
 @Observable
 class ChatViewModel {
     var selectedConversationID: Conversation.ID?
-    var selectedDisplayStyle:DisplayStyle = .markdown
+    var selectedDisplayStyle: DisplayStyle = .markdown
+    
+    var tableViewDelegate: TableViewDelegate = .init()
     
     func conversation() -> Conversation? {
         conversations.first(where: { $0.id == selectedConversationID })
     }
     
-    
-    
     var conversations: [Conversation] = []
     var content: String = ""
-
-    var selectedConversation: Conversation?
     
-
-    var selectedModel: String?
-
-    var models: [MLXModel] = []
-
     var loadState = ModelState.idle
     
     var showToast: Bool = false
@@ -42,6 +35,8 @@ class ChatViewModel {
 
     var showErrorToast: Bool = false
     var error: String = ""
+    
+    let displayEveryNTokens = 4
 
     @ObservationIgnored
     private var modelContext: ModelContext
@@ -53,13 +48,9 @@ class ChatViewModel {
             SortDescriptor<Conversation>(\.updatedAt, order: .reverse)
         ])
         conversations = try! self.modelContext.fetch(fetchDescriptor)
-
-        if let model = UserDefaults.standard.string(forKey: Preferences.activeModel.rawValue) {
-            selectedModel = model
-        }
     }
     
-    func copyToClipboard(_ text:String) {
+    func copyToClipboard(_ text: String) {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(text, forType: .string)
@@ -78,168 +69,129 @@ class ChatViewModel {
         self.error = error.localizedDescription
     }
     
-    
-    
-
-    func load() async -> (LLMModel, Tokenizer)? {
-//        if let conversation = selectedConversation {
-//            switch loadState {
-//            case .idle:
-//                // limit the buffer cache
-//                MLX.GPU.set(cacheLimit: 20 * 1024 * 1024)
-//                
-//                let modelConfiguration = ModelConfiguration.configuration(id: conversation.model)
-//                do {
-//                    let (model, tokenizer) = try await loadFromDisk(configuration: ModelConfiguration(id: selectedConversation!.model)) {
-//                        [modelConfiguration] progress in
-//                            print("Downloading \(modelConfiguration.id): \(Int(progress.fractionCompleted * 100))%")
-//                    }
-//                    
-//                    print("Loaded \(modelConfiguration.id).  Weights: \(MLX.GPU.activeMemory / 1024 / 1024)M")
-//                    loadState = .loaded(modelConfiguration.id, model, tokenizer)
-//                    return (model, tokenizer)
-//                } catch {}
-//            case .loaded(let modelName, let model, let tokenizer):
-//                if conversation.model != modelName {
-//                    loadState = .idle
-//                    return await load()
-//                }
-//                return (model, tokenizer)
-//            }
-//        }
-        
-        return nil
-    }
-        
-    func add() {
-        let activeModel = UserDefaults.standard.string(forKey: Preferences.activeModel.rawValue)
-        if activeModel == nil || activeModel!.isEmpty {
-            print("Not active model")
-            return
+    func clear() {
+        do {
+            try modelContext.delete(model: Conversation.self)
+            conversations = []
+        } catch {
+            print("clear error:\(error.localizedDescription)")
         }
-            
-        let conversation = Conversation(model: activeModel!)
-        withAnimation {
-            conversations.append(conversation)
-            selectedConversation = conversation
-        }
-        modelContext.insert(conversation)
-        try! modelContext.save()
     }
-        
-    func delete(conversation: Conversation) {
+    
+    func addConversation() {
+        do {
+            let conversation = Conversation()
+            if let model = UserDefaults.standard.string(forKey: Preferences.defaultModel.rawValue) {
+                conversation.selectedModel = model
+            }
+            withAnimation {
+                conversations.append(conversation)
+                selectedConversationID = conversation.id
+            }
+            modelContext.insert(conversation)
+            try modelContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func removeConversation(conversation: Conversation) {
         if let index = conversations.firstIndex(of: conversation) {
             withAnimation {
                 conversations.remove(at: index)
-                if conversation == selectedConversation {
-                    selectedConversation = nil
+                if conversation.id == selectedConversationID {
+                    selectedConversationID = nil
                 }
             }
             modelContext.delete(conversation)
         }
     }
-        
-    func submit() {
-        if let conversation = selectedConversation,
-           let index = conversations.firstIndex(of: conversation)
-        {
-            withAnimation {
-                let conversation = conversations[index]
-                    
-                if conversation.messages.isEmpty, conversation.name.isEmpty {
-                    conversation.name = String(content.prefix(20))
-                }
-                    
-                conversation.messages.append(Message(role: .user, content: content))
-                Task {
-                    await generate(prompt: content)
-                }
-                conversation.updatedAt = .now
-                content = ""
+    
+    func loadModel(_ conversation: Conversation) async throws -> (LLMModel, Tokenizers.Tokenizer) {
+        switch loadState {
+        case .idle:
+            MLX.GPU.set(cacheLimit: 20 * 1024 * 1024)
+
+            let (llmModel, tokenizer) = try await load(modelName: conversation.selectedModel) {
+                progress in
+                print("Downloading \(conversation.selectedModel): \(Int(progress.fractionCompleted * 100))%")
             }
-                
-            try! modelContext.save()
-        } else {
-            add()
-            submit()
+
+            loadState = .loaded(conversation.selectedModel, llmModel, tokenizer)
+            return (llmModel, tokenizer)
+
+        case .loaded(let model, let llmModel, let tokenizer):
+            if conversation.selectedModel != model {
+                loadState = .idle
+                return try await loadModel(conversation)
+            }
+            return (llmModel, tokenizer)
         }
     }
+    
+    func submit(_ conversation: Conversation) async {
+        let userMessage = Message(role: .user, content: content)
+        let assistantMessage = Message(role: .assistant)
         
-    func generate(prompt: String) async {
+        let canRun = await MainActor.run {
+            if conversation.running {
+                return false
+            } else {
+                conversation.running = true
+                conversation.messages.append(userMessage)
+                conversation.messages.append(assistantMessage)
+                return true
+            }
+        }
+        
+        guard canRun else { return }
+        
         do {
-            if let (model, tokenizer) = await load() {
-                //                await MainActor.run {
-                //                    running = true
-                //                    self.output = ""
-                //                }
-                
-                let modelConfiguration = ModelConfiguration.configuration(id: selectedConversation!.model)
-                // augment the prompt as needed
-//                let prompt = modelConfiguration.prepare(prompt: prompt)
-                
-                print(prompt)
-                let index = conversations.firstIndex(of: selectedConversation!)!
-                var messages: [[String: String]] = []
-                for message in conversations[index].messages.sorted(by: { $0.createdAt < $1.createdAt }) {
-                    messages.append([
-                        "role": message.role.rawValue,
-                        "content": message.content
-                    ])
+            let (model, tokenizer) = try await loadModel(conversation)
+
+            let promptTokens = tokenizer.encode(text: content)
+
+            MLXRandom.seed(UInt64(Date.timeIntervalSinceReferenceDate * 1000))
+
+            let result = await MLXLLM.generate(
+                promptTokens: promptTokens,
+                parameters: GenerateParameters(
+                    temperature: conversation.temperature,
+                    topP: conversation.topP,
+                    repetitionPenalty: conversation.repetitionPenalty,
+                    repetitionContextSize: conversation.repetitionContextSize
+                ),
+                model: model,
+                tokenizer: tokenizer
+            ) { tokens in
+                if tokens.count % displayEveryNTokens == 0 {
+                    let text = tokenizer.decode(tokens: tokens)
+                    print("text: \(text)")
+                    await MainActor.run {
+                        let index = conversation.messages.firstIndex(of: assistantMessage)!
+                        conversation.messages[index].updateContent(text)
+                    }
                 }
-            
-                print(messages)
-            
-                let promptTokens = try MLXArray(tokenizer.applyChatTemplate(messages: messages))
-                
-                // each time you generate you will get something new
-//                MLXRandom.seed(UInt64(Date.timeIntervalSinceReferenceDate * 1000))
-                
-                var outputTokens = [Int]()
-                let message = Message(role: .assistant, content: "")
-            
-                await MainActor.run {
-                    conversations[index].messages.append(message)
+
+                if tokens.count >= conversation.maxTokens {
+                    return .stop
+                } else {
+                    return .more
                 }
-                
-                let messageIndex = conversations[index].messages.firstIndex(of: message)!
-//                for token in TokenIterator(prompt: promptTokens, model: model, temp: selectedConversation!.temperature) {
-//                    let tokenId = token.item(Int.self)
-//                    
-//                    if tokenId == tokenizer.unknownTokenId || tokenId == tokenizer.eosTokenId {
-//                        break
-//                    }
-//                    
-//                    outputTokens.append(tokenId)
-//                    let text = tokenizer.decode(tokens: outputTokens)
-//                    
-//                    // update the output -- this will make the view show the text as it generates
-//                    await MainActor.run {
-//                        self.conversations[index].messages[messageIndex].content = text
-//                    }
-//                    print(text)
-//                    
-//                    if outputTokens.count == selectedConversation!.maxToken {
-//                        break
-//                    }
-//                }
-                
-                //                await MainActor.run {
-                //                    running = false
-                //                }
+            }
+            
+            await MainActor.run {
+                if result.output != assistantMessage.content {
+                    assistantMessage.updateContent(result.output)
+                }
+                conversation.running = false
+//                self.tokensPerSecond = result.tokensPerSecond
             }
         } catch {
-            print("\(error)")
+            await MainActor.run {
+                showErrorToast(error)
+                conversation.running = false
+            }
         }
     }
-        
-    func loadFromModelDirectory() {
-        let models = ModelUtility.loadFromModelDirectory()
-        self.models.removeAll()
-        for model in models {
-            self.models.append(MLXModel(name: model))
-        }
-    }
-    
-    
-    
 }

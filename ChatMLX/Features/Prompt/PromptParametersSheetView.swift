@@ -14,7 +14,6 @@ struct PromptParametersSheetView: View {
     var dismiss
 
     var body: some View {
-        @Bindable var vm = vm
         Form {
             Section("Parameters") {
                 TemperatureView
@@ -121,7 +120,3 @@ struct PromptParametersSheetView: View {
         .compactSliderSecondaryColor(.blue)
     }
 }
-
-// #Preview {
-//    ParametersSheetView()
-// }

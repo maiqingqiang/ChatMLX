@@ -9,7 +9,7 @@ import Foundation
 
 @Observable
 class AppViewModel {
-    var selectedTab: Featrue.Name = .prompt
+    var selectedTab: Featrue.Name = .chat
 
     func switchTab(_ featrue: Featrue) {
         selectedTab = featrue.name

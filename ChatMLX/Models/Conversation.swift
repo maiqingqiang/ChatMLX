@@ -11,22 +11,34 @@ import SwiftData
 @Model
 public final class Conversation {
     @Attribute(.unique) public let id: UUID = UUID()
-
+    
     var messages: [Message] = []
-
+    
+    var sortedMessages: [Message]{
+        messages.sorted(by: {$0.createdAt < $1.createdAt})
+    }
+    
     var createdAt: Date = Date.now
     var updatedAt: Date = Date.now
-
+    
     var name: String = ""
-    var model: String
+    var selectedModel: String = ""
+    var historyLimit:Int = 10
+    
     var prompt: String = "You are a helpful assistant"
     var temperature: Float = 0.7
-    var topK: Int = 1
-    var maxToken: Int = 128
-
-    init(model: String, messages: [Message] = []) {
-        self.model = model
-        self.messages = messages
+    var topP: Float = 0.9
+    var maxTokens: Int = 256
+    var repetitionPenalty: Float = 1.0
+    var repetitionContextSize: Int = 20
+    
+    var running: Bool = false
+    var stopping: Bool = false
+    
+    init(){}
+    
+    init(model:String) {
+        selectedModel = model
     }
 }
 

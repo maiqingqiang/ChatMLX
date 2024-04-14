@@ -12,7 +12,7 @@ import SwiftUI
 struct ModelItemView: View {
     @Environment(SettingsViewModel.self) private var vm
 
-    @AppStorage(Preferences.activeModel.rawValue) private var activeModel: String = ""
+    @AppStorage(Preferences.defaultModel.rawValue) private var activeModel: String = ""
 
     @State private var isPresented: Bool = false
 

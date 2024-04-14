@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ModelItemDetails: View {
-    @AppStorage(Preferences.activeModel.rawValue) private var active: String = ""
+    @AppStorage(Preferences.defaultModel.rawValue) private var active: String = ""
 
     @Environment(\.dismiss)
     var dismiss

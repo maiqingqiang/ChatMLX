@@ -1,5 +1,5 @@
 {
-  "originHash" : "daffe03c248408e733cb3cfed6fef36288372bad2f9ae01748ebce751e8968fb",
+  "originHash" : "a739df12202ed51bd5ef72f056fcbc74d448917c6b171f3edddbbf46e9369115",
   "pins" : [
     {
       "identity" : "alerttoast",
@@ -43,7 +43,7 @@
       "location" : "https://github.com/ml-explore/mlx-swift-examples/",
       "state" : {
         "branch" : "main",
-        "revision" : "96b94b0df6b815858c002ed9de095107809cc991"
+        "revision" : "7e85eb8b8891b6df3f0986f7ca6169accd30fdfc"
       }
     },
     {

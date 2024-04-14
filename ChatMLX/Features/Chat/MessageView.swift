@@ -27,13 +27,14 @@ struct MessageView: View {
                     }
                 }
                 .padding(5)
-                .frame(width: 24, height: 24)
+                .frame(width: 26, height: 26)
                 .background(.white)
-                .clipShape(Circle())
-                .shadow(color: .gray.opacity(0.3), radius: 1)
+                .clipShape(RoundedRectangle(cornerRadius: 3))
+                .shadow(color: .gray.opacity(0.3), radius: 2)
 
-                Text(message.role.rawValue)
-                    .font(.title3.weight(.semibold))
+                Text(message.role.rawValue.capitalized)
+                    .font(.title2)
+                    .bold()
 
                 Spacer()
                 if message.role == .assistant {
@@ -52,6 +53,7 @@ struct MessageView: View {
             Markdown(message.content)
                 .markdownTheme(.gitHub)
                 .textSelection(.enabled)
+                .font(.body)
         }
         .padding(.bottom, 25)
     }

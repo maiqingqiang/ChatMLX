@@ -61,15 +61,12 @@ class PromptViewModel {
     func loadModel() async throws -> (LLMModel, Tokenizers.Tokenizer) {
         switch loadState {
         case .idle:
-            // limit the buffer cache
             MLX.GPU.set(cacheLimit: 20 * 1024 * 1024)
 
             let (llmModel, tokenizer) = try await load(modelName: selectedModel) {
                 [selectedModel] progress in
                 print("Downloading \(selectedModel): \(Int(progress.fractionCompleted * 100))%")
             }
-
-            print("Loaded \(selectedModel).  Weights: \(MLX.GPU.activeMemory / 1024 / 1024)M")
 
             loadState = .loaded(selectedModel, llmModel, tokenizer)
             return (llmModel, tokenizer)
@@ -88,13 +85,20 @@ class PromptViewModel {
     }
 
     func run() async {
-        do {
-            await MainActor.run {
+        let canRun = await MainActor.run {
+            if running {
+                return false
+            } else {
                 running = true
                 output = ""
                 self.tokensPerSecond = 0
+                return true
             }
+        }
+        
+        guard canRun else { return }
 
+        do {
             let (model, tokenizer) = try await loadModel()
 
             let promptTokens = tokenizer.encode(text: text)
