@@ -6,6 +6,7 @@
 //
 
 import XCTest
+
 @testable import ChatMLX
 
 final class ChatMLXTests: XCTestCase {

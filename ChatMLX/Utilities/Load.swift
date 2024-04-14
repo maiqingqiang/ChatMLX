@@ -16,9 +16,10 @@ import Tokenizers
 
 /// Load and return the model and tokenizer
 public func load(
-    hub: HubApi = HubApi(), modelName: String,
-    progressHandler: @escaping (Progress) -> Void = { _ in }) async throws -> (LLMModel, Tokenizer)
-{
+    hub: HubApi = HubApi(),
+    modelName: String,
+    progressHandler: @escaping (Progress) -> Void = { _ in }
+) async throws -> (LLMModel, Tokenizer) {
     // note: this doesn't have a way to pass the HubApi
     let tokenizer = try await loadTokenizer(modelName: modelName)
 
@@ -26,19 +27,26 @@ public func load(
     let repo = Hub.Repo(id: modelName)
     let modelFiles = ["config.json", "*.safetensors"]
     let modelDirectory = try await hub.snapshot(
-        from: repo, matching: modelFiles, progressHandler: progressHandler)
+        from: repo,
+        matching: modelFiles,
+        progressHandler: progressHandler
+    )
 
     // create the model (no weights loaded)
     let configurationURL = modelDirectory.appending(component: "config.json")
     let baseConfig = try JSONDecoder().decode(
-        BaseConfiguration.self, from: Data(contentsOf: configurationURL))
+        BaseConfiguration.self,
+        from: Data(contentsOf: configurationURL)
+    )
 
     let model = try baseConfig.modelType.createModel(configuration: configurationURL)
 
     // load the weights
     var weights = [String: MLXArray]()
     let enumerator = FileManager.default.enumerator(
-        at: modelDirectory, includingPropertiesForKeys: nil)!
+        at: modelDirectory,
+        includingPropertiesForKeys: nil
+    )!
     for case let url as URL in enumerator {
         if url.pathExtension == "safetensors" {
             let w = try loadArrays(url: url)
@@ -89,8 +97,10 @@ public struct BaseConfiguration: Codable {
 }
 
 private func quantizeIfNeeded(
-    model: LLMModel, weights: [String: MLXArray], quantization: BaseConfiguration.Quantization)
-{
+    model: LLMModel,
+    weights: [String: MLXArray],
+    quantization: BaseConfiguration.Quantization
+) {
     func linearPredicate(layer: Module) -> Bool {
         if let layer = layer as? Linear {
             // avoid quantizing gate layers, otherwise we have to re-quant and upload all the mixtral models
@@ -116,6 +126,9 @@ private func quantizeIfNeeded(
     }
 
     QuantizedLinear.quantize(
-        model: model, groupSize: quantization.groupSize, bits: quantization.bits,
-        predicate: predicate)
+        model: model,
+        groupSize: quantization.groupSize,
+        bits: quantization.bits,
+        predicate: predicate
+    )
 }

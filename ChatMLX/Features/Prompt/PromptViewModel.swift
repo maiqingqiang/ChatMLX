@@ -5,11 +5,11 @@
 //  Created by John Mai on 2024/4/7.
 //
 
-import MarkdownUI
-import Metal
 import MLX
 import MLXLLM
 import MLXRandom
+import MarkdownUI
+import Metal
 import SwiftUI
 import Tokenizers
 
@@ -88,14 +88,15 @@ class PromptViewModel {
         let canRun = await MainActor.run {
             if running {
                 return false
-            } else {
+            }
+            else {
                 running = true
                 output = ""
                 self.tokensPerSecond = 0
                 return true
             }
         }
-        
+
         guard canRun else { return }
 
         do {
@@ -125,7 +126,8 @@ class PromptViewModel {
 
                 if tokens.count >= maxTokens {
                     return .stop
-                } else {
+                }
+                else {
                     return .more
                 }
             }
@@ -137,7 +139,8 @@ class PromptViewModel {
                 running = false
                 self.tokensPerSecond = result.tokensPerSecond
             }
-        } catch {
+        }
+        catch {
             await MainActor.run {
                 showErrorToast(error)
                 running = false

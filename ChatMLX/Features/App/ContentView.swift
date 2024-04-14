@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @Environment(AppViewModel.self) private var vm
-    
+
     var body: some View {
         switch vm.selectedTab {
         case .chat:

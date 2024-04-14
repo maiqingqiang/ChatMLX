@@ -10,15 +10,13 @@ import SwiftUI
 struct AppView: View {
     @Environment(AppViewModel.self) private var vm
     @Namespace var animation
-    
+
     var body: some View {
         NavigationSplitView(columnVisibility: .constant(.all)) {
             SiderView()
-        }
-        content: {
+        } content: {
             ContentView()
-        }
-        detail: {
+        } detail: {
             DetailView()
         }
         .navigationSplitViewStyle(.balanced)
@@ -26,7 +24,8 @@ struct AppView: View {
             .navigationSplitView,
             on: .macOS(.v14, .v13),
             customize: { splitView in
-                let splitViewItems: [NSSplitViewItem] = (splitView.delegate as? NSSplitViewController)?
+                let splitViewItems: [NSSplitViewItem] =
+                    (splitView.delegate as? NSSplitViewController)?
                     .splitViewItems ?? []
 
                 splitViewItems.first?.canCollapse = false
@@ -34,12 +33,13 @@ struct AppView: View {
 
                 if vm.selectedTab == .prompt {
                     splitViewItems[1].isCollapsed = true
-                } else {
+                }
+                else {
                     splitViewItems[1].isCollapsed = false
                 }
             }
         )
-        .frame(minWidth: 830,minHeight: 560)
+        .frame(minWidth: 830, minHeight: 560)
     }
 }
 

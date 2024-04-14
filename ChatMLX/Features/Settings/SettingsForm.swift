@@ -37,7 +37,8 @@ struct SettingsForm<Content: View>: View {
                             withAnimation {
                                 scrolledToTop = true
                             }
-                        } else if $0 > -20.0 && scrolledToTop {
+                        }
+                        else if $0 > -20.0 && scrolledToTop {
                             withAnimation {
                                 scrolledToTop = false
                             }

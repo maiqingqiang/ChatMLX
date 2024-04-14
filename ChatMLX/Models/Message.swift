@@ -21,7 +21,7 @@ public final class Message {
     var content: String = ""
 
     var createdAt: Date = Date.now
-    
+
     init(role: Role) {
         self.role = role
     }
@@ -30,12 +30,12 @@ public final class Message {
         self.role = role
         self.content = content
     }
-    
-    func appendContent(_ content:String) {
+
+    func appendContent(_ content: String) {
         self.content += content
     }
-    
-    func updateContent(_ content:String) {
+
+    func updateContent(_ content: String) {
         self.content = content
     }
 }

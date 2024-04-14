@@ -9,20 +9,20 @@ import SwiftUI
 
 struct ChatSidebarItemView: View {
     @Environment(ChatViewModel.self) private var vm
-    
+
     let conversation: Conversation
-    
+
     @State var isEditing: Bool = false
-    
+
     @State var name: String = ""
-    
+
     var body: some View {
-        VStack(alignment: .leading,spacing: 8) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(conversation.name.isEmpty ? "New Chat" : conversation.name)
                     .foregroundColor(.black)
                     .bold()
-               
+
                 Spacer()
                 Text(conversation.createdAt, style: .time)
                     .font(.caption)

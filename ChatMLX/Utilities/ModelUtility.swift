@@ -33,10 +33,12 @@ class ModelUtility {
 
                 for modelDirectory in modelDirectories {
                     models.append(
-                        "\(repoDirectory.lastPathComponent)/\(modelDirectory.lastPathComponent)")
+                        "\(repoDirectory.lastPathComponent)/\(modelDirectory.lastPathComponent)"
+                    )
                 }
             }
-        } catch {
+        }
+        catch {
             print("loadFromModelDirectory error: \(error.localizedDescription)")
         }
 
@@ -50,7 +52,9 @@ class ModelUtility {
         let hub = HubApi()
         let modelFiles = ["config.json", "*.safetensors"]
         try await hub.snapshot(
-            from: repo, matching: modelFiles, progressHandler: progressHandler
+            from: repo,
+            matching: modelFiles,
+            progressHandler: progressHandler
         )
     }
 }

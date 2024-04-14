@@ -21,7 +21,8 @@ struct MessageView: View {
                     if message.role == .assistant {
                         Image("logo", bundle: .main)
                             .resizable()
-                    } else {
+                    }
+                    else {
                         Image(systemName: "person.fill")
                             .resizable()
                     }
@@ -38,11 +39,14 @@ struct MessageView: View {
 
                 Spacer()
                 if message.role == .assistant {
-                    Button(action: {
-                        vm.copyToClipboard(message.content)
-                    }, label: {
-                        Image(systemName: "doc.on.doc")
-                    })
+                    Button(
+                        action: {
+                            vm.copyToClipboard(message.content)
+                        },
+                        label: {
+                            Image(systemName: "doc.on.doc")
+                        }
+                    )
                     .buttonStyle(.borderless)
                     .padding(.horizontal)
                     .help("Copy to clipboard")

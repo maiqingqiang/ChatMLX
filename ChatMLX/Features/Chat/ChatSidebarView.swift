@@ -11,9 +11,7 @@ import SwiftUIIntrospect
 struct ChatSidebarView: View {
     @Environment(ChatViewModel.self) private var vm
     @State private var showingClearChatDialog = false
-    
-    
-    
+
     var body: some View {
         @Bindable var vm = vm
         VStack {
@@ -51,7 +49,10 @@ struct ChatSidebarView: View {
         .frame(maxHeight: .infinity)
         .background(.white)
         .ignoresSafeArea()
-        .confirmationDialog("Are you sure you want to clear all chats?", isPresented: $showingClearChatDialog) {
+        .confirmationDialog(
+            "Are you sure you want to clear all chats?",
+            isPresented: $showingClearChatDialog
+        ) {
             Button("Clear", role: .destructive, action: vm.clear)
             Button("Cancel", role: .cancel) {}
         }

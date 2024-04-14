@@ -25,7 +25,8 @@ struct ChatMLXApp: App {
 
         do {
             return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
+        }
+        catch {
             fatalError("Could not create ModelContainer: \(error)")
         }
     }()
@@ -49,7 +50,6 @@ struct ChatMLXApp: App {
         }
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
-        
 
         Settings {
             SettingsView()

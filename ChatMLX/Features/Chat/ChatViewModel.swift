@@ -18,24 +18,24 @@ import Tokenizers
 class ChatViewModel {
     var selectedConversationID: Conversation.ID?
     var selectedDisplayStyle: DisplayStyle = .markdown
-    
+
     var tableViewDelegate: TableViewDelegate = .init()
-    
+
     func conversation() -> Conversation? {
         conversations.first(where: { $0.id == selectedConversationID })
     }
-    
+
     var conversations: [Conversation] = []
     var content: String = ""
-    
+
     var loadState = ModelState.idle
-    
+
     var showToast: Bool = false
     var toastTitle: String = ""
 
     var showErrorToast: Bool = false
     var error: String = ""
-    
+
     let displayEveryNTokens = 4
 
     @ObservationIgnored
@@ -49,14 +49,14 @@ class ChatViewModel {
         ])
         conversations = try! self.modelContext.fetch(fetchDescriptor)
     }
-    
+
     func copyToClipboard(_ text: String) {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(text, forType: .string)
         showToast("Copied!")
     }
-    
+
     func showToast(_ title: String) {
         if !title.isEmpty {
             showToast = true
@@ -68,16 +68,17 @@ class ChatViewModel {
         showErrorToast = true
         self.error = error.localizedDescription
     }
-    
+
     func clear() {
         do {
             try modelContext.delete(model: Conversation.self)
             conversations = []
-        } catch {
+        }
+        catch {
             print("clear error:\(error.localizedDescription)")
         }
     }
-    
+
     func addConversation() {
         do {
             let conversation = Conversation()
@@ -90,11 +91,12 @@ class ChatViewModel {
             }
             modelContext.insert(conversation)
             try modelContext.save()
-        } catch {
+        }
+        catch {
             print(error.localizedDescription)
         }
     }
-    
+
     func removeConversation(conversation: Conversation) {
         if let index = conversations.firstIndex(of: conversation) {
             withAnimation {
@@ -106,7 +108,7 @@ class ChatViewModel {
             modelContext.delete(conversation)
         }
     }
-    
+
     func loadModel(_ conversation: Conversation) async throws -> (LLMModel, Tokenizers.Tokenizer) {
         switch loadState {
         case .idle:
@@ -114,7 +116,9 @@ class ChatViewModel {
 
             let (llmModel, tokenizer) = try await load(modelName: conversation.selectedModel) {
                 progress in
-                print("Downloading \(conversation.selectedModel): \(Int(progress.fractionCompleted * 100))%")
+                print(
+                    "Downloading \(conversation.selectedModel): \(Int(progress.fractionCompleted * 100))%"
+                )
             }
 
             loadState = .loaded(conversation.selectedModel, llmModel, tokenizer)
@@ -128,24 +132,25 @@ class ChatViewModel {
             return (llmModel, tokenizer)
         }
     }
-    
+
     func submit(_ conversation: Conversation) async {
         let userMessage = Message(role: .user, content: content)
         let assistantMessage = Message(role: .assistant)
-        
+
         let canRun = await MainActor.run {
             if conversation.running {
                 return false
-            } else {
+            }
+            else {
                 conversation.running = true
                 conversation.messages.append(userMessage)
                 conversation.messages.append(assistantMessage)
                 return true
             }
         }
-        
+
         guard canRun else { return }
-        
+
         do {
             let (model, tokenizer) = try await loadModel(conversation)
 
@@ -175,19 +180,21 @@ class ChatViewModel {
 
                 if tokens.count >= conversation.maxTokens {
                     return .stop
-                } else {
+                }
+                else {
                     return .more
                 }
             }
-            
+
             await MainActor.run {
                 if result.output != assistantMessage.content {
                     assistantMessage.updateContent(result.output)
                 }
                 conversation.running = false
-//                self.tokensPerSecond = result.tokensPerSecond
+                //                self.tokensPerSecond = result.tokensPerSecond
             }
-        } catch {
+        }
+        catch {
             await MainActor.run {
                 showErrorToast(error)
                 conversation.running = false

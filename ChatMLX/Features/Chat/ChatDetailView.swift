@@ -23,7 +23,7 @@ struct ChatDetailView: View {
                     Text(conversation.name.isEmpty ? "New Chat" : conversation.name)
                         .font(.title)
                         .bold()
-                    
+
                     Picker("", selection: $vm.selectedDisplayStyle) {
                         ForEach(DisplayStyle.allCases, id: \.self) { option in
                             Text(option.rawValue.capitalized)
@@ -32,22 +32,22 @@ struct ChatDetailView: View {
                     }
                     .pickerStyle(.segmented)
                     .frame(maxWidth: 150)
-                    
+
                     Spacer()
-                    
+
                     Group {
                         Color.green
-//                        switch vm.loadState {
-//                        case .idle:
-//                            Color.red
-//                        case .loaded:
-//                            Color.green
-//                        }
+                        //                        switch vm.loadState {
+                        //                        case .idle:
+                        //                            Color.red
+                        //                        case .loaded:
+                        //                            Color.green
+                        //                        }
                     }
                     .frame(width: 12, height: 12)
                     .clipShape(Circle())
                     .help("Model Load State")
-                    
+
                     Menu(conversation.selectedModel) {
                         ForEach(store.models, id: \.self) { model in
                             Button(model) {
@@ -63,14 +63,17 @@ struct ChatDetailView: View {
                             .stroke(Color.black, lineWidth: 2)
                     )
                     .padding(.horizontal)
-                    
-                    Button(action: {}, label: {
-                        Image(systemName: "slider.horizontal.3")
-                    })
+
+                    Button(
+                        action: {},
+                        label: {
+                            Image(systemName: "slider.horizontal.3")
+                        }
+                    )
                     .buttonStyle(.borderless)
                 }
                 .padding()
-                
+
                 ScrollViewReader { proxy in
                     ScrollView {
                         LazyVStack(alignment: .leading) {
@@ -81,19 +84,22 @@ struct ChatDetailView: View {
                         .padding([.horizontal])
                         .id(bottomId)
                     }
-                    .onChange(of: conversation.sortedMessages.last?.content, {
-                        proxy.scrollTo(bottomId, anchor: .bottom)
-                    })
-                    .onAppear{
+                    .onChange(
+                        of: conversation.sortedMessages.last?.content,
+                        {
+                            proxy.scrollTo(bottomId, anchor: .bottom)
+                        }
+                    )
+                    .onAppear {
                         proxy.scrollTo(bottomId, anchor: .bottom)
                     }
                 }
-                
+
                 Divider()
-                
+
                 ZStack(alignment: .bottom) {
                     TextEditorWithPlaceholder(text: $vm.content, placeholder: "Message ChatMLX...")
-                        
+
                     HStack(spacing: 16) {
                         Spacer()
                         Button("Clear") {
@@ -101,14 +107,17 @@ struct ChatDetailView: View {
                         }
                         .buttonStyle(.borderless)
                         .disabled(vm.content.isEmpty)
-                    
-                        Button(action: {
-                            Task {
-                                await vm.submit(conversation)
+
+                        Button(
+                            action: {
+                                Task {
+                                    await vm.submit(conversation)
+                                }
+                            },
+                            label: {
+                                Label("Send", systemImage: "paperplane")
                             }
-                        }, label: {
-                            Label("Send", systemImage: "paperplane")
-                        })
+                        )
                         .buttonStyle(BlackButtonStyle())
                         .controlSize(.large)
                         .buttonBorderShape(.automatic)
@@ -117,7 +126,7 @@ struct ChatDetailView: View {
                     }
                     .padding()
                 }
-                
+
                 .frame(height: 150)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -126,7 +135,8 @@ struct ChatDetailView: View {
             .toast(isPresenting: $vm.showToast) {
                 AlertToast(type: .complete(.green), title: vm.toastTitle)
             }
-        } else {
+        }
+        else {
             VStack(spacing: 10) {
                 Image(systemName: "tray")
                     .font(.largeTitle)

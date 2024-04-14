@@ -17,29 +17,32 @@ struct PromptOutputView: View {
                 Label("Output", systemImage: "text.bubble")
                     .font(.title2)
                     .fontWeight(.bold)
-                
+
                 if vm.running {
                     ProgressView()
                         .controlSize(.small)
                         .padding(.horizontal)
                 }
-                
+
                 Spacer()
-                
+
                 if vm.tokensPerSecond > 0 {
                     Text("\(vm.tokensPerSecond, specifier: "%.2f") tokens/s")
                         .foregroundColor(.gray)
                         .font(.caption2)
                         .help("Generation tokens per second")
                 }
-                
-                Button(action: vm.copyToClipboard, label: {
-                    Image(systemName: "doc.on.doc")
-                })
+
+                Button(
+                    action: vm.copyToClipboard,
+                    label: {
+                        Image(systemName: "doc.on.doc")
+                    }
+                )
                 .buttonStyle(.borderless)
                 .disabled(vm.output.isEmpty || vm.running)
                 .help("Copy to clipboard")
-                
+
                 Picker("", selection: $vm.selectedDisplayStyle) {
                     ForEach(DisplayStyle.allCases, id: \.self) { option in
                         Text(option.rawValue.capitalized)
@@ -50,7 +53,7 @@ struct PromptOutputView: View {
                 .frame(maxWidth: 150)
             }
             .padding(.top)
-            
+
             ScrollView {
                 if vm.selectedDisplayStyle == .markdown {
                     Markdown(vm.output)
@@ -60,7 +63,8 @@ struct PromptOutputView: View {
                                 theme: .sunset(withFont: .init(size: 16))
                             )
                         )
-                } else {
+                }
+                else {
                     Text(vm.output)
                 }
             }

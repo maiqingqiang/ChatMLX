@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import Tokenizers
 import MLXLLM
+import Tokenizers
 
 enum ModelState {
     case idle

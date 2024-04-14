@@ -30,7 +30,9 @@ final class TableViewDelegate: NSObject, NSTableViewDelegate {
 
     private weak var delegate: NSTableViewDelegate?
 
-    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
+    func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int)
+        -> NSView?
+    {
         self.delegate?.tableView?(tableView, viewFor: tableColumn, row: row)
     }
 

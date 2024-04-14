@@ -12,7 +12,7 @@ extension View {
     func titlebarAppearsTransparentWithUnified(_ identifier: String) -> some View {
         modifier(TitlebarAppearsTransparentWithUnified(identifier))
     }
-    
+
     func titlebarUnified(_ identifier: String) -> some View {
         modifier(TitlebarUnified(identifier))
     }

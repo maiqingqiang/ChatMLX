@@ -14,10 +14,11 @@ let replacementTokenizers = [
     "CohereTokenizer": "PreTrainedTokenizer",
 ]
 
-public func loadTokenizer(modelName:String) async throws -> Tokenizer {
+public func loadTokenizer(modelName: String) async throws -> Tokenizer {
     // from AutoTokenizer.from() -- this lets us override parts of the configuration
     let config = LanguageModelConfigurationFromHub(
-        modelName: modelName)
+        modelName: modelName
+    )
     guard var tokenizerConfig = try await config.tokenizerConfig else {
         throw ChatMLXError(message: "missing config")
     }
@@ -33,5 +34,7 @@ public func loadTokenizer(modelName:String) async throws -> Tokenizer {
     }
 
     return try PreTrainedTokenizer(
-        tokenizerConfig: tokenizerConfig, tokenizerData: tokenizerData)
+        tokenizerConfig: tokenizerConfig,
+        tokenizerData: tokenizerData
+    )
 }

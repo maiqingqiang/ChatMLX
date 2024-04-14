@@ -43,7 +43,8 @@ struct PromptParametersSheetView: View {
     var TemperatureView: some View {
         @Bindable var vm = vm
         CompactSlider(
-            value: $vm.temperature, in: 0 ... 2,
+            value: $vm.temperature,
+            in: 0 ... 2,
             direction: .center
         ) {
             Text("Temperature")
@@ -65,7 +66,8 @@ struct PromptParametersSheetView: View {
     var TopPView: some View {
         @Bindable var vm = vm
         CompactSlider(
-            value: $vm.topP, in: 0 ... 1,
+            value: $vm.topP,
+            in: 0 ... 1,
             step: 0.1
         ) {
             Text("Top P")
@@ -82,7 +84,9 @@ struct PromptParametersSheetView: View {
                 CFloat(vm.maxTokens)
             } set: {
                 vm.maxTokens = Int($0)
-            }, in: CFloat(1) ... CFloat(4096), step: 1
+            },
+            in: CFloat(1) ... CFloat(4096),
+            step: 1
         ) {
             Text("Maximum Length")
             Spacer()
@@ -95,7 +99,9 @@ struct PromptParametersSheetView: View {
     func RepetitionPenaltyView() -> some View {
         @Bindable var vm = vm
         CompactSlider(
-            value: $vm.repetitionPenalty, in: 1 ... 5, step: 0.1
+            value: $vm.repetitionPenalty,
+            in: 1 ... 5,
+            step: 0.1
         ) {
             Text("Repetition Penalty")
             Spacer()
@@ -111,7 +117,9 @@ struct PromptParametersSheetView: View {
                 CFloat(vm.repetitionContextSize)
             } set: {
                 vm.repetitionContextSize = Int($0)
-            }, in: CFloat(1) ... CFloat(256), step: 1
+            },
+            in: CFloat(1) ... CFloat(256),
+            step: 1
         ) {
             Text("Repetition Context Size")
             Spacer()

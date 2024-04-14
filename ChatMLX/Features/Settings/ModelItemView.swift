@@ -6,8 +6,8 @@
 //
 
 import Foundation
-import os
 import SwiftUI
+import os
 
 struct ModelItemView: View {
     @Environment(SettingsViewModel.self) private var vm
@@ -23,7 +23,9 @@ struct ModelItemView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack(alignment: .leading) {
-                if case .downloading(let progress, let totalFileCount, let completedFileCount) = model.state {
+                if case .downloading(let progress, let totalFileCount, let completedFileCount) =
+                    model.state
+                {
                     Rectangle()
                         .foregroundColor(.blue.opacity(0.3))
                         .frame(width: geometry.size.width * CGFloat(progress))
@@ -96,7 +98,8 @@ struct ModelItemView: View {
                     label: {
                         Image(systemName: "square.and.arrow.down")
                             .foregroundColor(.blue)
-                    })
+                    }
+                )
             case .availabled:
                 Button(
                     action: {
@@ -104,7 +107,8 @@ struct ModelItemView: View {
                     },
                     label: {
                         Image(systemName: model.name == activeModel ? "checkmark.circle" : "circle")
-                    }).foregroundColor(model.name == activeModel ? .green : .gray)
+                    }
+                ).foregroundColor(model.name == activeModel ? .green : .gray)
 
                 Button(
                     action: {
@@ -113,7 +117,8 @@ struct ModelItemView: View {
                     label: {
                         Image(systemName: "trash")
                             .foregroundColor(.red)
-                    })
+                    }
+                )
             default:
                 EmptyView()
             }

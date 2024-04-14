@@ -37,7 +37,8 @@ public class SettingsViewModel {
             let index = self.models.firstIndex(where: { $0.name == model })
             if index != nil {
                 self.models[index!].state = .availabled
-            } else {
+            }
+            else {
                 var model = MLXModel(name: model)
                 model.state = .availabled
                 self.models.append(model)
@@ -52,37 +53,48 @@ public class SettingsViewModel {
     func download(model: MLXModel) async {
         await MainActor.run {
             let index = models.firstIndex(where: { $0.name == model.name })
-            self.models[index!].state = .downloading(progress: 0, totalFileCount: 0, completedFileCount: 0)
+            self.models[index!].state = .downloading(
+                progress: 0,
+                totalFileCount: 0,
+                completedFileCount: 0
+            )
         }
         do {
             let repo = Hub.Repo(id: model.name)
 
             var token: String?
             if let hfToken = UserDefaults.standard.string(
-                forKey: Preferences.huggingfaceToken.rawValue), !hfToken.isEmpty
-            {
+                forKey: Preferences.huggingfaceToken.rawValue
+            ), !hfToken.isEmpty {
                 token = hfToken
             }
 
             let endpointType =
                 UserDefaults.standard.string(
-                    forKey: Preferences.huggingfaceEdpointType.rawValue) ?? ""
+                    forKey: Preferences.huggingfaceEdpointType.rawValue
+                ) ?? ""
             var endpoint = endpointType
             if endpoint.isEmpty {
                 endpoint =
                     UserDefaults.standard.string(
-                        forKey: Preferences.huggingfaceEdpoint.rawValue)
+                        forKey: Preferences.huggingfaceEdpoint.rawValue
+                    )
                     ?? HuggingfaceEndpoint.official.rawValue
             }
 
             let hub = HubApi(hfToken: token, endpoint: endpoint)
             let modelFiles = ["config.json", "*.safetensors"]
             try await hub.snapshot(
-                from: repo, matching: modelFiles)
-            { progress in
+                from: repo,
+                matching: modelFiles
+            ) { progress in
                 Task { @MainActor in
                     let index = self.models.firstIndex(where: { $0.name == model.name })
-                    self.models[index!].state = .downloading(progress: progress.fractionCompleted, totalFileCount: progress.totalUnitCount, completedFileCount: progress.completedUnitCount)
+                    self.models[index!].state = .downloading(
+                        progress: progress.fractionCompleted,
+                        totalFileCount: progress.totalUnitCount,
+                        completedFileCount: progress.completedUnitCount
+                    )
                 }
             }
 
@@ -94,7 +106,8 @@ public class SettingsViewModel {
                 let index = self.models.firstIndex(where: { $0.name == model.name })
                 self.models[index!].state = .availabled
             }
-        } catch {
+        }
+        catch {
         }
         await MainActor.run {
             let index = models.firstIndex(where: { $0.name == model.name })
@@ -116,16 +129,18 @@ public class SettingsViewModel {
             let index = models.firstIndex(where: { $0.name == model.name })
             if model.recommended {
                 models[index!].state = .unavailable
-            } else {
+            }
+            else {
                 models.remove(at: index!)
             }
-        } catch {
+        }
+        catch {
         }
     }
 
     func add(model: String) {
         let model = MLXModel(name: model)
         models.append(model)
-//        download(model: model)
+        //        download(model: model)
     }
 }

@@ -9,12 +9,12 @@ import SwiftUI
 
 struct DetailView: View {
     @Environment(AppViewModel.self) private var vm
-    
+
     var body: some View {
         switch vm.selectedTab {
         case .chat:
             ChatDetailView()
-//            Text("ChatView")
+        //            Text("ChatView")
         case .prompt:
             PromptView()
         }

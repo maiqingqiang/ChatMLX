@@ -74,5 +74,8 @@ struct ModelItemDetails: View {
         model: Binding(
             get: {
                 MLXModel(name: "mlx-community/quantized-gemma-7b-it")
-            }, set: { _ in }))
+            },
+            set: { _ in }
+        )
+    )
 }
