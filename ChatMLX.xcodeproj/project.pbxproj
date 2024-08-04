@@ -3,8 +3,13 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 60;
+	objectVersion = 70;
 	objects = {
+
+/* Begin PBXBuildFile section */
+		52A0D2742C5E8B9F00835FD6 /* Luminare in Frameworks */ = {isa = PBXBuildFile; productRef = 52A0D2732C5E8B9F00835FD6 /* Luminare */; };
+		52A0D27F2C5F58B700835FD6 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 52A0D27E2C5F58B700835FD6 /* SwiftUIIntrospect */; };
+/* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		52A0D2382C5E6A6800835FD6 /* PBXContainerItemProxy */ = {
@@ -40,6 +45,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52A0D2742C5E8B9F00835FD6 /* Luminare in Frameworks */,
+				52A0D27F2C5F58B700835FD6 /* SwiftUIIntrospect in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,6 +107,8 @@
 			);
 			name = ChatMLX;
 			packageProductDependencies = (
+				52A0D2732C5E8B9F00835FD6 /* Luminare */,
+				52A0D27E2C5F58B700835FD6 /* SwiftUIIntrospect */,
 			);
 			productName = ChatMLX;
 			productReference = 52A0D2242C5E6A6700835FD6 /* ChatMLX.app */;
@@ -183,6 +192,10 @@
 				Base,
 			);
 			mainGroup = 52A0D21B2C5E6A6700835FD6;
+			packageReferences = (
+				52A0D2722C5E8B9F00835FD6 /* XCRemoteSwiftPackageReference "Luminare" */,
+				52A0D27D2C5F58B700835FD6 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
+			);
 			productRefGroup = 52A0D2252C5E6A6700835FD6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -538,6 +551,38 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		52A0D2722C5E8B9F00835FD6 /* XCRemoteSwiftPackageReference "Luminare" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MrKai77/Luminare.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+		52A0D27D2C5F58B700835FD6 /* XCRemoteSwiftPackageReference "swiftui-introspect" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/siteline/swiftui-introspect.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		52A0D2732C5E8B9F00835FD6 /* Luminare */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52A0D2722C5E8B9F00835FD6 /* XCRemoteSwiftPackageReference "Luminare" */;
+			productName = Luminare;
+		};
+		52A0D27E2C5F58B700835FD6 /* SwiftUIIntrospect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52A0D27D2C5F58B700835FD6 /* XCRemoteSwiftPackageReference "swiftui-introspect" */;
+			productName = SwiftUIIntrospect;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 52A0D21C2C5E6A6700835FD6 /* Project object */;
 }
