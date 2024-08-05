@@ -14,45 +14,119 @@ struct DetailView: View {
     @Environment(\.modelContext) private var modelContext
     @FocusState private var isInputFocused: Bool
 
+    @State private var showRightSidebar = false
+    
+    @Namespace var bottomId
+
     var sortedMessages: [Message] {
         conversation.messages.sorted { $0.timestamp < $1.timestamp }
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            Color.clear
-                .frame(height: 2)
-            ScrollView {
-                LazyVStack {
-                    ForEach(sortedMessages) { message in
-                        MessageBubbleView(message: message)
+        HStack(spacing: 0) {
+            VStack(spacing: 0) {
+                ScrollViewReader { proxy in
+                    ScrollView {
+                        LazyVStack {
+                            ForEach(sortedMessages) { message in
+                                MessageBubbleView(message: message)
+                            }
+                        }
+                        .padding()
+                        .id(bottomId)
+                    }
+                    .onChange(
+                        of: sortedMessages.last,
+                        {
+                            proxy.scrollTo(bottomId, anchor: .bottom)
+                        }
+                    )
+                    .onAppear {
+                        proxy.scrollTo(bottomId, anchor: .bottom)
                     }
                 }
-                .padding()
-            }
 
-            Divider()
+                Divider()
 
-            HStack {
-                TextField("", text: $newMessage)
-                    .textFieldStyle(.plain)
-                    .foregroundColor(.white)
-                    .focused($isInputFocused)
-                    .frame(minHeight: 40)
-                    .placeholder("请输入文本", when: newMessage.isEmpty)
+//                HStack {
 
-//                LuminareTextField($newMessage, placeHolder: "输入消息...")
-//                    .foregroundColor(.white)
-//                    .focused($isInputFocused)
-//                    .frame(minHeight: 40)
+                ZStack(alignment: .bottom) {
+                    TextEditorWithPlaceholder(text: $newMessage, placeholder: "Message ChatMLX...")
 
-                Button(action: sendMessage) {
-                    Image(systemName: "paperplane.fill")
+                    HStack(spacing: 16) {
+                        Spacer()
+                        Button("Clear") {
+                            newMessage = ""
+                        }
+                        .buttonStyle(.borderless)
+                        .disabled(newMessage.isEmpty)
+
+                        Button {
+                            sendMessage()
+                        } label: {
+                            Label("Send", systemImage: "paperplane")
+                        }
+                        .buttonStyle(LuminareCompactButtonStyle())
+                        .fixedSize()
+                        .disabled(newMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                    }
+                    .padding()
                 }
-                .disabled(newMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                .buttonStyle(.plain)
-                .padding(.horizontal, 10)
+                .frame(maxHeight: 150)
+
+//                    TextEditor(text: $newMessage)
+//                        .textEditorStyle(.plain)
+//                        .foregroundColor(.white)
+//                        .focused($isInputFocused)
+//                        .placeholder("请输入文本", when: newMessage.isEmpty,alignment: .topLeading)
+//                        .padding(10)
+//                        .frame(height: 200)
+
+//                    TextField("", text: $newMessage)
+//                        .textFieldStyle(.plain)
+//                        .foregroundColor(.white)
+//                        .focused($isInputFocused)
+//                        .frame(minHeight: 40)
+//                        .placeholder("请输入文本", when: newMessage.isEmpty)
+//                        .padding(.horizontal,10)
+
+                //                LuminareTextField($newMessage, placeHolder: "输入消息...")
+                //                    .foregroundColor(.white)
+                //                    .focused($isInputFocused)
+                //                    .frame(minHeight: 40)
+
+//                    Button(action: sendMessage) {
+//                        Image(systemName: "paperplane.fill")
+//                    }
+//                    .disabled(newMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+//                    .buttonStyle(.plain)
+//                    .padding(.horizontal, 10)
+//
+//                    Button(action: {
+                ////                        withAnimation {
+//                            showRightSidebar.toggle()
+                ////                        }
+//                    }) {
+//                        Image(systemName: showRightSidebar ? "sidebar.right" : "sidebar.left")
+//                    }
+//                }
             }
+        }
+        .sheet(isPresented: $showRightSidebar) {
+            RightSidebarView(
+                temperature: Binding(
+                    get: { conversation.temperature },
+                    set: { conversation.temperature = $0 }
+                ),
+                topK: Binding(
+                    get: { Double(conversation.topK) },
+                    set: { conversation.topK = Int($0) }
+                ),
+                maxLength: Binding(
+                    get: { Double(conversation.maxLength) },
+                    set: { conversation.maxLength = Int($0) }
+                )
+            )
         }
     }
 

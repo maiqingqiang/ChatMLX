@@ -7,6 +7,13 @@
 
 import SwiftUI
 
+struct SafeAreaInsetsKey: PreferenceKey {
+    static var defaultValue = EdgeInsets()
+    static func reduce(value: inout EdgeInsets, nextValue: () -> EdgeInsets) {
+        value = nextValue()
+    }
+}
+
 extension View {
     func placeholder(
         when shouldShow: Bool,
@@ -14,12 +21,12 @@ extension View {
         @ViewBuilder placeholder: () -> some View) -> some View
     {
         ZStack(alignment: alignment) {
-            
             placeholder()
-                .padding(.horizontal, 2)
+                .padding(2)
                 .opacity(shouldShow ? 1 : 0)
             self
         }
+        
     }
 
     func placeholder(
@@ -29,4 +36,16 @@ extension View {
     {
         placeholder(when: shouldShow, alignment: alignment) { Text(text).foregroundColor(.white.opacity(0.6)) }
     }
+    
+    func printSafeAreaInsets(id: String) -> some View {
+            background(
+                GeometryReader { proxy in
+                    Color.clear
+                        .preference(key: SafeAreaInsetsKey.self, value: proxy.safeAreaInsets)
+                }
+                .onPreferenceChange(SafeAreaInsetsKey.self) { value in
+                    print("\(id) insets:\(value)")
+                }
+            )
+        }
 }

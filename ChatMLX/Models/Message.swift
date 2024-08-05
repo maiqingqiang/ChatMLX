@@ -13,14 +13,21 @@ class Message {
         case user
         case assistant
     }
-    
+
     var role: Role
     var content: String
+    var isComplete: Bool
     var timestamp: Date
-    
-    init(role: Role, content: String, timestamp: Date = Date()) {
+
+    init(
+        role: Role,
+        content: String = "",
+        isComplete: Bool = false,
+        timestamp: Date = Date()
+    ) {
         self.role = role
         self.content = content
+        self.isComplete = isComplete
         self.timestamp = timestamp
     }
 }

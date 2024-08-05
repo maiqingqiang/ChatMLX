@@ -23,34 +23,39 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
         GeometryReader { _ in
             HStack(spacing: 0) {
                 if isSidebarVisible {
-                    sidebar()
-                        .frame(width: max(sidebarWidth, 0))
-                    
-                    Rectangle()
-                        .fill(Color.clear)
-                        .frame(width: 3)
-                        .onHover { inside in
-                            if inside {
-                                NSCursor.resizeLeftRight.push()
-                            } else {
-                                NSCursor.pop()
-                            }
-                        }
-                        .gesture(
-                            DragGesture()
-                                .onChanged { value in
-                                    let newWidth = sidebarWidth + value.translation.width
-                                    sidebarWidth = min(max(newWidth, minSidebarWidth), maxSidebarWidth)
+                    ZStack(alignment: .trailing) {
+                        sidebar()
+                            .frame(width: max(sidebarWidth, 0))
+                        
+                        Rectangle()
+                            .fill(Color.clear)
+                            .frame(width: 4)
+                            .onHover { inside in
+                                if inside {
+                                    NSCursor.resizeLeftRight.push()
+                                } else {
+                                    NSCursor.pop()
                                 }
-                        )
+                            }
+                            .gesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        let newWidth = sidebarWidth + value.translation.width
+                                        sidebarWidth = min(max(newWidth, minSidebarWidth), maxSidebarWidth)
+                                    }
+                            )
+                    }
+                    .transition(.move(edge: .leading))
                 }
                 
                 VStack(spacing: 0) {
-                    header()
                     Divider()
                     detail()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                .safeAreaInset(edge: .top, alignment: .center, spacing: 0) {
+                    header().frame(height: 52)
+                }
             }
         }
     }
@@ -74,7 +79,7 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
 
                 Spacer()
                 Text(title)
-                    .font(.title2)
+                    .font(.headline)
 
                 Spacer()
 
@@ -89,7 +94,7 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
     }
     
     func toggleSidebar() {
-        withAnimation(.easeInOut(duration: 0.3)) {
+        withAnimation {
             if isSidebarVisible {
                 lastNonZeroWidth = sidebarWidth
                 sidebarWidth = 0

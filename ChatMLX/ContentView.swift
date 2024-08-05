@@ -9,6 +9,8 @@ import SwiftData
 import SwiftUI
 
 struct ContentView: View {
+    private var fullScreenPresentationWindowDelegate = FullScreenPresentationWindowDelegate()
+
     var body: some View {
         ChatView()
             .frame(minWidth: 900, minHeight: 580)
@@ -22,6 +24,7 @@ struct ContentView: View {
                 let toolbar = NSToolbar()
                 toolbar.showsBaselineSeparator = false
                 window.toolbar = toolbar
+                window.delegate = fullScreenPresentationWindowDelegate
             }
     }
 }

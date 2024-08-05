@@ -21,7 +21,6 @@ struct ChatView: View {
                     EmptyChat()
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }, title: selectedConversation?.title ?? "")
             .foregroundColor(.white)
     }

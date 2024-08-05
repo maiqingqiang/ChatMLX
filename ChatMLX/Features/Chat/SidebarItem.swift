@@ -14,8 +14,12 @@ struct SidebarItem: View {
     @State private var isActive: Bool = false
     @State private var showIndicator: Bool = false
     
+    private var sortedMessages: [Message] {
+        conversation.messages.sorted { $0.timestamp < $1.timestamp }
+    }
+    
     private var firstMessageContent: String {
-        conversation.messages.first?.content ?? "无消息"
+        sortedMessages.first?.content ?? "无消息"
     }
     
     private var lastMessageTime: String {
