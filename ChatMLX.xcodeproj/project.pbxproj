@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		520B75F82C6A622400DFC01B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 520B75F72C6A622400DFC01B /* Alamofire */; };
 		52A0D2742C5E8B9F00835FD6 /* Luminare in Frameworks */ = {isa = PBXBuildFile; productRef = 52A0D2732C5E8B9F00835FD6 /* Luminare */; };
 		52A0D27F2C5F58B700835FD6 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 52A0D27E2C5F58B700835FD6 /* SwiftUIIntrospect */; };
 /* End PBXBuildFile section */
@@ -45,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				520B75F82C6A622400DFC01B /* Alamofire in Frameworks */,
 				52A0D2742C5E8B9F00835FD6 /* Luminare in Frameworks */,
 				52A0D27F2C5F58B700835FD6 /* SwiftUIIntrospect in Frameworks */,
 			);
@@ -109,6 +111,7 @@
 			packageProductDependencies = (
 				52A0D2732C5E8B9F00835FD6 /* Luminare */,
 				52A0D27E2C5F58B700835FD6 /* SwiftUIIntrospect */,
+				520B75F72C6A622400DFC01B /* Alamofire */,
 			);
 			productName = ChatMLX;
 			productReference = 52A0D2242C5E6A6700835FD6 /* ChatMLX.app */;
@@ -195,6 +198,7 @@
 			packageReferences = (
 				52A0D2722C5E8B9F00835FD6 /* XCRemoteSwiftPackageReference "Luminare" */,
 				52A0D27D2C5F58B700835FD6 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
+				520B75F62C6A622400DFC01B /* XCRemoteSwiftPackageReference "Alamofire" */,
 			);
 			productRefGroup = 52A0D2252C5E6A6700835FD6 /* Products */;
 			projectDirPath = "";
@@ -420,7 +424,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = ChatMLX/ChatMLX.entitlements;
+				CODE_SIGN_ENTITLEMENTS = ChatMLX/ChatMLXRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
@@ -553,6 +557,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		520B75F62C6A622400DFC01B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.9.1;
+			};
+		};
 		52A0D2722C5E8B9F00835FD6 /* XCRemoteSwiftPackageReference "Luminare" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MrKai77/Luminare.git";
@@ -572,6 +584,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		520B75F72C6A622400DFC01B /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 520B75F62C6A622400DFC01B /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
 		52A0D2732C5E8B9F00835FD6 /* Luminare */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 52A0D2722C5E8B9F00835FD6 /* XCRemoteSwiftPackageReference "Luminare" */;

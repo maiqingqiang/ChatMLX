@@ -13,19 +13,8 @@ struct ContentView: View {
 
     var body: some View {
         ChatView()
+            .ultramanMinimalistWindowStyle()
             .frame(minWidth: 900, minHeight: 580)
-            .ignoresSafeArea()
-            .introspect(.window, on: .macOS(.v14, .v15)) { window in
-                window.setBackgroundBlur(radius: 20)
-                window.toolbarStyle = .unified
-                window.titlebarAppearsTransparent = true
-                window.titleVisibility = .hidden
-
-                let toolbar = NSToolbar()
-                toolbar.showsBaselineSeparator = false
-                window.toolbar = toolbar
-                window.delegate = fullScreenPresentationWindowDelegate
-            }
     }
 }
 

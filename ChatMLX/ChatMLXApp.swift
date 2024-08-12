@@ -7,19 +7,20 @@
 
 import SwiftData
 import SwiftUI
-@_spi(Advanced) import SwiftUIIntrospect
 
 @main
 struct ChatMLXApp: App {
+    @State private var downloadManagerViewModel = DownloadManagerView.ViewModel()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
         }
         .modelContainer(for: [Conversation.self, Message.self])
 
-        
         Settings {
-            Text("test")
+            SettingsView()
+                .environment(downloadManagerViewModel)
         }
     }
 }

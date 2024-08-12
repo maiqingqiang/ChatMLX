@@ -5,15 +5,19 @@
 //  Created by John Mai on 2024/8/11.
 //
 
+import Alamofire
+import Luminare
 import SwiftUI
 
 struct MLXCommunityView: View {
-    @State var models: [HubModelInfo] = []
+    @State var models: [RemoteModel] = []
     @State private var searchQuery = ""
     @State var isFetching = false
     @State var next: String?
 
     @State var status: Status = .isLoading
+
+    private let sessionManager: Session
 
     enum Status {
         case isLoading
@@ -21,23 +25,33 @@ struct MLXCommunityView: View {
         case error(String)
     }
 
+    init() {
+        let configuration = URLSessionConfiguration.default
+        configuration.requestCachePolicy = .returnCacheDataElseLoad
+        configuration.urlCache = URLCache(memoryCapacity: 20 * 1024 * 1024, diskCapacity: 0)
+
+        sessionManager = Session(configuration: configuration)
+    }
+
     var body: some View {
         VStack {
-            TextField("Search models", text: $searchQuery, onCommit: {
-                Task {
-                    await fetchModels(search: searchQuery)
+            LuminareSection {
+                LuminareTextField(
+                    $searchQuery,
+                    placeHolder: "Search")
+                {
+                    Task {
+                        models = []
+                        await fetchModels(search: searchQuery)
+                    }
                 }
-            })
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .padding()
+            }
+            .padding(.top)
+            .padding(.horizontal)
 
             List {
-                ForEach($models) {
-                    model in
-                    VStack(alignment: .leading) {
-                        Text(model.modelId.wrappedValue.deletingPrefix("mlx-community/"))
-                            .font(.headline)
-                    }
+                ForEach($models) { model in
+                    MLXCommunityItemView(model: model)
                 }
                 lastRowView
             }
@@ -57,7 +71,7 @@ struct MLXCommunityView: View {
                 ProgressView()
             case .idle:
                 EmptyView()
-            case .error(let error):
+            case .error(_):
                 EmptyView()
 //                ErrorView(error)
             }
@@ -96,12 +110,14 @@ struct MLXCommunityView: View {
     func fetchModels(search: String? = nil) async {
         guard !isFetching else { return }
         isFetching = true
+        status = .isLoading
 
         var urlComponents = URLComponents(string: "https://huggingface.co/api/models")!
         var queryItems: [URLQueryItem] = [
             URLQueryItem(name: "limit", value: "20"),
             URLQueryItem(name: "author", value: "mlx-community"),
             URLQueryItem(name: "sort", value: "downloads"),
+            URLQueryItem(name: "pipeline_tag", value: "text-generation"),
         ]
 
         if let search {
@@ -112,67 +128,41 @@ struct MLXCommunityView: View {
 
         guard let url = urlComponents.url else { return }
 
-        do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            guard let httpResponse = response as? HTTPURLResponse else {
-                throw URLError(.badServerResponse)
+        sessionManager.request(url).validate().responseDecodable(of: [RemoteModel].self) { response in
+            switch response.result {
+            case .success(let decodedResponse):
+                models = decodedResponse
+                if let links = response.response?.allHeaderFields["Link"] as? String {
+                    next = parseLinks(links)["next"]
+                }
+                status = .idle
+            case .failure(let error):
+                print("Failed to fetch models: \(error)")
+                status = .error(error.localizedDescription)
             }
-
-            let links = httpResponse.value(forHTTPHeaderField: "Link")
-
-            if let next = parseLinks(links)["next"] {
-                self.next = next
-            }
-
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-            let decodedResponse = try decoder.decode([HubModelInfo].self, from: data)
-            models = decodedResponse
-            status = .idle
-//            print("decodedResponse \(decodedResponse)")
-        } catch {
-            print("Failed to fetch models: \(error)")
-            status = .error(error.localizedDescription)
+            isFetching = false
         }
-
-        isFetching = false
     }
 
     func loadMoreModelsIfNeeded() async {
-        guard !isFetching else { return }
+        guard !isFetching, let nextURL = URL(string: next ?? "") else { return }
         isFetching = true
         status = .isLoading
 
-        let urlComponents = URLComponents(string: next!)!
-
-        guard let url = urlComponents.url else { return }
-
-        do {
-            let (data, response) = try await URLSession.shared.data(from: url)
-            guard let httpResponse = response as? HTTPURLResponse else {
-                throw URLError(.badServerResponse)
+        sessionManager.request(nextURL).validate().responseDecodable(of: [RemoteModel].self) { response in
+            switch response.result {
+            case .success(let decodedResponse):
+                models.append(contentsOf: decodedResponse)
+                if let links = response.response?.allHeaderFields["Link"] as? String {
+                    next = parseLinks(links)["next"]
+                }
+                status = .idle
+            case .failure(let error):
+                print("Failed to fetch more models: \(error)")
+                status = .error(error.localizedDescription)
             }
-
-            let links = httpResponse.value(forHTTPHeaderField: "Link")
-
-            if let next = parseLinks(links)["next"] {
-                self.next = next
-            }
-
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-            let decodedResponse = try decoder.decode([HubModelInfo].self, from: data)
-            models.append(contentsOf: decodedResponse)
-            print("decodedResponse \(decodedResponse)")
-            status = .idle
-        } catch {
-            print("Failed to fetch models: \(error)")
-            status = .error(error.localizedDescription)
+            isFetching = false
         }
-
-        isFetching = false
     }
 }
 

@@ -15,7 +15,7 @@ struct DetailView: View {
     @FocusState private var isInputFocused: Bool
 
     @State private var showRightSidebar = false
-    
+
     @Namespace var bottomId
 
     var sortedMessages: [Message] {
@@ -73,43 +73,14 @@ struct DetailView: View {
                     .padding()
                 }
                 .frame(maxHeight: 150)
-
-//                    TextEditor(text: $newMessage)
-//                        .textEditorStyle(.plain)
-//                        .foregroundColor(.white)
-//                        .focused($isInputFocused)
-//                        .placeholder("请输入文本", when: newMessage.isEmpty,alignment: .topLeading)
-//                        .padding(10)
-//                        .frame(height: 200)
-
-//                    TextField("", text: $newMessage)
-//                        .textFieldStyle(.plain)
-//                        .foregroundColor(.white)
-//                        .focused($isInputFocused)
-//                        .frame(minHeight: 40)
-//                        .placeholder("请输入文本", when: newMessage.isEmpty)
-//                        .padding(.horizontal,10)
-
-                //                LuminareTextField($newMessage, placeHolder: "输入消息...")
-                //                    .foregroundColor(.white)
-                //                    .focused($isInputFocused)
-                //                    .frame(minHeight: 40)
-
-//                    Button(action: sendMessage) {
-//                        Image(systemName: "paperplane.fill")
-//                    }
-//                    .disabled(newMessage.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-//                    .buttonStyle(.plain)
-//                    .padding(.horizontal, 10)
-//
-//                    Button(action: {
-                ////                        withAnimation {
-//                            showRightSidebar.toggle()
-                ////                        }
-//                    }) {
-//                        Image(systemName: showRightSidebar ? "sidebar.right" : "sidebar.left")
-//                    }
-//                }
+                .ultramanNavigationTitle(conversation.title)
+                .ultramanToolbarItem(alignment: .trailing) {
+                    Button(action: {
+                        print("Leading action")
+                    }) {
+                        Image(systemName: "arrow.left")
+                    }
+                }
             }
         }
         .sheet(isPresented: $showRightSidebar) {

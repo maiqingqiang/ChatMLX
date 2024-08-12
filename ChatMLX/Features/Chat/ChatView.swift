@@ -21,8 +21,8 @@ struct ChatView: View {
                     EmptyChat()
                 }
             }
-        }, title: selectedConversation?.title ?? "")
-            .foregroundColor(.white)
+        })
+        .foregroundColor(.white)
     }
 }
 
