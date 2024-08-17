@@ -26,7 +26,6 @@ extension View {
                 .opacity(shouldShow ? 1 : 0)
             self
         }
-        
     }
 
     func placeholder(
@@ -36,16 +35,16 @@ extension View {
     {
         placeholder(when: shouldShow, alignment: alignment) { Text(text).foregroundColor(.white.opacity(0.6)) }
     }
-    
+
     func printSafeAreaInsets(id: String) -> some View {
-            background(
-                GeometryReader { proxy in
-                    Color.clear
-                        .preference(key: SafeAreaInsetsKey.self, value: proxy.safeAreaInsets)
-                }
-                .onPreferenceChange(SafeAreaInsetsKey.self) { value in
-                    print("\(id) insets:\(value)")
-                }
-            )
-        }
+        background(
+            GeometryReader { proxy in
+                Color.clear
+                    .preference(key: SafeAreaInsetsKey.self, value: proxy.safeAreaInsets)
+            }
+            .onPreferenceChange(SafeAreaInsetsKey.self) { value in
+                print("\(id) insets:\(value)")
+            }
+        )
+    }
 }

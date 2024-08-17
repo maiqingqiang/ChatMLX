@@ -6,13 +6,16 @@
 //
 
 import Foundation
+import Logging
 
 @Observable
-class DownloadTask: Identifiable,Equatable {
+class DownloadTask: Identifiable, Equatable {
+    let logger = Logger(label: Bundle.main.bundleIdentifier!)
+
     static func == (lhs: DownloadTask, rhs: DownloadTask) -> Bool {
         lhs.id == rhs.id
     }
-    
+
     let id: UUID
     let repoId: String
     var progress: Double = 0
@@ -37,7 +40,7 @@ class DownloadTask: Identifiable,Equatable {
         Task { [self] in
             do {
                 let repo = Hub.Repo(id: self.repoId)
-                try await self.hub!.snapshot(from: repo, matching: ["*.safetensors"]) { progress in
+                let temporaryModelDirectory = try await self.hub!.snapshot(from: repo, matching: ["*.safetensors","*.json"]) { progress in
                     Task { @MainActor in
                         self.progress = progress.fractionCompleted
                         self.totalUnitCount = progress.totalUnitCount
@@ -47,12 +50,17 @@ class DownloadTask: Identifiable,Equatable {
 
                 self.hub = nil
 
+                self.logger.info("开始迁移")
+
+                try await moveToDocumentsDirectory(from: temporaryModelDirectory)
+
                 await MainActor.run {
                     self.isDownloading = false
                     self.isCompleted = true
                     self.progress = 1.0
                 }
             } catch {
+                print("DownloadTask Error: \(error.localizedDescription)")
                 self.hub = nil
                 await MainActor.run {
                     self.error = error
@@ -68,5 +76,22 @@ class DownloadTask: Identifiable,Equatable {
             self.isDownloading = false
             self.hub = nil
         }
+    }
+    
+    private func moveToDocumentsDirectory(from temporaryModelDirectory: URL) async throws {
+        let fileManager = FileManager.default
+        let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let downloadBase = documents.appending(component: "huggingface").appending(path: "models")
+        
+        let destinationPath = downloadBase.appendingPathComponent(self.repoId)
+        try fileManager.createDirectory(at: destinationPath, withIntermediateDirectories: true)
+        
+        if fileManager.fileExists(atPath: destinationPath.path) {
+            try fileManager.removeItem(at: destinationPath)
+        }
+        
+        try fileManager.copyItem(at: temporaryModelDirectory, to: destinationPath)
+        
+        logger.info("Model moved to: \(destinationPath.path)")
     }
 }

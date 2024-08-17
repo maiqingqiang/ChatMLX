@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		520B75F82C6A622400DFC01B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 520B75F72C6A622400DFC01B /* Alamofire */; };
+		520B76682C6B9C3D00DFC01B /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 520B76672C6B9C3D00DFC01B /* Logging */; };
+		520B76E02C6CE9C900DFC01B /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 520B76DF2C6CE9C900DFC01B /* Defaults */; };
+		520B77D92C6F141200DFC01B /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 520B77D82C6F141200DFC01B /* LLM */; };
+		520B77DC2C6F16B400DFC01B /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 520B77DB2C6F16B400DFC01B /* LLM */; };
 		52A0D2742C5E8B9F00835FD6 /* Luminare in Frameworks */ = {isa = PBXBuildFile; productRef = 52A0D2732C5E8B9F00835FD6 /* Luminare */; };
 		52A0D27F2C5F58B700835FD6 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 52A0D27E2C5F58B700835FD6 /* SwiftUIIntrospect */; };
 /* End PBXBuildFile section */
@@ -46,9 +50,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				520B77D92C6F141200DFC01B /* LLM in Frameworks */,
 				520B75F82C6A622400DFC01B /* Alamofire in Frameworks */,
 				52A0D2742C5E8B9F00835FD6 /* Luminare in Frameworks */,
+				520B76682C6B9C3D00DFC01B /* Logging in Frameworks */,
+				520B77DC2C6F16B400DFC01B /* LLM in Frameworks */,
 				52A0D27F2C5F58B700835FD6 /* SwiftUIIntrospect in Frameworks */,
+				520B76E02C6CE9C900DFC01B /* Defaults in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,12 +77,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		520B76662C6B9C3D00DFC01B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		52A0D21B2C5E6A6700835FD6 = {
 			isa = PBXGroup;
 			children = (
 				52A0D2262C5E6A6700835FD6 /* ChatMLX */,
 				52A0D23A2C5E6A6800835FD6 /* ChatMLXTests */,
 				52A0D2442C5E6A6800835FD6 /* ChatMLXUITests */,
+				520B76662C6B9C3D00DFC01B /* Frameworks */,
 				52A0D2252C5E6A6700835FD6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -112,6 +128,10 @@
 				52A0D2732C5E8B9F00835FD6 /* Luminare */,
 				52A0D27E2C5F58B700835FD6 /* SwiftUIIntrospect */,
 				520B75F72C6A622400DFC01B /* Alamofire */,
+				520B76672C6B9C3D00DFC01B /* Logging */,
+				520B76DF2C6CE9C900DFC01B /* Defaults */,
+				520B77D82C6F141200DFC01B /* LLM */,
+				520B77DB2C6F16B400DFC01B /* LLM */,
 			);
 			productName = ChatMLX;
 			productReference = 52A0D2242C5E6A6700835FD6 /* ChatMLX.app */;
@@ -193,12 +213,16 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = 52A0D21B2C5E6A6700835FD6;
 			packageReferences = (
 				52A0D2722C5E8B9F00835FD6 /* XCRemoteSwiftPackageReference "Luminare" */,
 				52A0D27D2C5F58B700835FD6 /* XCRemoteSwiftPackageReference "swiftui-introspect" */,
 				520B75F62C6A622400DFC01B /* XCRemoteSwiftPackageReference "Alamofire" */,
+				520B76652C6B9C2300DFC01B /* XCRemoteSwiftPackageReference "swift-log" */,
+				520B76DE2C6CE9C900DFC01B /* XCRemoteSwiftPackageReference "Defaults" */,
+				520B77DA2C6F16B400DFC01B /* XCLocalSwiftPackageReference "mlx-swift-examples" */,
 			);
 			productRefGroup = 52A0D2252C5E6A6700835FD6 /* Products */;
 			projectDirPath = "";
@@ -332,6 +356,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -388,6 +413,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 			};
 			name = Release;
 		};
@@ -556,6 +582,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		520B77DA2C6F16B400DFC01B /* XCLocalSwiftPackageReference "mlx-swift-examples" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "mlx-swift-examples";
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		520B75F62C6A622400DFC01B /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -563,6 +596,22 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 5.9.1;
+			};
+		};
+		520B76652C6B9C2300DFC01B /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.1;
+			};
+		};
+		520B76DE2C6CE9C900DFC01B /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults.git";
+			requirement = {
+				branch = main;
+				kind = branch;
 			};
 		};
 		52A0D2722C5E8B9F00835FD6 /* XCRemoteSwiftPackageReference "Luminare" */ = {
@@ -588,6 +637,24 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 520B75F62C6A622400DFC01B /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
+		};
+		520B76672C6B9C3D00DFC01B /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 520B76652C6B9C2300DFC01B /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = Logging;
+		};
+		520B76DF2C6CE9C900DFC01B /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 520B76DE2C6CE9C900DFC01B /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
+		};
+		520B77D82C6F141200DFC01B /* LLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LLM;
+		};
+		520B77DB2C6F16B400DFC01B /* LLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LLM;
 		};
 		52A0D2732C5E8B9F00835FD6 /* Luminare */ = {
 			isa = XCSwiftPackageProductDependency;

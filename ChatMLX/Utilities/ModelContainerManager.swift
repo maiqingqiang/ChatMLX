@@ -12,7 +12,7 @@ class ModelContainerManager: Observable {
     var errorMessage: String?
 
     func createModelContainer() {
-        let schema = Schema([Item.self])
+        let schema = Schema([])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
         do {
             self.modelContainer = try ModelContainer(for: schema, configurations: [modelConfiguration])

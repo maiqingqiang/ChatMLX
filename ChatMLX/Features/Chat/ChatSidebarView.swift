@@ -5,63 +5,72 @@
 //  Created by John Mai on 2024/8/3.
 //
 
+import Luminare
 import SwiftData
 import SwiftUI
 
-struct SidebarView: View {
+struct ChatSidebarView: View {
     @Query private var conversations: [Conversation]
     @Binding var selectedConversation: Conversation?
     @Environment(\.modelContext) private var modelContext
     @State private var showingNewConversationAlert = false
     @State private var newConversationTitle = ""
-    
+
     var sortedConversations: [Conversation] {
         conversations.sorted { $0.updatedAt > $1.updatedAt }
     }
 
+    @State private var keyword = ""
+
     var body: some View {
-        VStack {
+        VStack(spacing: 0) {
             HStack {
                 Spacer()
                 Button(action: {
-                    showingNewConversationAlert = true
+                    createNewConversation()
                 }) {
-                    Image(systemName: "plus.app")
+                    Image(systemName: "plus")
+                        .font(.title2)
                 }
                 .buttonStyle(.plain)
             }
             .frame(height: 50)
             .padding(.horizontal, 20)
-            .alert("新建对话", isPresented: $showingNewConversationAlert) {
-                TextField("对话标题", text: $newConversationTitle)
-                Button("取消", role: .cancel) {
-                    newConversationTitle = ""
-                }
-                Button("创建") {
-                    createNewConversation()
-                }
-            } message: {
-                Text("请输入新对话的标题")
+
+            HStack {
+                Image("AppLogo")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 60, height: 60)
+                    .shadow(radius: 5)
+                Text("ChatMLX")
+                    .font(.title)
+                    .fontWeight(.bold)
             }
+
+            LuminareSection {
+                UltramanTextField($keyword, placeholder: Text("Search Chat..."))
+                    .frame(height: 25)
+            }.padding(.horizontal, 6)
+
             ScrollView {
                 LazyVStack(spacing: 0) {
                     ForEach(sortedConversations) { conversation in
-                        SidebarItem(
+                        ChatSidebarItem(
                             conversation: conversation,
                             selectedConversation: $selectedConversation
                         )
                     }
                 }
             }
+            .padding(.top, 6)
         }
         .background(.black.opacity(0.4))
     }
 
     private func createNewConversation() {
-        guard !newConversationTitle.isEmpty else { return }
-        let newConversation = Conversation(title: newConversationTitle, model: "gpt-3.5-turbo")
+        let newConversation = Conversation()
         modelContext.insert(newConversation)
-        newConversationTitle = ""
         selectedConversation = newConversation
     }
 }

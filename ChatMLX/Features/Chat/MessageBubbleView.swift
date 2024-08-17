@@ -39,7 +39,7 @@ struct MessageBubbleView: View {
             .padding(10)
             .background(Color.black.opacity(0.1618))
             .foregroundColor(.white)
-            .cornerRadius(15)
+            .cornerRadius(8)
     }
     
     private func formatDate(_ date: Date) -> String {

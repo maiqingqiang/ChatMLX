@@ -29,7 +29,7 @@ struct DownloadManagerView: View {
         }
         .scrollContentBackground(.hidden)
         .alert("New Task", isPresented: $showingNewTask) {
-            TextField("HuggingFace Repo Name", text: $repoId, prompt: Text("mlx-community/OpenELM-3B"))
+            TextField("Hugging Face Repo Id", text: $repoId, prompt: Text("mlx-community/OpenELM-3B"))
             Button("Cancel", role: .cancel) {
                 repoId = ""
             }
@@ -39,7 +39,7 @@ struct DownloadManagerView: View {
                 viewModel.tasks.append(newTask)
             }
         } message: {
-            Text("Please enter huggingface model name")
+            Text("Please enter Hugging Face Repo ID")
         }
     }
 

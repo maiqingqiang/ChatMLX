@@ -6,7 +6,7 @@
 //
 import SwiftUI
 
-struct SidebarItem: View {
+struct ChatSidebarItem: View {
     let conversation: Conversation
     @Binding var selectedConversation: Conversation?
     
@@ -19,7 +19,7 @@ struct SidebarItem: View {
     }
     
     private var firstMessageContent: String {
-        sortedMessages.first?.content ?? "无消息"
+        sortedMessages.first?.content ?? ""
     }
     
     private var lastMessageTime: String {
@@ -47,6 +47,7 @@ struct SidebarItem: View {
                     Text(lastMessageTime)
                         .font(.caption)
                 }
+                .foregroundStyle(.white.opacity(0.7))
             }
             .padding(6)
         }

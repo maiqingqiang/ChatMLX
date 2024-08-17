@@ -12,7 +12,7 @@ struct ChatView: View {
 
     var body: some View {
         UltramanNavigationSplitView(sidebarWidth: $sidebarWidth, sidebar: {
-            SidebarView(selectedConversation: $selectedConversation)
+            ChatSidebarView(selectedConversation: $selectedConversation)
         }, detail: {
             Group {
                 if let conversation = selectedConversation {

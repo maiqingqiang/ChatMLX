@@ -62,6 +62,7 @@ struct MLXCommunityView: View {
                 await fetchModels()
             }
         }
+        .ultramanNavigationTitle("MLX Community")
     }
 
     var lastRowView: some View {

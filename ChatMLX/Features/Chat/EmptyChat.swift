@@ -14,13 +14,13 @@ struct EmptyChat: View {
             Label("No Chat", systemImage: "tray.fill")
                 .foregroundColor(.white)
         } description: {
-            Text("New mails you receive will appear here.")
+            Text("Please select a new chat")
                 .foregroundColor(.white)
             Button(
                 action: {},
                 label: {
                     HStack {
-                        Image(systemName: "paperplane")
+                        Image(systemName: "plus")
                             .foregroundStyle(.white)
                         Text("New Chat")
                     }

@@ -12,6 +12,9 @@ struct SettingsView: View {
     @State private var sidebarWidth: CGFloat = 200
     @State private var activeTab: SettingsTab
     let tabs: [SettingsTab] = [
+        .init("General", Image(systemName: "gearshape"), ModelsView()),
+        .init("Default Chat", Image(systemName: "person.bubble"), DownloadManagerView()),
+        .init("Hugging Face", Image("hf-logo-pirate"), DownloadManagerView()),
         .init("Models", Image(systemName: "brain"), ModelsView()),
         .init("MLX Community", Image("mlx-logo-2"), MLXCommunityView()),
         .init("Download Manager", Image(systemName: "arrow.down.circle"), DownloadManagerView()),
@@ -24,8 +27,8 @@ struct SettingsView: View {
 
     var body: some View {
         UltramanNavigationSplitView(sidebarWidth: $sidebarWidth) {
-            SettingsSidebarView(activeTab: $activeTab, tabs: tabs) { tab in
-                print(tab)
+            SettingsSidebarView(activeTab: $activeTab, tabs: tabs) { _ in
+                
             }
         } detail: {
             activeTab.view

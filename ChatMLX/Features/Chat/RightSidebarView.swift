@@ -14,7 +14,7 @@ struct RightSidebarView: View {
     
     var body: some View {
         VStack {
-            Text("控制面板").font(.headline)
+            Text("Control").font(.headline)
             
             VStack(alignment: .leading) {
                 Text("Temperature: \(temperature, specifier: "%.2f")")

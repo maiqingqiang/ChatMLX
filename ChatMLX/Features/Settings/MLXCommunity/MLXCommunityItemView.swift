@@ -21,7 +21,6 @@ struct MLXCommunityItemView: View {
                 Spacer()
 
                 Button(action: {
-                    print("开始下载 \(model.repoId)")
                     let newTask = DownloadTask(model.repoId)
                     newTask.start()
                     viewModel.tasks.append(newTask)
