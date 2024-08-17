@@ -1,5 +1,5 @@
 //
-//  SidebarView.swift
+//  ChatSidebarView.swift
 //  ChatMLX
 //
 //  Created by John Mai on 2024/8/3.
@@ -15,9 +15,23 @@ struct ChatSidebarView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var showingNewConversationAlert = false
     @State private var newConversationTitle = ""
+    @State private var showingClearConfirmation = false
 
     var sortedConversations: [Conversation] {
         conversations.sorted { $0.updatedAt > $1.updatedAt }
+    }
+    
+    var filteredConversations: [Conversation] {
+        if keyword.isEmpty {
+            return sortedConversations
+        } else {
+            return sortedConversations.filter { conversation in
+                conversation.title.lowercased().contains(keyword.lowercased()) ||
+                conversation.messages.contains { message in
+                    message.content.lowercased().contains(keyword.lowercased())
+                }
+            }
+        }
     }
 
     @State private var keyword = ""
@@ -27,15 +41,32 @@ struct ChatSidebarView: View {
             HStack {
                 Spacer()
                 Button(action: {
+                    showingClearConfirmation = true
+                }) {
+                    Image("clear")
+                }.confirmationDialog(
+                    "Confirm Clear All Conversations",
+                    isPresented: $showingClearConfirmation
+                ) {
+                    Button("Clear", role: .destructive) {
+                        clearAllConversations()
+                    }
+                    Button("Cancel", role: .cancel) {}
+                } message: {
+                    Text(
+                        "This action will delete all conversation records and cannot be undone."
+                    )
+                }
+
+                Button(action: {
                     createNewConversation()
                 }) {
                     Image(systemName: "plus")
-                        .font(.title2)
                 }
-                .buttonStyle(.plain)
             }
             .frame(height: 50)
             .padding(.horizontal, 20)
+            .buttonStyle(.plain)
 
             HStack {
                 Image("AppLogo")
@@ -55,7 +86,7 @@ struct ChatSidebarView: View {
 
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    ForEach(sortedConversations) { conversation in
+                    ForEach(filteredConversations) { conversation in
                         ChatSidebarItem(
                             conversation: conversation,
                             selectedConversation: $selectedConversation
@@ -73,8 +104,11 @@ struct ChatSidebarView: View {
         modelContext.insert(newConversation)
         selectedConversation = newConversation
     }
-}
 
-// #Preview {
-//    SidebarView()
-// }
+    private func clearAllConversations() {
+        for conversation in conversations {
+            modelContext.delete(conversation)
+        }
+        selectedConversation = nil
+    }
+}

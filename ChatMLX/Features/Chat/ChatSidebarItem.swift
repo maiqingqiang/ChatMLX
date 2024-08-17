@@ -1,5 +1,5 @@
 //
-//  SidebarItem.swift
+//  ChatSidebarItem.swift
 //  ChatMLX
 //
 //  Created by John Mai on 2024/8/4.

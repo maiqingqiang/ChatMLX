@@ -117,6 +117,9 @@
         }
       }
     },
+    "Confirm Clear All Conversations" : {
+
+    },
     "Control" : {
       "localizations" : {
         "zh-Hans" : {
@@ -333,6 +336,9 @@
           }
         }
       }
+    },
+    "This action will delete all conversation records and cannot be undone." : {
+
     },
     "Top K: %lld" : {
       "localizations" : {
