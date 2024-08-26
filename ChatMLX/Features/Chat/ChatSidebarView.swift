@@ -20,16 +20,17 @@ struct ChatSidebarView: View {
     var sortedConversations: [Conversation] {
         conversations.sorted { $0.updatedAt > $1.updatedAt }
     }
-    
+
     var filteredConversations: [Conversation] {
         if keyword.isEmpty {
-            return sortedConversations
+            sortedConversations
         } else {
-            return sortedConversations.filter { conversation in
-                conversation.title.lowercased().contains(keyword.lowercased()) ||
-                conversation.messages.contains { message in
-                    message.content.lowercased().contains(keyword.lowercased())
-                }
+            sortedConversations.filter { conversation in
+                conversation.title.lowercased().contains(keyword.lowercased())
+                    || conversation.messages.contains { message in
+                        message.content.lowercased().contains(
+                            keyword.lowercased())
+                    }
             }
         }
     }
@@ -40,6 +41,12 @@ struct ChatSidebarView: View {
         VStack(spacing: 0) {
             HStack {
                 Spacer()
+                Button(action: {
+                    createNewConversation()
+                }) {
+                    Image(systemName: "plus")
+                }
+
                 Button(action: {
                     showingClearConfirmation = true
                 }) {
@@ -58,10 +65,8 @@ struct ChatSidebarView: View {
                     )
                 }
 
-                Button(action: {
-                    createNewConversation()
-                }) {
-                    Image(systemName: "plus")
+                SettingsLink {
+                    Image(systemName: "gear")
                 }
             }
             .frame(height: 50)

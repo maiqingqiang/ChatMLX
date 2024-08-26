@@ -13,15 +13,19 @@ struct LocalModel: Identifiable {
     let group: String
     let name: String
     let url: URL
+    
+    var origin:String {
+        "\(group)/\(name)"
+    }
 
     var isDefault: Bool {
         get {
-            Defaults[.defaultModel] == name
+            Defaults[.defaultModel] == origin
         }
         set {
             if newValue {
-                Defaults[.defaultModel] = name
-            } else if Defaults[.defaultModel] == name {
+                Defaults[.defaultModel] = origin
+            } else if Defaults[.defaultModel] == origin {
                 Defaults[.defaultModel] = nil
             }
         }

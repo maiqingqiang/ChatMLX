@@ -42,9 +42,13 @@ class LLMEvaluator {
 
     var loadState = LoadState.idle
 
-    init() {
-        self.modelConfiguration = ModelConfiguration(
-            id: "mlx-community/Qwen2-1.5B-Instruct-4bit")
+    init(modelConfiguration: ModelConfiguration? = nil) {
+        if let modelConfiguration {
+            self.modelConfiguration = modelConfiguration
+        } else {
+            self.modelConfiguration = ModelConfiguration(
+                id: "mlx-community/OpenELM-270M")
+        }
     }
 
     func changeModel(to newConfiguration: ModelConfiguration) {

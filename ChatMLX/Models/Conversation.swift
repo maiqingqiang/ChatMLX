@@ -4,22 +4,31 @@
 //
 //  Created by John Mai on 2024/8/4.
 //
+import Defaults
 import Foundation
 import SwiftData
 
 @Model
 class Conversation {
     var title: String = "Default Chat"
-    var model: String?
+    var model: String = ""
     var createdAt: Date = Date()
     var updatedAt: Date = Date()
     @Relationship(deleteRule: .cascade) var messages: [Message] = []
 
-    var temperature: Double = 0.7
-    var topK: Int = 50
+    var temperature: Float = 0.6
+    var topP: Float = 1
     var maxLength: Int = 1000
+    var repetitionContextSize: Int = 20
+    
+    var promptTime: TimeInterval?
+    var generateTime: TimeInterval?
+    var promptTokensPerSecond: Double?
+    var tokensPerSecond: Double?
 
-    init() {}
+    init() {
+        model = Defaults[.defaultModel] ?? ""
+    }
 
     func addMessage(_ message: Message) {
         messages.append(message)
@@ -33,7 +42,7 @@ class Conversation {
     }
 
     func updateStreamingMessage(_ message: Message, with content: String) {
-        message.content += content
+        message.content = content
         updatedAt = Date()
     }
 

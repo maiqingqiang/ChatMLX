@@ -12,7 +12,7 @@ struct SettingsView: View {
     @State private var sidebarWidth: CGFloat = 200
     @State private var activeTab: SettingsTab
     let tabs: [SettingsTab] = [
-        .init("General", Image(systemName: "gearshape"), ModelsView()),
+        .init("General", Image(systemName: "gearshape"), GeneralView()),
         .init("Default Chat", Image(systemName: "person.bubble"), DownloadManagerView()),
         .init("Hugging Face", Image("hf-logo-pirate"), DownloadManagerView()),
         .init("Models", Image(systemName: "brain"), ModelsView()),

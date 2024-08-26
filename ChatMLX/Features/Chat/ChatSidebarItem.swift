@@ -9,7 +9,8 @@ import SwiftUI
 struct ChatSidebarItem: View {
     let conversation: Conversation
     @Binding var selectedConversation: Conversation?
-    
+    @Environment(\.modelContext) private var modelContext
+
     @State private var isHovering: Bool = false
     @State private var isActive: Bool = false
     @State private var showIndicator: Bool = false
@@ -34,7 +35,7 @@ struct ChatSidebarItem: View {
             selectedConversation = conversation
         } label: {
             VStack(alignment: .leading, spacing: 4) {
-                Text(conversation.title)
+                Text(LocalizedStringKey(conversation.title))
                     .font(.headline)
                 
                 HStack {
@@ -58,11 +59,29 @@ struct ChatSidebarItem: View {
         .onChange(of: selectedConversation) { _, _ in
             checkIfSelfIsActiveTab()
         }
+        .contextMenu {
+            Button(role: .destructive, action: deleteConversation) {
+                Label("Delete", systemImage: "trash")
+            }
+        }
     }
     
     private func checkIfSelfIsActiveTab() {
         withAnimation(.easeOut(duration: 0.1)) {
             isActive = selectedConversation == conversation
+        }
+    }
+    
+    private func deleteConversation() {
+        modelContext.delete(conversation)
+           
+        do {
+            try modelContext.save()
+            if selectedConversation == conversation {
+                selectedConversation = nil
+            }
+        } catch {
+            print("删除对话时出错: \(error)")
         }
     }
 }

@@ -12,6 +12,10 @@
 		520B76E02C6CE9C900DFC01B /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = 520B76DF2C6CE9C900DFC01B /* Defaults */; };
 		520B77D92C6F141200DFC01B /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 520B77D82C6F141200DFC01B /* LLM */; };
 		520B77DC2C6F16B400DFC01B /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 520B77DB2C6F16B400DFC01B /* LLM */; };
+		524738AB2C7B0E0C00F762D3 /* Glur in Frameworks */ = {isa = PBXBuildFile; productRef = 524738AA2C7B0E0C00F762D3 /* Glur */; };
+		527489AB2C720F6E00CC09D6 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 527489AA2C720F6E00CC09D6 /* MarkdownUI */; };
+		527489B82C72304100CC09D6 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 527489B72C72304100CC09D6 /* Splash */; };
+		52748A442C737AFB00CC09D6 /* CompactSlider in Frameworks */ = {isa = PBXBuildFile; productRef = 52748A432C737AFB00CC09D6 /* CompactSlider */; };
 		52A0D2742C5E8B9F00835FD6 /* Luminare in Frameworks */ = {isa = PBXBuildFile; productRef = 52A0D2732C5E8B9F00835FD6 /* Luminare */; };
 		52A0D27F2C5F58B700835FD6 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 52A0D27E2C5F58B700835FD6 /* SwiftUIIntrospect */; };
 /* End PBXBuildFile section */
@@ -52,11 +56,15 @@
 			files = (
 				520B77D92C6F141200DFC01B /* LLM in Frameworks */,
 				520B75F82C6A622400DFC01B /* Alamofire in Frameworks */,
+				527489B82C72304100CC09D6 /* Splash in Frameworks */,
 				52A0D2742C5E8B9F00835FD6 /* Luminare in Frameworks */,
+				524738AB2C7B0E0C00F762D3 /* Glur in Frameworks */,
+				527489AB2C720F6E00CC09D6 /* MarkdownUI in Frameworks */,
 				520B76682C6B9C3D00DFC01B /* Logging in Frameworks */,
 				520B77DC2C6F16B400DFC01B /* LLM in Frameworks */,
 				52A0D27F2C5F58B700835FD6 /* SwiftUIIntrospect in Frameworks */,
 				520B76E02C6CE9C900DFC01B /* Defaults in Frameworks */,
+				52748A442C737AFB00CC09D6 /* CompactSlider in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +140,10 @@
 				520B76DF2C6CE9C900DFC01B /* Defaults */,
 				520B77D82C6F141200DFC01B /* LLM */,
 				520B77DB2C6F16B400DFC01B /* LLM */,
+				527489AA2C720F6E00CC09D6 /* MarkdownUI */,
+				527489B72C72304100CC09D6 /* Splash */,
+				52748A432C737AFB00CC09D6 /* CompactSlider */,
+				524738AA2C7B0E0C00F762D3 /* Glur */,
 			);
 			productName = ChatMLX;
 			productReference = 52A0D2242C5E6A6700835FD6 /* ChatMLX.app */;
@@ -214,6 +226,9 @@
 				en,
 				Base,
 				"zh-Hans",
+				"zh-Hant",
+				ja,
+				ko,
 			);
 			mainGroup = 52A0D21B2C5E6A6700835FD6;
 			packageReferences = (
@@ -223,6 +238,10 @@
 				520B76652C6B9C2300DFC01B /* XCRemoteSwiftPackageReference "swift-log" */,
 				520B76DE2C6CE9C900DFC01B /* XCRemoteSwiftPackageReference "Defaults" */,
 				520B77DA2C6F16B400DFC01B /* XCLocalSwiftPackageReference "mlx-swift-examples" */,
+				527489A92C720F6E00CC09D6 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
+				527489AC2C7229A700CC09D6 /* XCRemoteSwiftPackageReference "splash" */,
+				52748A422C737AFB00CC09D6 /* XCRemoteSwiftPackageReference "CompactSlider" */,
+				524738A92C7B0E0C00F762D3 /* XCRemoteSwiftPackageReference "Glur" */,
 			);
 			productRefGroup = 52A0D2252C5E6A6700835FD6 /* Products */;
 			projectDirPath = "";
@@ -614,6 +633,38 @@
 				kind = branch;
 			};
 		};
+		524738A92C7B0E0C00F762D3 /* XCRemoteSwiftPackageReference "Glur" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/joogps/Glur";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
+		527489A92C720F6E00CC09D6 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/gonzalezreal/swift-markdown-ui.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.4.0;
+			};
+		};
+		527489AC2C7229A700CC09D6 /* XCRemoteSwiftPackageReference "splash" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/johnsundell/splash.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.16.0;
+			};
+		};
+		52748A422C737AFB00CC09D6 /* XCRemoteSwiftPackageReference "CompactSlider" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/buh/CompactSlider.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.6;
+			};
+		};
 		52A0D2722C5E8B9F00835FD6 /* XCRemoteSwiftPackageReference "Luminare" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/MrKai77/Luminare.git";
@@ -655,6 +706,26 @@
 		520B77DB2C6F16B400DFC01B /* LLM */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = LLM;
+		};
+		524738AA2C7B0E0C00F762D3 /* Glur */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 524738A92C7B0E0C00F762D3 /* XCRemoteSwiftPackageReference "Glur" */;
+			productName = Glur;
+		};
+		527489AA2C720F6E00CC09D6 /* MarkdownUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 527489A92C720F6E00CC09D6 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */;
+			productName = MarkdownUI;
+		};
+		527489B72C72304100CC09D6 /* Splash */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 527489AC2C7229A700CC09D6 /* XCRemoteSwiftPackageReference "splash" */;
+			productName = Splash;
+		};
+		52748A432C737AFB00CC09D6 /* CompactSlider */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52748A422C737AFB00CC09D6 /* XCRemoteSwiftPackageReference "CompactSlider" */;
+			productName = CompactSlider;
 		};
 		52A0D2732C5E8B9F00835FD6 /* Luminare */ = {
 			isa = XCSwiftPackageProductDependency;

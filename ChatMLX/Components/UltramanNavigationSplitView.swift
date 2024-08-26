@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct UltramanNavigationTitleModifier: ViewModifier {
-    let title: String
+    let title: LocalizedStringKey
 
     func body(content: Content) -> some View {
         content
@@ -17,9 +17,9 @@ struct UltramanNavigationTitleModifier: ViewModifier {
 }
 
 struct UltramanNavigationTitleKey: PreferenceKey {
-    static var defaultValue: String = ""
+    static var defaultValue: LocalizedStringKey = ""
 
-    static func reduce(value: inout String, nextValue: () -> String) {
+    static func reduce(value: inout LocalizedStringKey, nextValue: () -> LocalizedStringKey) {
         value = nextValue()
     }
 }
@@ -56,7 +56,7 @@ struct UltramanNavigationToolbarKey: PreferenceKey {
 }
 
 extension View {
-    func ultramanNavigationTitle(_ title: String) -> some View {
+    func ultramanNavigationTitle(_ title: LocalizedStringKey) -> some View {
         modifier(UltramanNavigationTitleModifier(title: title))
     }
 
@@ -74,11 +74,13 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
     let sidebar: () -> Sidebar
     let detail: () -> Detail
 
-    @State private var navigationTitle: String = ""
+    @State private var navigationTitle: LocalizedStringKey = ""
     @State private var toolbarItems: [UltramanToolbarItem] = []
 
     @State private var isDragging = false
     @State private var isSidebarVisible = true
+    
+
 
     var body: some View {
         GeometryReader { _ in
@@ -114,7 +116,9 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
                     detail()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                         .onPreferenceChange(UltramanNavigationTitleKey.self) { title in
-                            navigationTitle = title
+                            DispatchQueue.main.async {
+                                navigationTitle = title
+                            }
                         }
                         .onPreferenceChange(UltramanNavigationToolbarKey.self) { items in
                             toolbarItems = items
