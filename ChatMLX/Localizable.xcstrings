@@ -215,6 +215,12 @@
     "Conversation Title" : {
 
     },
+    "Custom Endpoint" : {
+
+    },
+    "Custom Hugging Face Endpoint" : {
+
+    },
     "Default Chat" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -276,6 +282,12 @@
         }
       }
     },
+    "Endpoint" : {
+
+    },
+    "Enter your Hugging Face token" : {
+
+    },
     "General" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -302,12 +314,24 @@
     "GitHub" : {
       "shouldTranslate" : false
     },
+    "https://hf-mirror.com" : {
+
+    },
+    "https://huggingface.co" : {
+
+    },
     "Hugging Face" : {
       "shouldTranslate" : false
+    },
+    "Hugging Face Endpoint" : {
+
     },
     "Hugging Face Repo Id" : {
       "extractionState" : "manual",
       "shouldTranslate" : false
+    },
+    "Hugging Face Token" : {
+
     },
     "Language" : {
       "localizations" : {
@@ -346,6 +370,9 @@
     },
     "mlx-community/OpenELM-3B" : {
       "shouldTranslate" : false
+    },
+    "Model" : {
+
     },
     "Model Settings" : {
 
@@ -397,6 +424,9 @@
         }
       }
     },
+    "Not selected" : {
+
+    },
     "Please enter Hugging Face Repo ID" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -434,6 +464,9 @@
 
     },
     "Prompt Tokens/second" : {
+
+    },
+    "Repetition Context Size" : {
 
     },
     "Reset All Settings" : {
@@ -540,6 +573,9 @@
         }
       }
     },
+    "Token" : {
+
+    },
     "Top K: %lld" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -633,7 +669,16 @@
     "已复制" : {
 
     },
+    "提示" : {
+
+    },
     "确定" : {
+
+    },
+    "默认对话标题" : {
+
+    },
+    "默认模型设置" : {
 
     }
   },

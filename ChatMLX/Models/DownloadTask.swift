@@ -7,6 +7,7 @@
 
 import Foundation
 import Logging
+import Defaults
 
 @Observable
 class DownloadTask: Identifiable, Equatable {
@@ -35,7 +36,8 @@ class DownloadTask: Identifiable, Equatable {
         self.isDownloading = true
         self.error = nil
         self.progress = 0
-        self.hub = HubApi(downloadBase: FileManager.default.temporaryDirectory)
+        let currentEndpoint = Defaults[.huggingFaceEndpoint]
+        self.hub = HubApi(downloadBase: FileManager.default.temporaryDirectory, endpoint: currentEndpoint)
 
         Task { [self] in
             do {

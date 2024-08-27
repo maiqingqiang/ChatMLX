@@ -16,12 +16,12 @@ struct ModelItemView: View {
             HStack {
                 Text(model.name)
                 Spacer()
-                Button(action: {
-                    model.isDefault.toggle()
-                }) {
-                    Image(systemName: model.isDefault ? "star.fill" : "star")
-                }
-                .buttonStyle(.borderless)
+//                Button(action: {
+//                    model.isDefault.toggle()
+//                }) {
+//                    Image(systemName: model.isDefault ? "star.fill" : "star")
+//                }
+//                .buttonStyle(.borderless)
 
                 Button(action: {
 //                    deleteModel(model, from: group)

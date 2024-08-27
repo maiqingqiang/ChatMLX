@@ -13,4 +13,13 @@ extension Defaults.Keys {
     static let language = Key<Language>("language", default: .english)
     static let backgroundBlurRadius = Key<Double>("backgroundBlurRadius", default: 20)
     static let backgroundColor = Key<Color>("backgroundColor", default: .black.opacity(0.4))
+    static let huggingFaceEndpoint = Key<String>("huggingFaceEndpoint", default: "https://huggingface.co")
+    static let customHuggingFaceEndpoints = Key<[String]>("customHuggingFaceEndpoints", default: [])
+    static let huggingFaceToken = Key<String?>("huggingFaceToken", default: nil)
+
+    static let defaultTitle = Key<String>("defaultTitle", default: "Default Chat")
+    static let defaultTemperature = Key<Float>("defaultTemperature", default: 0.6)
+    static let defaultTopP = Key<Float>("defaultTopP", default: 1.0)
+    static let defaultMaxLength = Key<Int>("defaultMaxLength", default: 1000)
+    static let defaultRepetitionContextSize = Key<Int>("defaultRepetitionContextSize", default: 20)
 }

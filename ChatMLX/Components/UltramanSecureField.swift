@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct UltramanTextField: View {
+public struct UltramanSecureField: View {
     let elementMinHeight: CGFloat = 34
     let horizontalPadding: CGFloat = 8
 
@@ -42,7 +42,7 @@ public struct UltramanTextField: View {
                     .padding(alignment == .leading ? .leading : .trailing, 10)
             }
 
-            TextField(title, text: $text)
+            SecureField(title, text: $text)
                 .padding(.horizontal, horizontalPadding)
                 .frame(minHeight: elementMinHeight)
                 .multilineTextAlignment(
