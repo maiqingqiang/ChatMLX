@@ -14,9 +14,15 @@ struct GeneralView: View {
     @Default(.backgroundBlurRadius) var blurRadius
     @Default(.backgroundColor) var backgroundColor
     @Default(.language) var language
-    
+    @Default(.gpuCacheLimit) var gpuCacheLimit
+
+    @Environment(ConversationView.ViewModel.self) private
+    var conversationViewModel
+
+    @Environment(LLMRunner.self) var runner
     @Environment(\.modelContext) private var modelContext
 
+    let maxRAM = ProcessInfo.processInfo.physicalMemory / (1024 * 1024)
 
     var body: some View {
         VStack(spacing: 18) {
@@ -63,6 +69,30 @@ struct GeneralView: View {
             }
 
             LuminareSection("System Settings") {
+                HStack {
+                    Text("GPU Cache Limit")
+                    Spacer()
+                    CompactSlider(
+                        value: Binding(
+                            get: { Double(gpuCacheLimit) },
+                            set: { gpuCacheLimit = Int($0) }
+                        ), in: 0...Double(maxRAM), step: 128
+                    ) {
+                        Text("\(Int(gpuCacheLimit))MB")
+                            .foregroundStyle(.white)
+                    }
+                    .frame(width: 200)
+                    .compactSliderSecondaryColor(.white)
+                    .onChange(of: gpuCacheLimit) { oldValue, newValue in
+                        if oldValue != newValue {
+                            runner.loadState = .idle
+                        }
+                    }
+                }
+                .padding(5)
+
+                Button("Clear All Conversations", action: clearAllConversations)
+                    .frame(height: 35)
                 Button("Reset All Settings", action: resetAllSettings)
                     .frame(height: 35)
             }
@@ -79,6 +109,16 @@ struct GeneralView: View {
         Defaults.reset(.backgroundBlurRadius)
         Defaults.reset(.backgroundColor)
         Defaults.reset(.language)
+        Defaults.reset(.gpuCacheLimit)
+    }
+
+    private func clearAllConversations() {
+        do {
+            try modelContext.delete(model: Conversation.self)
+            conversationViewModel.selectedConversation = nil
+        } catch {
+            print("Error deleting all conversations: \(error)")
+        }
     }
 }
 

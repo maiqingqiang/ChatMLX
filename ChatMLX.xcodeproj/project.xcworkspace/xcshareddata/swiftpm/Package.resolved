@@ -1,5 +1,5 @@
 {
-  "originHash" : "1176ffac62f605f0d587fc4fe8d8516e7a449f96b98645c947af78729b7de0a3",
+  "originHash" : "2fa18e754c621c33bf7ba5cad177b45cef1d536eac81ef5c4cf3a464dd701243",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "f455c2975872ccd2d9c81594c658af65716e9b9a",
         "version" : "5.9.1"
+      }
+    },
+    {
+      "identity" : "alerttoast",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/elai950/AlertToast.git",
+      "state" : {
+        "revision" : "b39252eacd159904afd7d718bba0afabb87f2f2f",
+        "version" : "1.3.9"
       }
     },
     {
@@ -69,8 +78,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/ml-explore/mlx-swift",
       "state" : {
-        "revision" : "597aaa5f465b4b9a17c8646b751053f84e37925b",
-        "version" : "0.16.0"
+        "revision" : "86ad75ab1ee96cd70325732b37cd830f87d7e43f",
+        "version" : "0.16.1"
       }
     },
     {

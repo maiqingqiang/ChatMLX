@@ -13,7 +13,7 @@ struct SettingsView: View {
     @State private var activeTab: SettingsTab
     let tabs: [SettingsTab] = [
         .init("General", Image(systemName: "gearshape"), GeneralView()),
-        .init("Default Chat", Image(systemName: "person.bubble"), DefaultChatView()),
+        .init("Default Conversation", Image(systemName: "person.bubble"), DefaultConversationView()),
         .init("Hugging Face", Image("hf-logo-pirate"), HuggingFaceView()),
         .init("Models", Image(systemName: "brain"), ModelsView()),
         .init("MLX Community", Image("mlx-logo-2"), MLXCommunityView()),

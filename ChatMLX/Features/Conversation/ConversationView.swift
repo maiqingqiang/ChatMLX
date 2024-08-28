@@ -1,13 +1,12 @@
 //
-//  ChatView.swift
+//  ConversationView.swift
 //  ChatMLX
 //
 //  Created by John Mai on 2024/8/3.
 //
 import SwiftUI
 
-struct ChatView: View {
-    @State private var runner = LLMRunner()
+struct ConversationView: View {
     @Environment(ViewModel.self) private var viewModel
 
     var body: some View {
@@ -16,7 +15,7 @@ struct ChatView: View {
         UltramanNavigationSplitView(
             sidebarWidth: $viewModel.sidebarWidth,
             sidebar: {
-                ChatSidebarView(
+                ConversationSidebarView(
                     selectedConversation: $viewModel.selectedConversation)
             },
             detail: {
@@ -24,7 +23,6 @@ struct ChatView: View {
             }
         )
         .foregroundColor(.white)
-        .environment(runner)
         .ultramanMinimalistWindowStyle()
     }
 
@@ -32,19 +30,19 @@ struct ChatView: View {
     private func Detail() -> some View {
         Group {
             if let conversation = viewModel.selectedConversation {
-                ChatDetailView(
+                ConversationDetailView(
                     conversation: Binding(
                         get: { conversation },
                         set: { viewModel.selectedConversation = $0 }
                     ))
             } else {
-                EmptyChat()
+                EmptyConversation()
             }
         }
     }
 }
 
-extension ChatView {
+extension ConversationView {
     @Observable
     class ViewModel {
         var sidebarWidth: CGFloat = 250
@@ -54,5 +52,5 @@ extension ChatView {
 }
 
 #Preview {
-    ChatView()
+    ConversationView()
 }

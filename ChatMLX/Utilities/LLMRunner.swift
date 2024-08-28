@@ -4,6 +4,7 @@
 //
 //  Created by John Mai on 2024/8/24.
 //
+import Defaults
 import Metal
 import MLX
 import MLXLLM
@@ -37,7 +38,8 @@ class LLMRunner {
 
         switch loadState {
         case .idle:
-            MLX.GPU.set(cacheLimit: 20 * 1024 * 1024)
+            let cacheLimit = UserDefaults.standard.integer(forKey: Defaults.Keys.gpuCacheLimit.name) * 1024 * 1024
+            MLX.GPU.set(cacheLimit: cacheLimit)
 
             let modelContainer = try await MLXLLM.loadModelContainer(
                 configuration: modelConfiguration
@@ -46,7 +48,7 @@ class LLMRunner {
             withAnimation {
                 gpuActiveMemory = MLX.GPU.activeMemory / 1024 / 1024
             }
-            
+
             loadState = .loaded(modelContainer)
             return modelContainer
 
@@ -59,6 +61,8 @@ class LLMRunner {
         guard !running else { return }
         running = true
 
+        let message = conversation.startStreamingMessage(role: .assistant)
+
         do {
             if conversation.model != modelConfiguration?.name {
                 loadState = .idle
@@ -70,7 +74,7 @@ class LLMRunner {
                     throw LLMRunnerError.failedToLoadModel
                 }
 
-                let chatMessages = conversation.messages
+                let messages = conversation.messages
                     .sorted { $0.timestamp < $1.timestamp }
                     .map { message in
                         ["role": message.role.rawValue, "content": message.content]
@@ -78,12 +82,10 @@ class LLMRunner {
 
                 let messageTokens = try await modelContainer.perform {
                     _, tokenizer in
-                    try tokenizer.applyChatTemplate(messages: chatMessages)
+                    try tokenizer.applyChatTemplate(messages: messages)
                 }
-
+                
                 MLXRandom.seed(UInt64(Date.timeIntervalSinceReferenceDate * 1000))
-
-                let message = conversation.startStreamingMessage(role: .assistant)
 
                 let result = await modelContainer.perform {
                     model,
@@ -122,7 +124,8 @@ class LLMRunner {
                 conversation.tokensPerSecond = result.tokensPerSecond
             }
         } catch {
-            print("Failed: \(error)")
+            NSLog("LLM Generate Failed: \(error.localizedDescription)")
+            conversation.failedMessage(message, with: error)
         }
 
         running = false

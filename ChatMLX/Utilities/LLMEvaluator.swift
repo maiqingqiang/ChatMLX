@@ -100,17 +100,15 @@ class LLMEvaluator {
 
             let extraEOSTokens = modelConfiguration.extraEOSTokens
 
-            let chatMessages = conversation.messages
+            let messages = conversation.messages
                 .sorted { $0.timestamp < $1.timestamp }
                 .map { message in
                     ["role": message.role.rawValue, "content": message.content]
                 }
 
-            print("chatMessages \(chatMessages)")
-
             let messageTokens = try await modelContainer.perform {
                 _, tokenizer in
-                try tokenizer.applyChatTemplate(messages: chatMessages)
+                try tokenizer.applyChatTemplate(messages: messages)
             }
 
             // each time you generate you will get something new

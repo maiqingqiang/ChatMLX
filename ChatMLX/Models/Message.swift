@@ -18,6 +18,7 @@ class Message {
     var content: String
     var isComplete: Bool
     var timestamp: Date
+    var error: String?
 
     init(
         role: Role,

@@ -1,12 +1,12 @@
 //
-//  ChatSidebarItem.swift
+//  ConversationSidebarItem.swift
 //  ChatMLX
 //
 //  Created by John Mai on 2024/8/4.
 //
 import SwiftUI
 
-struct ChatSidebarItem: View {
+struct ConversationSidebarItem: View {
     let conversation: Conversation
     @Binding var selectedConversation: Conversation?
     @Environment(\.modelContext) private var modelContext

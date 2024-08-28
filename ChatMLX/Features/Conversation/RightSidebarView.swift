@@ -29,10 +29,11 @@ struct RightSidebarView: View {
                 HStack {
                     Text("Temperature")
                     Spacer()
-                    CompactSlider(value: $conversation.temperature, in: 0...2) {
+                    CompactSlider(value: $conversation.temperature, in: 0...2, step: 0.01) {
                         Text("\(conversation.temperature, specifier: "%.2f")")
                             .foregroundStyle(.white)
                     }
+                    .frame(width: 100)
                 }
                 .padding(padding)
 
@@ -45,6 +46,7 @@ struct RightSidebarView: View {
                         Text("\(conversation.topP, specifier: "%.2f")")
                             .foregroundStyle(.white)
                     }
+                    .frame(width: 100)
                 }
                 .padding(padding)
 
@@ -59,11 +61,12 @@ struct RightSidebarView: View {
                             set: {
                                 conversation.maxLength = Int($0)
                             }
-                        ), in: 0...8192
+                        ), in: 0...8192, step: 1
                     ) {
                         Text("\(Int(conversation.maxLength))")
                             .foregroundStyle(.white)
                     }
+                    .frame(width: 100)
                 }
                 .padding(padding)
             }

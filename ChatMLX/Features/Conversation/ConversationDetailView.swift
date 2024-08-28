@@ -1,35 +1,33 @@
+import AlertToast
 //
-//  DetailView.swift
+//  ConversationDetailView.swift
 //  ChatMLX
 //
 //  Created by John Mai on 2024/8/4.
 //
 import Defaults
-import Glur
 import Luminare
 import MLX
 import MLXLLM
 import SwiftData
 import SwiftUI
 
-struct ChatDetailView: View {
+struct ConversationDetailView: View {
     @Environment(LLMRunner.self) var runner
     @Binding var conversation: Conversation
     @State private var newMessage = ""
     @Environment(\.modelContext) private var modelContext
     @FocusState private var isInputFocused: Bool
-
-    @Environment(ChatView.ViewModel.self) private var viewModel
-
+    @Environment(ConversationView.ViewModel.self) private var viewModel
     @State private var showRightSidebar = false
-
     @State private var showInfoPopover = false
-
     @Namespace var bottomId
-
     @State private var localModels: [LocalModel] = []
-
     @State private var displayStyle: DisplayStyle = .markdown
+    @State private var isEditorFullScreen = false
+    @State private var showToast = false
+    @State private var toastMessage = ""
+    @State private var toastType: AlertToast.AlertType = .regular
 
     var sortedMessages: [Message] {
         conversation.messages.sorted { $0.timestamp < $1.timestamp }
@@ -38,8 +36,10 @@ struct ChatDetailView: View {
     var body: some View {
         ZStack(alignment: .trailing) {
             VStack(spacing: 0) {
-                MessageBox()
-                Divider()
+                if !isEditorFullScreen {
+                    MessageBox()
+                    Divider()
+                }
                 Editor()
             }
 
@@ -69,6 +69,9 @@ struct ChatDetailView: View {
                 Image(systemName: "slider.horizontal.3")
             }
             .buttonStyle(.plain)
+        }
+        .toast(isPresenting: $showToast) {
+            AlertToast(displayMode: .alert, type: toastType, title: toastMessage)
         }
     }
 
@@ -117,31 +120,39 @@ struct ChatDetailView: View {
                 }
             }
 
-            Button {
-                conversation.messages = []
-            } label: {
+            Button(action: conversation.clearMessages) {
                 Image("clear")
             }
+
+            Button {
+                withAnimation {
+                    isEditorFullScreen.toggle()
+                }
+            } label: {
+                Image(
+                    systemName: isEditorFullScreen
+                        ? "arrow.down.right.and.arrow.up.left"
+                        : "arrow.up.left.and.arrow.down.right")
+            }
+            .help(isEditorFullScreen ? "Exit Full Screen" : "Enter Full Screen")
 
             Spacer()
 
             Button {
                 showInfoPopover.toggle()
             } label: {
-                
-                    if runner.gpuActiveMemory > 0 {
-                        HStack {
-                            Image(systemName: "info.circle")
-                            Text("\(runner.gpuActiveMemory)M")
-                        }
-                        .padding(4)
-                        .background(Color.black.opacity(0.2))
-                        .cornerRadius(20)
-                    } else {
+                if runner.gpuActiveMemory > 0 {
+                    HStack {
                         Image(systemName: "info.circle")
-                            .padding(4)
+                        Text("\(runner.gpuActiveMemory)M")
                     }
-                
+                    .padding(4)
+                    .background(Color.black.opacity(0.2))
+                    .cornerRadius(20)
+                } else {
+                    Image(systemName: "info.circle")
+                        .padding(4)
+                }
             }
             .font(.subheadline)
             .popover(isPresented: $showInfoPopover) {
@@ -191,6 +202,7 @@ struct ChatDetailView: View {
                 selection: $conversation.model,
                 label: Image(systemName: "brain")
             ) {
+                Text("Not selected").tag("")
                 ForEach(localModels, id: \.id) { model in
                     Text(model.name)
                         .tag("\(model.group)/\(model.name)")
@@ -253,7 +265,7 @@ struct ChatDetailView: View {
                 }
                 .padding()
             }
-            .frame(maxHeight: 150)
+            .frame(maxHeight: isEditorFullScreen ? .infinity : 150)
         }
     }
 
@@ -261,6 +273,11 @@ struct ChatDetailView: View {
         let trimmedMessage = newMessage.trimmingCharacters(
             in: .whitespacesAndNewlines)
         guard !trimmedMessage.isEmpty else { return }
+
+        if conversation.model.isEmpty {
+            showToastMessage("请选择模型", type: .error(Color.red))
+            return
+        }
 
         conversation.addMessage(
             Message(
@@ -324,7 +341,7 @@ struct ChatDetailView: View {
                 localModels = models
             }
         } catch {
-            print("加载模型时出错: \(error)")
+            showToastMessage("加载模型时出错: \(error.localizedDescription)", type: .error(Color.red))
         }
     }
 
@@ -337,5 +354,11 @@ struct ChatDetailView: View {
         formatter.allowedUnits = [.hour, .minute]
         formatter.unitsStyle = .abbreviated
         return formatter.string(from: interval!) ?? ""
+    }
+
+    private func showToastMessage(_ message: String, type: AlertToast.AlertType) {
+        toastMessage = message
+        toastType = type
+        showToast = true
     }
 }

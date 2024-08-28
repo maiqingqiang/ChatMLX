@@ -33,7 +33,13 @@ struct MessageBubbleView: View {
 
     private var assistantMessageView: some View {
         HStack(alignment: .top, spacing: 12) {
-            ChatAvatarView(role: .assistant)
+            Image("AppLogo")
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 30, height: 30)
+                .background(.white)
+                .clipShape(RoundedRectangle(cornerRadius: 5))
+                .shadow(color: .black.opacity(0.25), radius: 5, x: -1, y: 5)
 
             VStack(alignment: .leading) {
                 if displayStyle == .markdown {
@@ -50,6 +56,19 @@ struct MessageBubbleView: View {
                 } else {
                     Text(message.content)
                 }
+
+                if let error = message.error,!error.isEmpty {
+                    HStack {
+                        Image(systemName: "exclamationmark.triangle")
+                            .foregroundStyle(.yellow)
+                        Text(error)
+                    }
+                    .padding(5)
+                    .background(.red.opacity(0.3))
+                    .foregroundColor(.white)
+                    .cornerRadius(5)
+                }
+
                 HStack {
                     Button(action: {
                         showCopiedAlert = true
@@ -112,12 +131,3 @@ struct MessageBubbleView: View {
         return formatter.string(from: date)
     }
 }
-
-// #Preview {
-//    VStack {
-//        MessageBubbleView(message: Message(role: .user, content: "Hi!"))
-//        MessageBubbleView(
-//            message: Message(
-//                role: .assistant, content: "Hello! How can I help you today?"))
-//    }
-// }

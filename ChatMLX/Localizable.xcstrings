@@ -49,6 +49,9 @@
     "%lldM" : {
 
     },
+    "%lldMB" : {
+
+    },
     "About" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -67,6 +70,7 @@
       }
     },
     "An Error Occurred" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -169,6 +173,9 @@
         }
       }
     },
+    "Clear All Conversations" : {
+
+    },
     "Color" : {
       "localizations" : {
         "zh-Hans" : {
@@ -238,6 +245,12 @@
         }
       }
     },
+    "Default Conversation" : {
+
+    },
+    "Default conversation title" : {
+
+    },
     "Delete" : {
       "localizations" : {
         "zh-Hans" : {
@@ -285,7 +298,13 @@
     "Endpoint" : {
 
     },
+    "Enter Full Screen" : {
+
+    },
     "Enter your Hugging Face token" : {
+
+    },
+    "Exit Full Screen" : {
 
     },
     "General" : {
@@ -313,6 +332,9 @@
     },
     "GitHub" : {
       "shouldTranslate" : false
+    },
+    "GPU Cache Limit" : {
+
     },
     "https://hf-mirror.com" : {
 
@@ -402,6 +424,9 @@
         }
       }
     },
+    "New Conversation" : {
+
+    },
     "New Task" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -423,6 +448,9 @@
           }
         }
       }
+    },
+    "No Conversation" : {
+
     },
     "Not selected" : {
 
@@ -448,6 +476,9 @@
           }
         }
       }
+    },
+    "Please select a new conversation" : {
+
     },
     "Preferences and model settings" : {
       "extractionState" : "manual",
@@ -490,6 +521,7 @@
       }
     },
     "Search Chat..." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -498,6 +530,9 @@
           }
         }
       }
+    },
+    "Search Conversation..." : {
+
     },
     "Send" : {
       "extractionState" : "manual",
@@ -573,6 +608,9 @@
         }
       }
     },
+    "Title" : {
+
+    },
     "Token" : {
 
     },
@@ -591,6 +629,7 @@
 
     },
     "Try Again" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -673,12 +712,6 @@
 
     },
     "确定" : {
-
-    },
-    "默认对话标题" : {
-
-    },
-    "默认模型设置" : {
 
     }
   },

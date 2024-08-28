@@ -9,23 +9,14 @@ import SwiftUI
 
 struct ModelItemView: View {
     @Binding var model: LocalModel
-    @State private var vibrateOnSilent: Bool = true
-
+    var onDelete: () -> Void
+    
     var body: some View {
         VStack {
             HStack {
                 Text(model.name)
                 Spacer()
-//                Button(action: {
-//                    model.isDefault.toggle()
-//                }) {
-//                    Image(systemName: model.isDefault ? "star.fill" : "star")
-//                }
-//                .buttonStyle(.borderless)
-
-                Button(action: {
-//                    deleteModel(model, from: group)
-                }) {
+                Button(action: onDelete) {
                     Image(systemName: "trash")
                 }
                 .buttonStyle(.borderless)

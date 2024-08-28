@@ -1,5 +1,5 @@
 //
-//  ChatSidebarView.swift
+//  ConversationSidebarView.swift
 //  ChatMLX
 //
 //  Created by John Mai on 2024/8/3.
@@ -9,7 +9,7 @@ import Luminare
 import SwiftData
 import SwiftUI
 
-struct ChatSidebarView: View {
+struct ConversationSidebarView: View {
     @Query private var conversations: [Conversation]
     @Binding var selectedConversation: Conversation?
     @Environment(\.modelContext) private var modelContext
@@ -42,7 +42,7 @@ struct ChatSidebarView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    createNewConversation()
+                    createConversation()
                 }) {
                     Image(systemName: "plus")
                 }
@@ -85,14 +85,16 @@ struct ChatSidebarView: View {
             }
 
             LuminareSection {
-                UltramanTextField($keyword, placeholder: Text("Search Chat..."))
-                    .frame(height: 25)
+                UltramanTextField(
+                    $keyword, placeholder: Text("Search Conversation...")
+                )
+                .frame(height: 25)
             }.padding(.horizontal, 6)
 
             ScrollView {
                 LazyVStack(spacing: 0) {
                     ForEach(filteredConversations) { conversation in
-                        ChatSidebarItem(
+                        ConversationSidebarItem(
                             conversation: conversation,
                             selectedConversation: $selectedConversation
                         )
@@ -104,16 +106,18 @@ struct ChatSidebarView: View {
         .background(.black.opacity(0.4))
     }
 
-    private func createNewConversation() {
-        let newConversation = Conversation()
-        modelContext.insert(newConversation)
-        selectedConversation = newConversation
+    private func createConversation() {
+        let conversation = Conversation()
+        modelContext.insert(conversation)
+        selectedConversation = conversation
     }
 
     private func clearAllConversations() {
-        for conversation in conversations {
-            modelContext.delete(conversation)
+        do {
+            try modelContext.delete(model: Conversation.self)
+            selectedConversation = nil
+        } catch {
+            print("Error deleting all conversations: \(error)")
         }
-        selectedConversation = nil
     }
 }

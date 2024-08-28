@@ -16,6 +16,8 @@
 		527489AB2C720F6E00CC09D6 /* MarkdownUI in Frameworks */ = {isa = PBXBuildFile; productRef = 527489AA2C720F6E00CC09D6 /* MarkdownUI */; };
 		527489B82C72304100CC09D6 /* Splash in Frameworks */ = {isa = PBXBuildFile; productRef = 527489B72C72304100CC09D6 /* Splash */; };
 		52748A442C737AFB00CC09D6 /* CompactSlider in Frameworks */ = {isa = PBXBuildFile; productRef = 52748A432C737AFB00CC09D6 /* CompactSlider */; };
+		5285DC8D2C7F62A7002E1139 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 5285DC8C2C7F62A7002E1139 /* AlertToast */; };
+		5285DC942C7F73E5002E1139 /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 5285DC932C7F73E5002E1139 /* LLM */; };
 		52A0D2742C5E8B9F00835FD6 /* Luminare in Frameworks */ = {isa = PBXBuildFile; productRef = 52A0D2732C5E8B9F00835FD6 /* Luminare */; };
 		52A0D27F2C5F58B700835FD6 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 52A0D27E2C5F58B700835FD6 /* SwiftUIIntrospect */; };
 /* End PBXBuildFile section */
@@ -63,8 +65,10 @@
 				520B76682C6B9C3D00DFC01B /* Logging in Frameworks */,
 				520B77DC2C6F16B400DFC01B /* LLM in Frameworks */,
 				52A0D27F2C5F58B700835FD6 /* SwiftUIIntrospect in Frameworks */,
+				5285DC8D2C7F62A7002E1139 /* AlertToast in Frameworks */,
 				520B76E02C6CE9C900DFC01B /* Defaults in Frameworks */,
 				52748A442C737AFB00CC09D6 /* CompactSlider in Frameworks */,
+				5285DC942C7F73E5002E1139 /* LLM in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,6 +148,8 @@
 				527489B72C72304100CC09D6 /* Splash */,
 				52748A432C737AFB00CC09D6 /* CompactSlider */,
 				524738AA2C7B0E0C00F762D3 /* Glur */,
+				5285DC8C2C7F62A7002E1139 /* AlertToast */,
+				5285DC932C7F73E5002E1139 /* LLM */,
 			);
 			productName = ChatMLX;
 			productReference = 52A0D2242C5E6A6700835FD6 /* ChatMLX.app */;
@@ -237,11 +243,12 @@
 				520B75F62C6A622400DFC01B /* XCRemoteSwiftPackageReference "Alamofire" */,
 				520B76652C6B9C2300DFC01B /* XCRemoteSwiftPackageReference "swift-log" */,
 				520B76DE2C6CE9C900DFC01B /* XCRemoteSwiftPackageReference "Defaults" */,
-				520B77DA2C6F16B400DFC01B /* XCLocalSwiftPackageReference "mlx-swift-examples" */,
 				527489A92C720F6E00CC09D6 /* XCRemoteSwiftPackageReference "swift-markdown-ui" */,
 				527489AC2C7229A700CC09D6 /* XCRemoteSwiftPackageReference "splash" */,
 				52748A422C737AFB00CC09D6 /* XCRemoteSwiftPackageReference "CompactSlider" */,
 				524738A92C7B0E0C00F762D3 /* XCRemoteSwiftPackageReference "Glur" */,
+				5285DC8B2C7F62A7002E1139 /* XCRemoteSwiftPackageReference "AlertToast" */,
+				5285DC922C7F73E5002E1139 /* XCLocalSwiftPackageReference "mlx-swift-examples" */,
 			);
 			productRefGroup = 52A0D2252C5E6A6700835FD6 /* Products */;
 			projectDirPath = "";
@@ -450,6 +457,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ChatMLX;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -478,6 +487,8 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = ChatMLX;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -602,7 +613,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		520B77DA2C6F16B400DFC01B /* XCLocalSwiftPackageReference "mlx-swift-examples" */ = {
+		5285DC922C7F73E5002E1139 /* XCLocalSwiftPackageReference "mlx-swift-examples" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = "mlx-swift-examples";
 		};
@@ -663,6 +674,14 @@
 			requirement = {
 				kind = upToNextMajorVersion;
 				minimumVersion = 1.1.6;
+			};
+		};
+		5285DC8B2C7F62A7002E1139 /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
 			};
 		};
 		52A0D2722C5E8B9F00835FD6 /* XCRemoteSwiftPackageReference "Luminare" */ = {
@@ -726,6 +745,15 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 52748A422C737AFB00CC09D6 /* XCRemoteSwiftPackageReference "CompactSlider" */;
 			productName = CompactSlider;
+		};
+		5285DC8C2C7F62A7002E1139 /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5285DC8B2C7F62A7002E1139 /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
+		5285DC932C7F73E5002E1139 /* LLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LLM;
 		};
 		52A0D2732C5E8B9F00835FD6 /* Luminare */ = {
 			isa = XCSwiftPackageProductDependency;

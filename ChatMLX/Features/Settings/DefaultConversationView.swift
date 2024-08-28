@@ -10,7 +10,7 @@ import Defaults
 import Luminare
 import SwiftUI
 
-struct DefaultChatView: View {
+struct DefaultConversationView: View {
     @Default(.defaultTitle) var defaultTitle
     @Default(.defaultModel) var defaultModel
     @Default(.defaultTemperature) var defaultTemperature
@@ -24,12 +24,15 @@ struct DefaultChatView: View {
 
     var body: some View {
         VStack {
-            LuminareSection("默认对话标题") {
-                UltramanTextField($defaultTitle, placeholder: Text("默认对话标题"))
-                    .frame(height: 25)
+            LuminareSection("Title") {
+                UltramanTextField(
+                    $defaultTitle,
+                    placeholder: Text("Default conversation title")
+                )
+                .frame(height: 25)
             }
 
-            LuminareSection("默认模型设置") {
+            LuminareSection("Model Settings") {
                 HStack {
                     Text("Model")
                     Spacer()
@@ -39,7 +42,7 @@ struct DefaultChatView: View {
                     ) {
                         Text("Not selected").tag("")
                         ForEach(localModels, id: \.id) { model in
-                            Text(model.name).tag("\(model.origin)")
+                            Text(model.name).tag(model.origin)
                         }
                     }
                     .labelsHidden()
@@ -52,10 +55,13 @@ struct DefaultChatView: View {
                 HStack {
                     Text("Temperature")
                     Spacer()
-                    CompactSlider(value: $defaultTemperature, in: 0...2) {
+                    CompactSlider(
+                        value: $defaultTemperature, in: 0...2, step: 0.01
+                    ) {
                         Text("\(defaultTemperature, specifier: "%.2f")")
                             .foregroundStyle(.white)
                     }
+                    .frame(width: 200)
                 }
                 .padding(padding)
 
@@ -66,32 +72,40 @@ struct DefaultChatView: View {
                         Text("\(defaultTopP, specifier: "%.2f")")
                             .foregroundStyle(.white)
                     }
+                    .frame(width: 200)
                 }
                 .padding(padding)
 
                 HStack {
                     Text("Max Length")
                     Spacer()
-                    CompactSlider(value: Binding(
-                        get: { Double(defaultMaxLength) },
-                        set: { defaultMaxLength = Int($0) }
-                    ), in: 0...8192) {
+                    CompactSlider(
+                        value: Binding(
+                            get: { Double(defaultMaxLength) },
+                            set: { defaultMaxLength = Int($0) }
+                        ), in: 0...8192, step: 1
+                    ) {
                         Text("\(defaultMaxLength)")
                             .foregroundStyle(.white)
                     }
+                    .frame(width: 200)
+
                 }
                 .padding(padding)
 
                 HStack {
                     Text("Repetition Context Size")
                     Spacer()
-                    CompactSlider(value: Binding(
-                        get: { Double(defaultRepetitionContextSize) },
-                        set: { defaultRepetitionContextSize = Int($0) }
-                    ), in: 1...100) {
+                    CompactSlider(
+                        value: Binding(
+                            get: { Double(defaultRepetitionContextSize) },
+                            set: { defaultRepetitionContextSize = Int($0) }
+                        ), in: 1...100, step: 1
+                    ) {
                         Text("\(defaultRepetitionContextSize)")
                             .foregroundStyle(.white)
                     }
+                    .frame(width: 200)
                 }
                 .padding(padding)
             }
@@ -101,7 +115,7 @@ struct DefaultChatView: View {
         }
         .padding()
         .onAppear(perform: loadModels)
-        .ultramanNavigationTitle("Default Chat")
+        .ultramanNavigationTitle("Default Conversation")
     }
 
     private func loadModels() {

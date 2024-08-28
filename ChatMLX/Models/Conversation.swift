@@ -10,7 +10,7 @@ import SwiftData
 
 @Model
 class Conversation {
-    var title: String = "Default Chat"
+    var title: String = "Default Conversation"
     var model: String = ""
     var createdAt: Date = Date()
     var updatedAt: Date = Date()
@@ -20,7 +20,7 @@ class Conversation {
     var topP: Float = 1
     var maxLength: Int = 1000
     var repetitionContextSize: Int = 20
-    
+
     var promptTime: TimeInterval?
     var generateTime: TimeInterval?
     var promptTokensPerSecond: Double?
@@ -48,6 +48,17 @@ class Conversation {
 
     func completeStreamingMessage(_ message: Message) {
         message.isComplete = true
+        updatedAt = Date()
+    }
+
+    func failedMessage(_ message: Message, with error: Error) {
+        message.isComplete = true
+        message.error = error.localizedDescription
+        updatedAt = Date()
+    }
+
+    func clearMessages() {
+        messages.removeAll()
         updatedAt = Date()
     }
 }
