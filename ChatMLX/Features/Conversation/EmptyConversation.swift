@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EmptyConversation: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(ConversationView.ViewModel.self) private var viewModel
+    @Environment(ConversationView.ViewModel.self) private var conversationViewModel
 
     var body: some View {
         ContentUnavailableView {
@@ -37,6 +37,6 @@ struct EmptyConversation: View {
     private func createConversation() {
         let conversation = Conversation()
         modelContext.insert(conversation)
-        viewModel.selectedConversation = conversation
+        conversationViewModel.selectedConversation = conversation
     }
 }

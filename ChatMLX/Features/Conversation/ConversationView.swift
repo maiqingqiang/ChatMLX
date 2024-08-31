@@ -7,15 +7,15 @@
 import SwiftUI
 
 struct ConversationView: View {
-    @Environment(ViewModel.self) private var viewModel
+    @Environment(ViewModel.self) private var conversationViewModel
 
     var body: some View {
-        @Bindable var viewModel = viewModel
+        @Bindable var conversationViewModel = conversationViewModel
 
         UltramanNavigationSplitView(
             sidebar: {
                 ConversationSidebarView(
-                    selectedConversation: $viewModel.selectedConversation)
+                    selectedConversation: $conversationViewModel.selectedConversation)
             },
             detail: {
                 Detail()
@@ -28,11 +28,11 @@ struct ConversationView: View {
     @ViewBuilder
     private func Detail() -> some View {
         Group {
-            if let conversation = viewModel.selectedConversation {
+            if let conversation = conversationViewModel.selectedConversation {
                 ConversationDetailView(
                     conversation: Binding(
                         get: { conversation },
-                        set: { viewModel.selectedConversation = $0 }
+                        set: { conversationViewModel.selectedConversation = $0 }
                     ))
             } else {
                 EmptyConversation()

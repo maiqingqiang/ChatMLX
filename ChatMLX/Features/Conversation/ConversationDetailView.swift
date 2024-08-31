@@ -18,7 +18,7 @@ struct ConversationDetailView: View {
     @State private var newMessage = ""
     @Environment(\.modelContext) private var modelContext
     @FocusState private var isInputFocused: Bool
-    @Environment(ConversationView.ViewModel.self) private var viewModel
+    @Environment(ConversationView.ViewModel.self) private var conversationViewModel
     @State private var showRightSidebar = false
     @State private var showInfoPopover = false
     @Namespace var bottomId
