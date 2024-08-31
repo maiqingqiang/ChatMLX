@@ -26,6 +26,9 @@ class Conversation {
     var promptTokensPerSecond: Double?
     var tokensPerSecond: Double?
 
+    var maxMessagesLimit: Int = 10
+    var useMaxMessagesLimit: Bool = false
+
     init() {
         model = Defaults[.defaultModel]
     }

@@ -5,10 +5,10 @@
 //  Created by John Mai on 2024/8/24.
 //
 import Defaults
-import Metal
 import MLX
 import MLXLLM
 import MLXRandom
+import Metal
 import SwiftUI
 import Tokenizers
 
@@ -38,7 +38,9 @@ class LLMRunner {
 
         switch loadState {
         case .idle:
-            let cacheLimit = UserDefaults.standard.integer(forKey: Defaults.Keys.gpuCacheLimit.name) * 1024 * 1024
+            let cacheLimit =
+                UserDefaults.standard.integer(
+                    forKey: Defaults.Keys.gpuCacheLimit.name) * 1024 * 1024
             MLX.GPU.set(cacheLimit: cacheLimit)
 
             let modelContainer = try await MLXLLM.loadModelContainer(
@@ -66,7 +68,8 @@ class LLMRunner {
         do {
             if conversation.model != modelConfiguration?.name {
                 loadState = .idle
-                modelConfiguration = ModelConfiguration.configuration(id: conversation.model)
+                modelConfiguration = ModelConfiguration.configuration(
+                    id: conversation.model)
             }
 
             if let modelConfiguration {
@@ -74,29 +77,42 @@ class LLMRunner {
                     throw LLMRunnerError.failedToLoadModel
                 }
 
-                let messages = conversation.messages
-                    .sorted { $0.timestamp < $1.timestamp }
-                    .map { message in
-                        ["role": message.role.rawValue, "content": message.content]
+                var messages = conversation.messages.sorted {
+                    $0.timestamp < $1.timestamp
+                }
+                if conversation.useMaxMessagesLimit {
+                    let maxCount = conversation.maxMessagesLimit + 1
+                    if messages.count > maxCount {
+                        messages = Array(messages.suffix(maxCount))
+                        if messages.first?.role != .user {
+                            messages = Array(messages.dropFirst())
+                        }
                     }
+                }
+
+                let messagesDicts = messages.map {
+                    message -> [String: String] in
+                    ["role": message.role.rawValue, "content": message.content]
+                }
 
                 let messageTokens = try await modelContainer.perform {
                     _, tokenizer in
-                    try tokenizer.applyChatTemplate(messages: messages)
+                    try tokenizer.applyChatTemplate(messages: messagesDicts)
                 }
-                
-                MLXRandom.seed(UInt64(Date.timeIntervalSinceReferenceDate * 1000))
+
+                MLXRandom.seed(
+                    UInt64(Date.timeIntervalSinceReferenceDate * 1000))
 
                 let result = await modelContainer.perform {
                     model,
-                        tokenizer in
+                    tokenizer in
                     MLXLLM.generate(
                         promptTokens: messageTokens,
                         parameters: GenerateParameters(
                             temperature: conversation.temperature,
                             topP: conversation.topP,
-                            repetitionContextSize: conversation.repetitionContextSize
-                        ),
+                            repetitionContextSize: conversation
+                                .repetitionContextSize),
                         model: model,
                         tokenizer: tokenizer,
                         extraEOSTokens: modelConfiguration.extraEOSTokens
@@ -108,7 +124,8 @@ class LLMRunner {
                             }
                         }
 
-                        return tokens.count >= conversation.maxLength ? .stop : .more
+                        return tokens.count >= conversation.maxLength
+                            ? .stop : .more
                     }
                 }
 
@@ -120,7 +137,8 @@ class LLMRunner {
                     message)
                 conversation.promptTime = result.promptTime
                 conversation.generateTime = result.generateTime
-                conversation.promptTokensPerSecond = result.promptTokensPerSecond
+                conversation.promptTokensPerSecond =
+                    result.promptTokensPerSecond
                 conversation.tokensPerSecond = result.tokensPerSecond
             }
         } catch {

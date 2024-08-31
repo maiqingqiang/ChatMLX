@@ -17,6 +17,8 @@ struct DefaultConversationView: View {
     @Default(.defaultTopP) var defaultTopP
     @Default(.defaultMaxLength) var defaultMaxLength
     @Default(.defaultRepetitionContextSize) var defaultRepetitionContextSize
+    @Default(.defaultMaxMessagesCount) var defaultMaxMessagesLimit
+    @Default(.defaultUseMaxMessagesCount) var defaultUseMaxMessagesLimit
 
     @State private var localModels: [LocalModel] = []
 
@@ -91,7 +93,6 @@ struct DefaultConversationView: View {
                             .foregroundStyle(.white)
                     }
                     .frame(width: 200)
-
                 }
                 .padding(padding)
 
@@ -110,6 +111,35 @@ struct DefaultConversationView: View {
                     .frame(width: 200)
                 }
                 .padding(padding)
+            }
+            .compactSliderSecondaryColor(.white)
+
+            LuminareSection("Message Control") {
+                HStack {
+                    Text("Use Max Messages Limit")
+                    Spacer()
+                    Toggle("", isOn: $defaultUseMaxMessagesLimit)
+                        .toggleStyle(.switch)
+                }
+                .padding(padding)
+
+                if defaultUseMaxMessagesLimit {
+                    HStack {
+                        Text("Max Messages Limit")
+                        Spacer()
+                        CompactSlider(
+                            value: Binding(
+                                get: { Double(defaultMaxMessagesLimit) },
+                                set: { defaultMaxMessagesLimit = Int($0) }
+                            ), in: 1...50, step: 1
+                        ) {
+                            Text("\(defaultMaxMessagesLimit)")
+                                .foregroundStyle(.white)
+                        }
+                        .frame(width: 200)
+                    }
+                    .padding(padding)
+                }
             }
             .compactSliderSecondaryColor(.white)
 

@@ -380,6 +380,12 @@
         }
       }
     },
+    "Max Messages Limit" : {
+
+    },
+    "Message Control" : {
+
+    },
     "MLX Community" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -682,6 +688,9 @@
       }
     },
     "Use Custom Endpoint" : {
+
+    },
+    "Use Max Messages Limit" : {
 
     },
     "Version %@" : {

@@ -17,19 +17,25 @@ struct RightSidebarView: View {
     var body: some View {
         VStack {
             LuminareSection("Conversation Title") {
-                UltramanTextField(Binding(get: {
-                    conversation.title
-                }, set: { title in
-                    conversation.title = title
-                }), placeholder: Text("Conversation Title"))
-                    .frame(height: 25)
+                UltramanTextField(
+                    Binding(
+                        get: {
+                            conversation.title
+                        },
+                        set: { title in
+                            conversation.title = title
+                        }), placeholder: Text("Conversation Title")
+                )
+                .frame(height: 25)
             }
 
             LuminareSection("Model Settings") {
                 HStack {
                     Text("Temperature")
                     Spacer()
-                    CompactSlider(value: $conversation.temperature, in: 0...2, step: 0.01) {
+                    CompactSlider(
+                        value: $conversation.temperature, in: 0...2, step: 0.01
+                    ) {
                         Text("\(conversation.temperature, specifier: "%.2f")")
                             .foregroundStyle(.white)
                     }
@@ -69,6 +75,37 @@ struct RightSidebarView: View {
                     .frame(width: 100)
                 }
                 .padding(padding)
+            }
+            .compactSliderSecondaryColor(.white)
+
+            LuminareSection("Message Control") {
+                HStack {
+                    Text("Use Max Messages Limit")
+                    Spacer()
+                    Toggle("", isOn: $conversation.useMaxMessagesLimit)
+                        .labelsHidden()
+                        .toggleStyle(.switch)
+                }
+                .padding(padding)
+
+                if conversation.useMaxMessagesLimit {
+                    HStack {
+                        Text("Max Messages Limit")
+                        Spacer()
+                        CompactSlider(
+                            value: Binding(
+                                get: { Double(conversation.maxMessagesLimit) },
+                                set: { conversation.maxMessagesLimit = Int($0) }
+                            ), in: 1...50, step: 1
+                        ) {
+                            Text("\(conversation.maxMessagesLimit)")
+                                .foregroundStyle(.white)
+                        }
+                        .frame(width: 100)
+                    }
+                    .padding(padding)
+                }
+
             }
             .compactSliderSecondaryColor(.white)
 
