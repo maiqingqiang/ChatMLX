@@ -34,8 +34,7 @@ struct DefaultConversationView: View {
         ScrollView {
             VStack {
                 LuminareSection("Title") {
-                    UltramanTextField(
-                        $defaultTitle,
+                    UltramanTextField($defaultTitle,
                         placeholder: Text("Default conversation title")
                     )
                     .frame(height: 25)

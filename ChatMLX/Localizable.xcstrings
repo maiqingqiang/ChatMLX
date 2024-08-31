@@ -5,7 +5,7 @@
       "shouldTranslate" : false
     },
     "%.2f" : {
-
+      "shouldTranslate" : false
     },
     "%lld" : {
       "localizations" : {
@@ -47,10 +47,10 @@
       "shouldTranslate" : false
     },
     "%lldM" : {
-
+      "shouldTranslate" : false
     },
     "%lldMB" : {
-
+      "shouldTranslate" : false
     },
     "About" : {
       "extractionState" : "manual",
@@ -70,7 +70,14 @@
       }
     },
     "Are you sure you want to delete '%@'?" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您确定要删除'%@'吗？"
+          }
+        }
+      }
     },
     "Blur" : {
       "localizations" : {
@@ -160,7 +167,14 @@
       }
     },
     "Clear All Conversations" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除所有对话"
+          }
+        }
+      }
     },
     "Color" : {
       "localizations" : {
@@ -173,42 +187,74 @@
       }
     },
     "Confirm Deletion" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "确认删除"
+          }
+        }
+      }
     },
     "Conversation Title" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "对话标题"
+          }
+        }
+      }
     },
     "Copy" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制"
+          }
+        }
+      }
     },
     "Custom Endpoint" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义节点"
+          }
+        }
+      }
     },
     "Custom Hugging Face Endpoint" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义 Hugging Face 节点"
+          }
+        }
+      }
     },
-    "Default Chat" : {
-      "extractionState" : "manual",
+    "Default Conversation" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "默认对话"
           }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "默認對話"
-          }
         }
       }
     },
-    "Default Conversation" : {
-
-    },
     "Default conversation title" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "默认对话标题"
+          }
+        }
+      }
     },
     "Delete" : {
       "localizations" : {
@@ -255,16 +301,44 @@
       }
     },
     "Endpoint" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "节点"
+          }
+        }
+      }
     },
     "Enter Full Screen" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "进入全屏模式"
+          }
+        }
+      }
     },
     "Enter your Hugging Face token" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入您的 Hugging Face 令牌"
+          }
+        }
+      }
     },
     "Exit Full Screen" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出全屏"
+          }
+        }
+      }
     },
     "General" : {
       "extractionState" : "manual",
@@ -284,35 +358,77 @@
       }
     },
     "Generate Time" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成时间"
+          }
+        }
+      }
     },
     "Generate Tokens/second" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成令牌/秒"
+          }
+        }
+      }
     },
     "GitHub" : {
       "shouldTranslate" : false
     },
     "GPU Cache Limit" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GPU缓存限制"
+          }
+        }
+      }
     },
     "https://hf-mirror.com" : {
-
+      "shouldTranslate" : false
     },
     "https://huggingface.co" : {
-
+      "shouldTranslate" : false
     },
     "Hugging Face" : {
       "shouldTranslate" : false
     },
     "Hugging Face Endpoint" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hugging Face 节点"
+          }
+        }
+      }
     },
     "Hugging Face Repo Id" : {
       "extractionState" : "manual",
-      "shouldTranslate" : false
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hugging Face 仓库 ID"
+          }
+        }
+      }
     },
     "Hugging Face Token" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hugging Face 令牌"
+          }
+        }
+      }
     },
     "Language" : {
       "localizations" : {
@@ -325,13 +441,34 @@
       }
     },
     "Max Length" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最大长度"
+          }
+        }
+      }
     },
     "Max Messages Limit" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最大消息限制"
+          }
+        }
+      }
     },
     "Message Control" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "消息控制"
+          }
+        }
+      }
     },
     "MLX Community" : {
       "extractionState" : "manual",
@@ -345,16 +482,37 @@
       }
     },
     "mlx-community/OpenELM-3B" : {
-
+      "shouldTranslate" : false
     },
     "Model" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型"
+          }
+        }
+      }
     },
     "Model Settings" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型设置"
+          }
+        }
+      }
     },
     "Model State" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型状态"
+          }
+        }
+      }
     },
     "Models" : {
       "extractionState" : "manual",
@@ -379,7 +537,14 @@
       }
     },
     "New Conversation" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新建对话"
+          }
+        }
+      }
     },
     "New Task" : {
       "extractionState" : "manual",
@@ -404,10 +569,24 @@
       }
     },
     "No Conversation" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无对话"
+          }
+        }
+      }
     },
     "Not selected" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "无选择"
+          }
+        }
+      }
     },
     "Please enter Hugging Face Repo ID" : {
       "extractionState" : "manual",
@@ -432,7 +611,14 @@
       }
     },
     "Please select a new conversation" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "请选择一个新的对话"
+          }
+        }
+      }
     },
     "Preferences and model settings" : {
       "extractionState" : "manual",
@@ -446,19 +632,54 @@
       }
     },
     "Prompt Time" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提示词处理时间"
+          }
+        }
+      }
     },
     "Prompt Tokens/second" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提示词处理令牌/秒"
+          }
+        }
+      }
     },
     "Regenerate" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新生成"
+          }
+        }
+      }
     },
     "Repetition Context Size" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重复上下文大小"
+          }
+        }
+      }
     },
     "Repetition Penalty" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重复惩罚"
+          }
+        }
+      }
     },
     "Reset All Settings" : {
       "localizations" : {
@@ -471,10 +692,24 @@
       }
     },
     "Search Conversation..." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索对话..."
+          }
+        }
+      }
     },
     "Search..." : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索..."
+          }
+        }
+      }
     },
     "Send" : {
       "extractionState" : "manual",
@@ -511,7 +746,14 @@
       }
     },
     "System Prompt" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系统提示词"
+          }
+        }
+      }
     },
     "System Settings" : {
       "localizations" : {
@@ -524,16 +766,44 @@
       }
     },
     "Temperature" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "温度"
+          }
+        }
+      }
     },
     "Title" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "标题"
+          }
+        }
+      }
     },
     "Token" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "令牌"
+          }
+        }
+      }
     },
     "Top P" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "核采样"
+          }
+        }
+      }
     },
     "Type your message…" : {
       "extractionState" : "manual",
@@ -570,19 +840,54 @@
       }
     },
     "Use Custom Endpoint" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用自定义节点"
+          }
+        }
+      }
     },
     "Use Max Length" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用最大长度"
+          }
+        }
+      }
     },
     "Use Max Messages Limit" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用最大消息限制"
+          }
+        }
+      }
     },
     "Use Repetition Penalty" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用重复惩罚"
+          }
+        }
+      }
     },
     "Use System Prompt" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用系统提示词"
+          }
+        }
+      }
     },
     "Version %@" : {
       "localizations" : {
@@ -601,7 +906,14 @@
       }
     },
     "Warning" : {
-
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "警告"
+          }
+        }
+      }
     },
     "Window Appearance" : {
       "localizations" : {
