@@ -5,14 +5,23 @@
 //  Created by John Mai on 2024/8/4.
 //
 
+import AlertToast // 添加这个导入
 import MarkdownUI
 import SwiftUI
 
 struct MessageBubbleView: View {
     let message: Message
     @Binding var displayStyle: DisplayStyle
-    @State private var showCopiedAlert = false
+    @State private var showToast = false // 改用 showToast
     var onDelete: () -> Void
+
+    // 添加这个新的方法
+    private func copyText() {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(message.content, forType: .string)
+        showToast = true // 触发 Toast 显示
+    }
 
     var body: some View {
         HStack {
@@ -24,11 +33,8 @@ struct MessageBubbleView: View {
             }
         }
         .padding(.vertical, 8)
-        .alert(isPresented: $showCopiedAlert) {
-            Alert(
-                title: Text("已复制"), message: nil,
-                dismissButton: .default(Text("确定"))
-            )
+        .toast(isPresenting: $showToast, duration: 1.5, offsetY: 30) {
+            AlertToast(displayMode: .hud, type: .complete(.green), title: "Copied")
         }
     }
 
@@ -71,10 +77,9 @@ struct MessageBubbleView: View {
                 }
 
                 HStack {
-                    Button(action: {
-                        showCopiedAlert = true
-                    }) {
+                    Button(action: copyText) { // 改这里
                         Image(systemName: "doc.on.doc")
+                            .help("复制")
                     }
 
                     Button(action: {}) {
@@ -113,10 +118,9 @@ struct MessageBubbleView: View {
                 Text(formatDate(message.timestamp))
                     .font(.caption)
 
-                Button(action: {
-                    showCopiedAlert = true
-                }) {
+                Button(action: copyText) { // 改这里
                     Image(systemName: "doc.on.doc")
+                        .help("复制")
                 }
 
                 Button(action: onDelete) {

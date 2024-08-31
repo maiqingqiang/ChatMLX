@@ -59,9 +59,9 @@ struct ConversationDetailView: View {
             }
         }
         .onAppear(perform: loadModels)
-        .toast(isPresenting: $showToast) {
+        .toast(isPresenting: $showToast, duration: 1.5, offsetY: 30) {
             AlertToast(
-                displayMode: .alert, type: toastType, title: toastMessage
+                displayMode: .hud, type: toastType, title: toastMessage
             )
         }
         .ultramanNavigationTitle(
@@ -286,7 +286,7 @@ struct ConversationDetailView: View {
         guard !trimmedMessage.isEmpty else { return }
 
         if conversation.model.isEmpty {
-            showToastMessage("请选择模型", type: .error(Color.red))
+            showToastMessage("Please select a model", type: .error(Color.red))
             return
         }
 
