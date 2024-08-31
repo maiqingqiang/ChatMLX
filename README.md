@@ -10,7 +10,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/maiqingqiang/ChatMLX">
-    <img src="ChatMLX/Resources/Assets.xcassets/AppIcon.appiconset/1024.png" alt="Logo" width="80" height="80">
+    <img src="ChatMLX/Assets.xcassets/AppIcon.appiconset/1024.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">ChatMLX</h3>
