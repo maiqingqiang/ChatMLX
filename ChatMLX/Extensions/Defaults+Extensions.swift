@@ -8,7 +8,6 @@ import Defaults
 import SwiftUI
 
 extension Defaults.Keys {
-    static let enabledModels = Key<Set<String>>("enabledModels", default: [])
     static let defaultModel = Key<String>("defaultModel", default: "")
     static let language = Key<Language>("language", default: .english)
     static let backgroundBlurRadius = Key<Double>("backgroundBlurRadius", default: 35)

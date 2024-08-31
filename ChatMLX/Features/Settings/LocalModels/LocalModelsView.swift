@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LocalModelsView: View {
     @State private var modelGroups: [LocalModelGroup] = []
+    @Default(.defaultModel) var defaultModel
 
     var body: some View {
         List {
@@ -52,7 +53,6 @@ struct LocalModelsView: View {
             for: .documentDirectory, in: .userDomainMask)[0]
         let modelsURL = documentsURL.appendingPathComponent(
             "huggingface/models")
-        var validModelNames = Set<String>()
 
         do {
             let contents = try fileManager.contentsOfDirectory(
@@ -78,7 +78,6 @@ struct LocalModelsView: View {
                                     name: modelName,
                                     url: modelURL)
                             )
-                            validModelNames.insert(modelName)
                         }
                     }
 
@@ -87,19 +86,18 @@ struct LocalModelsView: View {
                 }
             }
 
+            if !groups.contains(where: {
+                $0.models.contains(where: { $0.origin == defaultModel })
+            }) {
+                defaultModel = ""
+            }
+
             DispatchQueue.main.async {
                 modelGroups = groups
             }
-
-            cleanupDefaults(validModelNames: validModelNames)
-
         } catch {
             logger.error("loadModels failed: \(error)")
         }
-    }
-
-    private func cleanupDefaults(validModelNames: Set<String>) {
-        // todo
     }
 
     private func deleteModel(at offsets: IndexSet, from group: Int) {
@@ -110,23 +108,22 @@ struct LocalModelsView: View {
             do {
                 try fileManager.removeItem(at: model.url)
                 modelGroups[group].models.remove(at: index)
-                Defaults[.enabledModels].remove(model.origin)
+                if defaultModel == model.origin {
+                    defaultModel = ""
+                }
             } catch {
                 logger.error("deleteModel failed: \(error)")
             }
-        }
-
-        // 如果组为空,删除该组
-        if modelGroups[group].models.isEmpty {
-            modelGroups.remove(at: group)
         }
     }
 
     private func openModelsDirectory() {
         let fileManager = FileManager.default
-        let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let modelsURL = documentsURL.appendingPathComponent("huggingface/models")
-        
+        let documentsURL = fileManager.urls(
+            for: .documentDirectory, in: .userDomainMask)[0]
+        let modelsURL = documentsURL.appendingPathComponent(
+            "huggingface/models")
+
         NSWorkspace.shared.open(modelsURL)
     }
 }

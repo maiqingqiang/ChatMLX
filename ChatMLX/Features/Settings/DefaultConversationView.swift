@@ -202,7 +202,7 @@ struct DefaultConversationView: View {
                             text: $defaultSystemPrompt,
                             placeholder: "System prompt",
                             onSubmit: {
-                                
+
                             }
                         )
                         .frame(height: 100)
@@ -253,6 +253,10 @@ struct DefaultConversationView: View {
                         }
                     }
                 }
+            }
+
+            if !models.contains(where: { $0.origin == defaultModel }) {
+                defaultModel = ""
             }
 
             DispatchQueue.main.async {

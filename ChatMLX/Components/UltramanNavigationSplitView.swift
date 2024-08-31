@@ -81,16 +81,16 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
     @State private var lastNonZeroWidth: CGFloat = 0
     let sidebar: () -> Sidebar
     let detail: () -> Detail
-    
+
     @State private var navigationTitle: LocalizedStringKey = ""
     @State private var toolbarItems: [UltramanToolbarItem] = []
-    
+
     @State private var isDragging = false
     @State private var isSidebarVisible = true
-    
+
     let minSidebarWidth: CGFloat = 200
     let maxSidebarWidth: CGFloat = 400
-    
+
     var body: some View {
         GeometryReader { geometry in
             HStack(spacing: .zero) {
@@ -99,28 +99,26 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
                         .frame(width: sidebarWidth)
                         .transition(.move(edge: .leading))
                 }
-                
+
                 VStack(spacing: .zero) {
                     Divider()
                     detail()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .onPreferenceChange(UltramanNavigationTitleKey.self) { title in
-                            DispatchQueue.main.async {
-                                navigationTitle = title
-                            }
+                        .onPreferenceChange(UltramanNavigationTitleKey.self) {
+                            navigationTitle = $0
                         }
-                        .onPreferenceChange(UltramanNavigationToolbarKey.self) { items in
-                            toolbarItems = items
+                        .onPreferenceChange(UltramanNavigationToolbarKey.self) {
+                            toolbarItems = $0
                         }
                 }
-                
+
                 .safeAreaInset(edge: .top, alignment: .center, spacing: 0) {
                     header().frame(height: 52)
                 }
             }
         }
     }
-    
+
     @ViewBuilder
     func header() -> some View {
         VStack(spacing: 0) {

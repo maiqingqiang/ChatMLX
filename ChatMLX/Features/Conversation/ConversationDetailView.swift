@@ -18,7 +18,8 @@ struct ConversationDetailView: View {
     @State private var newMessage = ""
     @Environment(\.modelContext) private var modelContext
     @FocusState private var isInputFocused: Bool
-    @Environment(ConversationView.ViewModel.self) private var conversationViewModel
+    @Environment(ConversationView.ViewModel.self) private
+        var conversationViewModel
     @State private var showRightSidebar = false
     @State private var showInfoPopover = false
     @Namespace var bottomId
@@ -28,7 +29,7 @@ struct ConversationDetailView: View {
     @State private var showToast = false
     @State private var toastMessage = ""
     @State private var toastType: AlertToast.AlertType = .regular
-    
+
     @State private var loading = true
 
     var sortedMessages: [Message] {
@@ -77,7 +78,7 @@ struct ConversationDetailView: View {
             }
             .buttonStyle(.plain)
         }
-        
+
     }
 
     @ViewBuilder
@@ -339,6 +340,10 @@ struct ConversationDetailView: View {
                 }
             }
 
+            if !models.contains(where: { $0.origin == conversation.model }) {
+                conversation.model = ""
+            }
+
             DispatchQueue.main.async {
                 localModels = models
                 loading = false
@@ -362,7 +367,8 @@ struct ConversationDetailView: View {
         return formatter.string(from: interval!) ?? ""
     }
 
-    private func showToastMessage(_ message: String, type: AlertToast.AlertType) {
+    private func showToastMessage(_ message: String, type: AlertToast.AlertType)
+    {
         toastMessage = message
         toastType = type
         showToast = true
@@ -371,12 +377,17 @@ struct ConversationDetailView: View {
     private func deleteMessage(_ message: Message) {
         guard message.role == .user else { return }
 
-        let sortedMessages = conversation.messages.sorted { $0.timestamp < $1.timestamp }
+        let sortedMessages = conversation.messages.sorted {
+            $0.timestamp < $1.timestamp
+        }
 
-        if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
+        if let index = sortedMessages.firstIndex(where: { $0.id == message.id })
+        {
             let messages = sortedMessages[index...]
             for messageToDelete in messages {
-                conversation.messages.removeAll(where: { $0.id == messageToDelete.id })
+                conversation.messages.removeAll(where: {
+                    $0.id == messageToDelete.id
+                })
                 modelContext.delete(messageToDelete)
             }
             conversation.updatedAt = Date()
