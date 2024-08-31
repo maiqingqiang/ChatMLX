@@ -28,6 +28,9 @@ class Conversation {
     var useRepetitionPenalty: Bool
     var repetitionPenalty: Float
 
+    var useSystemPrompt: Bool
+    var systemPrompt: String
+
     var promptTime: TimeInterval?
     var generateTime: TimeInterval?
     var promptTokensPerSecond: Double?
@@ -46,6 +49,8 @@ class Conversation {
         useMaxMessagesLimit = Defaults[.defaultUseMaxMessagesLimit]
         useRepetitionPenalty = Defaults[.defaultUseRepetitionPenalty]
         repetitionPenalty = Defaults[.defaultRepetitionPenalty]
+        useSystemPrompt = Defaults[.defaultUseSystemPrompt]
+        systemPrompt = Defaults[.defaultSystemPrompt]
 
         createdAt = .init()
         updatedAt = .init()

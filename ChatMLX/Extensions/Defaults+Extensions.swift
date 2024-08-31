@@ -27,6 +27,8 @@ extension Defaults.Keys {
     static let defaultUseMaxMessagesLimit = Key<Bool>("defaultUseMaxMessagesCount", default: false)
     static let defaultRepetitionPenalty = Key<Float>("defaultRepetitionPenalty", default: 0)
     static let defaultUseRepetitionPenalty = Key<Bool>("defaultUseRepetitionPenalty", default: false)
+    static let defaultUseSystemPrompt = Key<Bool>("defaultUseSystemPrompt", default: false)
+    static let defaultSystemPrompt = Key<String>("defaultSystemPrompt", default: "")
     
     static let gpuCacheLimit = Key<Int>("gpuCacheLimit", default: 128)
     

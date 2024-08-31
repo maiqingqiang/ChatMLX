@@ -22,6 +22,8 @@ struct DefaultConversationView: View {
     @Default(.defaultRepetitionPenalty) var defaultRepetitionPenalty
     @Default(.defaultUseRepetitionPenalty) var defaultUseRepetitionPenalty
     @Default(.defaultUseMaxLength) var defaultUseMaxLength
+    @Default(.defaultUseSystemPrompt) var defaultUseSystemPrompt
+    @Default(.defaultSystemPrompt) var defaultSystemPrompt
 
     @State private var localModels: [LocalModel] = []
 
@@ -185,6 +187,28 @@ struct DefaultConversationView: View {
                     }
                 }
                 .compactSliderSecondaryColor(.white)
+
+                LuminareSection("System Prompt") {
+                    HStack {
+                        Text("Use System Prompt")
+                        Spacer()
+                        Toggle("", isOn: $defaultUseSystemPrompt)
+                            .toggleStyle(.switch)
+                    }
+                    .padding(padding)
+
+                    if defaultUseSystemPrompt {
+                        UltramanTextEditor(
+                            text: $defaultSystemPrompt,
+                            placeholder: "System prompt",
+                            onSubmit: {
+                                
+                            }
+                        )
+                        .frame(height: 100)
+                        .padding(padding)
+                    }
+                }
 
                 Spacer()
             }

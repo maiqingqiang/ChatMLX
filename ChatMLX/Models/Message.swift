@@ -12,6 +12,7 @@ class Message {
     enum Role: String, Codable {
         case user
         case assistant
+        case system
     }
 
     var role: Role

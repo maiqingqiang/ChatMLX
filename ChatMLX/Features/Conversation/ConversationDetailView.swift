@@ -58,6 +58,11 @@ struct ConversationDetailView: View {
             }
         }
         .onAppear(perform: loadModels)
+        .toast(isPresenting: $showToast) {
+            AlertToast(
+                displayMode: .alert, type: toastType, title: toastMessage
+            )
+        }
         .ultramanNavigationTitle(
             LocalizedStringKey(conversation.title)
         )
@@ -72,11 +77,7 @@ struct ConversationDetailView: View {
             }
             .buttonStyle(.plain)
         }
-        .toast(isPresenting: $showToast) {
-            AlertToast(
-                displayMode: .alert, type: toastType, title: toastMessage
-            )
-        }
+        
     }
 
     @ViewBuilder

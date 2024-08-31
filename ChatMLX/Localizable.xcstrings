@@ -588,6 +588,9 @@
         }
       }
     },
+    "System Prompt" : {
+
+    },
     "System Settings" : {
       "localizations" : {
         "zh-Hans" : {
@@ -710,6 +713,9 @@
 
     },
     "Use Repetition Penalty" : {
+
+    },
+    "Use System Prompt" : {
 
     },
     "Version %@" : {

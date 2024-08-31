@@ -80,6 +80,7 @@ class LLMRunner {
                 var messages = conversation.messages.sorted {
                     $0.timestamp < $1.timestamp
                 }
+                
                 if conversation.useMaxMessagesLimit {
                     let maxCount = conversation.maxMessagesLimit + 1
                     if messages.count > maxCount {
@@ -89,12 +90,20 @@ class LLMRunner {
                         }
                     }
                 }
+                
+                messages.insert(
+                    Message(
+                        role: .system,
+                        content: conversation.systemPrompt
+                    ),
+                    at: 0
+                )
 
                 let messagesDicts = messages.map {
                     message -> [String: String] in
                     ["role": message.role.rawValue, "content": message.content]
                 }
-
+                
                 let messageTokens = try await modelContainer.perform {
                     _, tokenizer in
                     try tokenizer.applyChatTemplate(messages: messagesDicts)
