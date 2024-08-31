@@ -106,9 +106,26 @@ struct GeneralView: View {
     }
 
     private func resetAllSettings() {
+        Defaults.reset(.defaultModel)
+        Defaults.reset(.language)
         Defaults.reset(.backgroundBlurRadius)
         Defaults.reset(.backgroundColor)
-        Defaults.reset(.language)
+        Defaults.reset(.huggingFaceEndpoint)
+        Defaults.reset(.customHuggingFaceEndpoints)
+        Defaults.reset(.useCustomHuggingFaceEndpoint)
+        Defaults.reset(.huggingFaceToken)
+        Defaults.reset(.defaultTitle)
+        Defaults.reset(.defaultTemperature)
+        Defaults.reset(.defaultTopP)
+        Defaults.reset(.defaultUseMaxLength)
+        Defaults.reset(.defaultMaxLength)
+        Defaults.reset(.defaultRepetitionContextSize)
+        Defaults.reset(.defaultMaxMessagesLimit)
+        Defaults.reset(.defaultUseMaxMessagesLimit)
+        Defaults.reset(.defaultRepetitionPenalty)
+        Defaults.reset(.defaultUseRepetitionPenalty)
+        Defaults.reset(.defaultUseSystemPrompt)
+        Defaults.reset(.defaultSystemPrompt)
         Defaults.reset(.gpuCacheLimit)
     }
 

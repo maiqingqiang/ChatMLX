@@ -20,6 +20,7 @@ extension Defaults.Keys {
     static let defaultTitle = Key<String>("defaultTitle", default: "Default Conversation")
     static let defaultTemperature = Key<Float>("defaultTemperature", default: 0.6)
     static let defaultTopP = Key<Float>("defaultTopP", default: 1.0)
+    static let defaultUseMaxLength = Key<Bool>("defaultUseMaxLength", default: false)
     static let defaultMaxLength = Key<Int>("defaultMaxLength", default: 256)
     static let defaultRepetitionContextSize = Key<Int>("defaultRepetitionContextSize", default: 20)
     static let defaultMaxMessagesLimit = Key<Int>("defaultMaxMessagesCount", default: 20)
@@ -31,5 +32,5 @@ extension Defaults.Keys {
     
     static let gpuCacheLimit = Key<Int>("gpuCacheLimit", default: 128)
     
-    static let defaultUseMaxLength = Key<Bool>("defaultUseMaxLength", default: false)
+
 }

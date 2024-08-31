@@ -1,5 +1,5 @@
 {
-  "originHash" : "2fa18e754c621c33bf7ba5cad177b45cef1d536eac81ef5c4cf3a464dd701243",
+  "originHash" : "26454f2823dfa81b6421261db2a131a4bd4b0ce586ddc57e71b6bbd36e4fc3b4",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -38,15 +38,6 @@
       }
     },
     {
-      "identity" : "glur",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/joogps/Glur",
-      "state" : {
-        "revision" : "9e00ff79da318f2c78b749b1027e54a9d4de2e33",
-        "version" : "1.0.4"
-      }
-    },
-    {
       "identity" : "gzipswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/1024jp/GzipSwift",
@@ -80,6 +71,15 @@
       "state" : {
         "revision" : "86ad75ab1ee96cd70325732b37cd830f87d7e43f",
         "version" : "0.16.1"
+      }
+    },
+    {
+      "identity" : "mlx-swift-examples",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/maiqingqiang/mlx-swift-examples",
+      "state" : {
+        "branch" : "chat-template",
+        "revision" : "760773f1ad25fe6e7bf7d4b8298fa71f4c37ad22"
       }
     },
     {

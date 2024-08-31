@@ -23,14 +23,20 @@ struct LocalModelsView: View {
                         LocalModelItemView(
                             model: $modelGroups[groupIndex].models[modelIndex],
                             onDelete: {
-                                deleteModel(
-                                    at: IndexSet(integer: modelIndex),
-                                    from: groupIndex)
+                                Task{
+                                    deleteModel(
+                                        at: IndexSet(integer: modelIndex),
+                                        from: groupIndex)
+                                    loadModels()
+                                }
                             }
                         )
                     }
                     .onDelete { offsets in
-                        deleteModel(at: offsets, from: groupIndex)
+                        Task{
+                            deleteModel(at: offsets, from: groupIndex)
+                            loadModels()
+                        }
                     }
                 }
             }

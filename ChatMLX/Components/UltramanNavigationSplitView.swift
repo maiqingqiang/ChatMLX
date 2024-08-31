@@ -57,7 +57,10 @@ struct UltramanNavigationToolbarKey: PreferenceKey {
         value: inout [UltramanToolbarItem],
         nextValue: () -> [UltramanToolbarItem]
     ) {
-        value.append(contentsOf: nextValue())
+        let newItems = nextValue()
+        if !newItems.isEmpty {
+            value.append(contentsOf: newItems)
+        }
     }
 }
 

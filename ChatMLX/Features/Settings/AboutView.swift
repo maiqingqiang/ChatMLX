@@ -41,6 +41,8 @@ struct AboutView: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         isCheckingUpdate = false
                     }
+                    
+                    NSWorkspace.shared.open(URL(string: "https://github.com/maiqingqiang/ChatMLX")!)
                 }) {
                     Text(isCheckingUpdate ? "Checking..." : "Check for updates")
                 }
