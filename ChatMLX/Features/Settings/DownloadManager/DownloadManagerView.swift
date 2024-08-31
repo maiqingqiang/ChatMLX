@@ -9,43 +9,51 @@ import SwiftUI
 
 struct DownloadManagerView: View {
     @Environment(SettingsView.ViewModel.self) private var settingsViewModel
-    @State private var showingNewTask = false
-    @State private var repoId = ""
+
+    @State private var repoId: String = ""
+    @State var showingAlert = false
 
     var body: some View {
+
         List {
             ForEach(settingsViewModel.tasks) { task in
                 DownloadTaskView(task: task)
             }
         }
+        .onChange(of: showingAlert) { _, _ in
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .scrollContentBackground(.hidden)
+        .onAppear()
         .ultramanNavigationTitle("Download Manager")
         .ultramanToolbarItem(alignment: .trailing) {
-            Button {
-                showingNewTask = true
-            } label: {
+            Button(action: show) {
                 Image(systemName: "plus")
             }
-            .buttonStyle(.borderless)
+            .buttonStyle(.plain)
         }
-        .scrollContentBackground(.hidden)
-        .alert("New Task", isPresented: $showingNewTask) {
+        .alert("New Task", isPresented: $showingAlert) {
             TextField(
                 "Hugging Face Repo Id", text: $repoId,
                 prompt: Text("mlx-community/OpenELM-3B"))
             Button("Cancel", role: .cancel) {
                 repoId = ""
             }
-            Button("Done") {
-                let task = DownloadTask(repoId)
-                task.start()
-                settingsViewModel.tasks.append(task)
+            Button(action: addTask) {
+                Text("Done")
             }
         } message: {
             Text("Please enter Hugging Face Repo ID")
         }
     }
-}
 
-#Preview {
-    DownloadManagerView()
+    private func show() {
+        showingAlert = true
+    }
+
+    private func addTask() {
+        let task = DownloadTask(repoId)
+        task.start()
+        settingsViewModel.tasks.append(task)
+    }
 }

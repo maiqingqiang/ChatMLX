@@ -69,23 +69,6 @@
         }
       }
     },
-    "An Error Occurred" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "发生错误"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "發生錯誤"
-          }
-        }
-      }
-    },
     "Are you sure you want to delete '%@'?" : {
 
     },
@@ -189,42 +172,8 @@
         }
       }
     },
-    "Confirm Clear All Conversations" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "确认清除所有对话"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "確認清除所有對話"
-          }
-        }
-      }
-    },
     "Confirm Deletion" : {
 
-    },
-    "Control" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "控制面板"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "控制台"
-          }
-        }
-      }
     },
     "Conversation Title" : {
 
@@ -378,17 +327,6 @@
     "Max Length" : {
 
     },
-    "Max Length: %lld" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "最大长度: %lld"
-          }
-        }
-      }
-    },
     "Max Messages Limit" : {
 
     },
@@ -407,7 +345,7 @@
       }
     },
     "mlx-community/OpenELM-3B" : {
-      "shouldTranslate" : false
+
     },
     "Model" : {
 
@@ -513,6 +451,9 @@
     "Prompt Tokens/second" : {
 
     },
+    "Regenerate" : {
+
+    },
     "Repetition Context Size" : {
 
     },
@@ -525,28 +466,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重置所有设置"
-          }
-        }
-      }
-    },
-    "Search" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜索"
-          }
-        }
-      }
-    },
-    "Search Chat..." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "搜索对话"
           }
         }
       }
@@ -607,70 +526,14 @@
     "Temperature" : {
 
     },
-    "Temperature: %.2f" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "温度: %.2f"
-          }
-        }
-      }
-    },
-    "This action will delete all conversation records and cannot be undone." : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此操作将删除所有对话记录，且无法撤销"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "此操作將删除所有對話記錄，且無法撤銷。"
-          }
-        }
-      }
-    },
     "Title" : {
 
     },
     "Token" : {
 
     },
-    "Top K: %lld" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "K个最大/最小元素: %lld"
-          }
-        }
-      }
-    },
     "Top P" : {
 
-    },
-    "Try Again" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "再试一次"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "再試一次"
-          }
-        }
-      }
     },
     "Type your message…" : {
       "extractionState" : "manual",
@@ -737,6 +600,9 @@
         }
       }
     },
+    "Warning" : {
+
+    },
     "Window Appearance" : {
       "localizations" : {
         "zh-Hans" : {
@@ -746,15 +612,6 @@
           }
         }
       }
-    },
-    "提示" : {
-
-    },
-    "确定" : {
-
-    },
-    "重新生成" : {
-
     }
   },
   "version" : "1.0"

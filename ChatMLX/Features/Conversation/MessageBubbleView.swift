@@ -5,23 +5,22 @@
 //  Created by John Mai on 2024/8/4.
 //
 
-import AlertToast // 添加这个导入
+import AlertToast
 import MarkdownUI
 import SwiftUI
 
 struct MessageBubbleView: View {
     let message: Message
     @Binding var displayStyle: DisplayStyle
-    @State private var showToast = false // 改用 showToast
+    @State private var showToast = false
     var onDelete: () -> Void
-    var onRegenerate: () -> Void  // 新增
+    var onRegenerate: () -> Void
 
-    // 添加这个新的方法
     private func copyText() {
         let pasteboard = NSPasteboard.general
         pasteboard.clearContents()
         pasteboard.setString(message.content, forType: .string)
-        showToast = true // 触发 Toast 显示
+        showToast = true
     }
 
     var body: some View {
@@ -78,14 +77,14 @@ struct MessageBubbleView: View {
                 }
 
                 HStack {
-                    Button(action: copyText) { // 改这里
+                    Button(action: copyText) {
                         Image(systemName: "doc.on.doc")
                             .help("Copy")
                     }
 
-                    Button(action: onRegenerate) {  // 修改这里
+                    Button(action: onRegenerate) {
                         Image(systemName: "arrow.clockwise")
-                            .help("重新生成")
+                            .help("Regenerate")
                     }
 
                     Text(formatDate(message.timestamp))
@@ -120,7 +119,7 @@ struct MessageBubbleView: View {
                 Text(formatDate(message.timestamp))
                     .font(.caption)
 
-                Button(action: copyText) { // 改这里
+                Button(action: copyText) { 
                     Image(systemName: "doc.on.doc")
                          .help("Copy")
                 }

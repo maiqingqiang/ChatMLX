@@ -194,7 +194,3 @@ struct MLXCommunityView: View {
         }
     }
 }
-
-// #Preview {
-//    MLXCommunityView()
-// }

@@ -192,7 +192,6 @@ public extension HubApi {
                     do {
                         try progressHandler(progress)
                     } catch {
-                        // 处理进度处理器中的错误
                         downloader.cancel()
                     }
                 }
@@ -206,31 +205,6 @@ public extension HubApi {
             }
         }
     }
-
-//    @discardableResult
-//    func snapshot(from repo: Repo, matching globs: [String] = [], progressHandler: @escaping (Progress) -> Void = { _ in }) async throws -> URL {
-//        let filenames = try await getFilenames(from: repo, matching: globs)
-//        let progress = Progress(totalUnitCount: Int64(filenames.count))
-//        let repoDestination = localRepoLocation(repo)
-//        for filename in filenames {
-//            let fileProgress = Progress(totalUnitCount: 100, parent: progress, pendingUnitCount: 1)
-//            let downloader = HubFileDownloader(
-//                repo: repo,
-//                repoDestination: repoDestination,
-//                relativeFilename: filename,
-//                hfToken: hfToken,
-//                endpoint: endpoint,
-//                backgroundSession: useBackgroundSession
-//            )
-//            try await downloader.download { fractionDownloaded in
-//                fileProgress.completedUnitCount = Int64(100 * fractionDownloaded)
-//                progressHandler(progress)
-//            }
-//            fileProgress.completedUnitCount = 100
-//        }
-//        progressHandler(progress)
-//        return repoDestination
-//    }
     
     @discardableResult
     func snapshot(from repoId: String, matching globs: [String] = [], progressHandler: @escaping (Progress) -> Void = { _ in }) async throws -> URL {

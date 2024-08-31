@@ -53,7 +53,6 @@ struct SettingsSidebarView: View {
             Spacer()
         }
         .background(.black.opacity(0.4))
-        
     }
 }
 

@@ -75,6 +75,7 @@ struct DownloadTaskView: View {
                 }
             }
         }
+        .imageScale(.large)
         .buttonStyle(.plain)
         .padding()
         .background(.black.opacity(0.3))

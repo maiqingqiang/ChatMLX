@@ -26,10 +26,10 @@ struct SettingsView: View {
                     HuggingFaceView()
                 case .models:
                     LocalModelsView()
-                case .mlxCommunity:
-                    MLXCommunityView()
                 case .downloadManager:
                     DownloadManagerView()
+                case .mlxCommunity:
+                    MLXCommunityView()
                 case .about:
                     AboutView()
                 }

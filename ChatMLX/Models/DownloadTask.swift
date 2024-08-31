@@ -52,8 +52,6 @@ class DownloadTask: Identifiable, Equatable {
 
                 self.hub = nil
 
-                self.logger.info("开始迁移")
-
                 try await moveToDocumentsDirectory(from: temporaryModelDirectory)
 
                 await MainActor.run {

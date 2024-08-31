@@ -12,7 +12,7 @@ import SwiftUI
 struct HuggingFaceView: View {
     @Default(.huggingFaceEndpoint) var endpoint
     @Default(.customHuggingFaceEndpoints) var customEndpoints
-    @Default(.useCustomHuggingFaceEndpoint) var useCustomEndpoint  // 新增
+    @Default(.useCustomHuggingFaceEndpoint) var useCustomEndpoint
 
     @Default(.huggingFaceToken) var token
 
@@ -119,21 +119,21 @@ struct HuggingFaceView: View {
         .padding()
         .alert(isPresented: $showingAlert) {
             Alert(
-                title: Text("提示"), message: Text(alertMessage),
-                dismissButton: .default(Text("确定"))
+                title: Text("Warning"), message: Text(alertMessage),
+                dismissButton: .default(Text("Done"))
             )
         }
     }
 
     private func addCustomEndpoint() {
         guard !newCustomEndpoint.isEmpty else {
-            alertMessage = "请输入有效的源地址"
+            alertMessage = "Please enter a valid endpoint."
             showingAlert = true
             return
         }
 
         guard URL(string: newCustomEndpoint) != nil else {
-            alertMessage = "请输入有效的 URL"
+            alertMessage = "Please enter a valid endpoint url."
             showingAlert = true
             return
         }
@@ -143,7 +143,7 @@ struct HuggingFaceView: View {
             endpoint = newCustomEndpoint
             newCustomEndpoint = ""
         } else {
-            alertMessage = "该源地址已存在"
+            alertMessage = "The endpoint already exists."
             showingAlert = true
         }
     }
