@@ -14,6 +14,7 @@ struct MessageBubbleView: View {
     @Binding var displayStyle: DisplayStyle
     @State private var showToast = false // 改用 showToast
     var onDelete: () -> Void
+    var onRegenerate: () -> Void  // 新增
 
     // 添加这个新的方法
     private func copyText() {
@@ -79,11 +80,12 @@ struct MessageBubbleView: View {
                 HStack {
                     Button(action: copyText) { // 改这里
                         Image(systemName: "doc.on.doc")
-                            .help("复制")
+                            .help("Copy")
                     }
 
-                    Button(action: {}) {
+                    Button(action: onRegenerate) {  // 修改这里
                         Image(systemName: "arrow.clockwise")
+                            .help("重新生成")
                     }
 
                     Text(formatDate(message.timestamp))
@@ -120,7 +122,7 @@ struct MessageBubbleView: View {
 
                 Button(action: copyText) { // 改这里
                     Image(systemName: "doc.on.doc")
-                        .help("复制")
+                         .help("Copy")
                 }
 
                 Button(action: onDelete) {

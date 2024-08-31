@@ -92,6 +92,9 @@ struct ConversationDetailView: View {
                             displayStyle: $displayStyle,
                             onDelete: {
                                 deleteMessage(message)
+                            },
+                            onRegenerate: {
+                                regenerateMessage(message)
                             }
                         )
                     }
@@ -391,6 +394,30 @@ struct ConversationDetailView: View {
                 modelContext.delete(messageToDelete)
             }
             conversation.updatedAt = Date()
+        }
+    }
+
+    private func regenerateMessage(_ message: Message) {
+        guard message.role == .assistant else { return }
+
+        let sortedMessages = conversation.messages.sorted {
+            $0.timestamp < $1.timestamp
+        }
+
+        if let index = sortedMessages.firstIndex(where: { $0.id == message.id })
+        {
+            let messages = sortedMessages[index...]
+            for messageToDelete in messages {
+                conversation.messages.removeAll(where: {
+                    $0.id == messageToDelete.id
+                })
+                modelContext.delete(messageToDelete)
+            }
+            conversation.updatedAt = Date()
+        }
+
+        Task {
+            await runner.generate(conversation: conversation)
         }
     }
 }
