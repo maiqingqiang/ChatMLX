@@ -28,163 +28,169 @@ struct DefaultConversationView: View {
     private let padding: CGFloat = 6
 
     var body: some View {
-        VStack {
-            LuminareSection("Title") {
-                UltramanTextField(
-                    $defaultTitle,
-                    placeholder: Text("Default conversation title")
-                )
-                .frame(height: 25)
-            }
 
-            LuminareSection("Model Settings") {
-                HStack {
-                    Text("Model")
-                    Spacer()
-                    Picker(
-                        selection: $defaultModel,
-                        label: Image(systemName: "brain")
-                    ) {
-                        if !localModels.isEmpty {
-                            Text("Not selected").tag("")
-                            ForEach(localModels, id: \.id) { model in
-                                Text(model.name).tag(model.origin)
+        ScrollView {
+            VStack {
+                LuminareSection("Title") {
+                    UltramanTextField(
+                        $defaultTitle,
+                        placeholder: Text("Default conversation title")
+                    )
+                    .frame(height: 25)
+                }
+
+                LuminareSection("Model Settings") {
+                    HStack {
+                        Text("Model")
+                        Spacer()
+                        Picker(
+                            selection: $defaultModel,
+                            label: Image(systemName: "brain")
+                        ) {
+                            if !localModels.isEmpty {
+                                Text("Not selected").tag("")
+                                ForEach(localModels, id: \.id) { model in
+                                    Text(model.name).tag(model.origin)
+                                }
                             }
                         }
+                        .labelsHidden()
+                        .buttonStyle(.borderless)
+                        .foregroundStyle(.white)
+                        .tint(.white)
                     }
-                    .labelsHidden()
-                    .buttonStyle(.borderless)
-                    .foregroundStyle(.white)
-                    .tint(.white)
-                }
-                .padding(padding)
+                    .padding(padding)
 
-                HStack {
-                    Text("Temperature")
-                    Spacer()
-                    CompactSlider(
-                        value: $defaultTemperature, in: 0...2, step: 0.01
-                    ) {
-                        Text("\(defaultTemperature, specifier: "%.2f")")
-                            .foregroundStyle(.white)
-                    }
-                    .frame(width: 200)
-                }
-                .padding(padding)
-
-                HStack {
-                    Text("Top P")
-                    Spacer()
-                    CompactSlider(value: $defaultTopP, in: 0...1, step: 0.01) {
-                        Text("\(defaultTopP, specifier: "%.2f")")
-                            .foregroundStyle(.white)
-                    }
-                    .frame(width: 200)
-                }
-                .padding(padding)
-
-                HStack {
-                    Text("Use Max Length")
-                    Spacer()
-                    Toggle("", isOn: $defaultUseMaxLength)
-                        .toggleStyle(.switch)
-                }
-                .padding(padding)
-
-                if defaultUseMaxLength {
                     HStack {
-                        Text("Max Length")
+                        Text("Temperature")
                         Spacer()
                         CompactSlider(
-                            value: Binding(
-                                get: { Double(defaultMaxLength) },
-                                set: { defaultMaxLength = Int($0) }
-                            ), in: 0...8192, step: 1
+                            value: $defaultTemperature, in: 0...2, step: 0.01
                         ) {
-                            Text("\(defaultMaxLength)")
+                            Text("\(defaultTemperature, specifier: "%.2f")")
                                 .foregroundStyle(.white)
                         }
                         .frame(width: 200)
                     }
                     .padding(padding)
-                }
 
-                HStack {
-                    Text("Repetition Context Size")
-                    Spacer()
-                    CompactSlider(
-                        value: Binding(
-                            get: { Double(defaultRepetitionContextSize) },
-                            set: { defaultRepetitionContextSize = Int($0) }
-                        ), in: 0...100, step: 1
-                    ) {
-                        Text("\(defaultRepetitionContextSize)")
-                            .foregroundStyle(.white)
-                    }
-                    .frame(width: 200)
-                }
-                .padding(padding)
-
-                HStack {
-                    Text("Use Repetition Penalty")
-                    Spacer()
-                    Toggle("", isOn: $defaultUseRepetitionPenalty)
-                        .toggleStyle(.switch)
-                }
-                .padding(padding)
-
-                if defaultUseRepetitionPenalty {
                     HStack {
-                        Text("Repetition Penalty")
+                        Text("Top P")
                         Spacer()
                         CompactSlider(
-                            value: $defaultRepetitionPenalty, in: 1...2,
-                            step: 0.01
+                            value: $defaultTopP, in: 0...1, step: 0.01
                         ) {
-                            Text(
-                                "\(defaultRepetitionPenalty, specifier: "%.2f")"
-                            )
-                            .foregroundStyle(.white)
-                        }
-                        .frame(width: 200)
-                    }
-                    .padding(padding)
-                }
-            }
-            .compactSliderSecondaryColor(.white)
-
-            LuminareSection("Message Control") {
-                HStack {
-                    Text("Use Max Messages Limit")
-                    Spacer()
-                    Toggle("", isOn: $defaultUseMaxMessagesLimit)
-                        .toggleStyle(.switch)
-                }
-                .padding(padding)
-
-                if defaultUseMaxMessagesLimit {
-                    HStack {
-                        Text("Max Messages Limit")
-                        Spacer()
-                        CompactSlider(
-                            value: Binding(
-                                get: { Double(defaultMaxMessagesLimit) },
-                                set: { defaultMaxMessagesLimit = Int($0) }
-                            ), in: 1...50, step: 1
-                        ) {
-                            Text("\(defaultMaxMessagesLimit)")
+                            Text("\(defaultTopP, specifier: "%.2f")")
                                 .foregroundStyle(.white)
                         }
                         .frame(width: 200)
                     }
                     .padding(padding)
-                }
-            }
-            .compactSliderSecondaryColor(.white)
 
-            Spacer()
+                    HStack {
+                        Text("Use Max Length")
+                        Spacer()
+                        Toggle("", isOn: $defaultUseMaxLength)
+                            .toggleStyle(.switch)
+                    }
+                    .padding(padding)
+
+                    if defaultUseMaxLength {
+                        HStack {
+                            Text("Max Length")
+                            Spacer()
+                            CompactSlider(
+                                value: Binding(
+                                    get: { Double(defaultMaxLength) },
+                                    set: { defaultMaxLength = Int($0) }
+                                ), in: 0...8192, step: 1
+                            ) {
+                                Text("\(defaultMaxLength)")
+                                    .foregroundStyle(.white)
+                            }
+                            .frame(width: 200)
+                        }
+                        .padding(padding)
+                    }
+
+                    HStack {
+                        Text("Repetition Context Size")
+                        Spacer()
+                        CompactSlider(
+                            value: Binding(
+                                get: { Double(defaultRepetitionContextSize) },
+                                set: { defaultRepetitionContextSize = Int($0) }
+                            ), in: 0...100, step: 1
+                        ) {
+                            Text("\(defaultRepetitionContextSize)")
+                                .foregroundStyle(.white)
+                        }
+                        .frame(width: 200)
+                    }
+                    .padding(padding)
+
+                    HStack {
+                        Text("Use Repetition Penalty")
+                        Spacer()
+                        Toggle("", isOn: $defaultUseRepetitionPenalty)
+                            .toggleStyle(.switch)
+                    }
+                    .padding(padding)
+
+                    if defaultUseRepetitionPenalty {
+                        HStack {
+                            Text("Repetition Penalty")
+                            Spacer()
+                            CompactSlider(
+                                value: $defaultRepetitionPenalty, in: 1...2,
+                                step: 0.01
+                            ) {
+                                Text(
+                                    "\(defaultRepetitionPenalty, specifier: "%.2f")"
+                                )
+                                .foregroundStyle(.white)
+                            }
+                            .frame(width: 200)
+                        }
+                        .padding(padding)
+                    }
+                }
+                .compactSliderSecondaryColor(.white)
+
+                LuminareSection("Message Control") {
+                    HStack {
+                        Text("Use Max Messages Limit")
+                        Spacer()
+                        Toggle("", isOn: $defaultUseMaxMessagesLimit)
+                            .toggleStyle(.switch)
+                    }
+                    .padding(padding)
+
+                    if defaultUseMaxMessagesLimit {
+                        HStack {
+                            Text("Max Messages Limit")
+                            Spacer()
+                            CompactSlider(
+                                value: Binding(
+                                    get: { Double(defaultMaxMessagesLimit) },
+                                    set: { defaultMaxMessagesLimit = Int($0) }
+                                ), in: 1...50, step: 1
+                            ) {
+                                Text("\(defaultMaxMessagesLimit)")
+                                    .foregroundStyle(.white)
+                            }
+                            .frame(width: 200)
+                        }
+                        .padding(padding)
+                    }
+                }
+                .compactSliderSecondaryColor(.white)
+
+                Spacer()
+            }
+            .padding()
         }
-        .padding()
+        .scrollContentBackground(.hidden)
         .onAppear(perform: loadModels)
         .ultramanNavigationTitle("Default Conversation")
     }
