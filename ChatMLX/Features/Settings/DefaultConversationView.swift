@@ -17,10 +17,11 @@ struct DefaultConversationView: View {
     @Default(.defaultTopP) var defaultTopP
     @Default(.defaultMaxLength) var defaultMaxLength
     @Default(.defaultRepetitionContextSize) var defaultRepetitionContextSize
-    @Default(.defaultMaxMessagesCount) var defaultMaxMessagesLimit
-    @Default(.defaultUseMaxMessagesCount) var defaultUseMaxMessagesLimit
+    @Default(.defaultMaxMessagesLimit) var defaultMaxMessagesLimit
+    @Default(.defaultUseMaxMessagesLimit) var defaultUseMaxMessagesLimit
     @Default(.defaultRepetitionPenalty) var defaultRepetitionPenalty
     @Default(.defaultUseRepetitionPenalty) var defaultUseRepetitionPenalty
+    @Default(.defaultUseMaxLength) var defaultUseMaxLength
 
     @State private var localModels: [LocalModel] = []
 
@@ -83,20 +84,30 @@ struct DefaultConversationView: View {
                 .padding(padding)
 
                 HStack {
-                    Text("Max Length")
+                    Text("Use Max Length")
                     Spacer()
-                    CompactSlider(
-                        value: Binding(
-                            get: { Double(defaultMaxLength) },
-                            set: { defaultMaxLength = Int($0) }
-                        ), in: 0...8192, step: 1
-                    ) {
-                        Text("\(defaultMaxLength)")
-                            .foregroundStyle(.white)
-                    }
-                    .frame(width: 200)
+                    Toggle("", isOn: $defaultUseMaxLength)
+                        .toggleStyle(.switch)
                 }
                 .padding(padding)
+
+                if defaultUseMaxLength {
+                    HStack {
+                        Text("Max Length")
+                        Spacer()
+                        CompactSlider(
+                            value: Binding(
+                                get: { Double(defaultMaxLength) },
+                                set: { defaultMaxLength = Int($0) }
+                            ), in: 0...8192, step: 1
+                        ) {
+                            Text("\(defaultMaxLength)")
+                                .foregroundStyle(.white)
+                        }
+                        .frame(width: 200)
+                    }
+                    .padding(padding)
+                }
 
                 HStack {
                     Text("Repetition Context Size")

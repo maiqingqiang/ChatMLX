@@ -10,31 +10,45 @@ import SwiftData
 
 @Model
 class Conversation {
-    var title: String = "Default Conversation"
-    var model: String = ""
-    var createdAt: Date = Date()
-    var updatedAt: Date = Date()
+    var title: String
+    var model: String
+    var createdAt: Date
+    var updatedAt: Date
     @Relationship(deleteRule: .cascade) var messages: [Message] = []
 
-    var temperature: Float = 0.6
-    var topP: Float = 1
-    var maxLength: Int = 1000
-    var repetitionContextSize: Int = 20
+    var temperature: Float
+    var topP: Float
+    var useMaxLength: Bool
+    var maxLength: Int
+    var repetitionContextSize: Int
 
-    var repetitionPenalty: Float = 1.0
+    var maxMessagesLimit: Int
+    var useMaxMessagesLimit: Bool
+
+    var useRepetitionPenalty: Bool
+    var repetitionPenalty: Float
 
     var promptTime: TimeInterval?
     var generateTime: TimeInterval?
     var promptTokensPerSecond: Double?
     var tokensPerSecond: Double?
 
-    var maxMessagesLimit: Int = 10
-    var useMaxMessagesLimit: Bool = false
-
-    var useRepetitionPenalty: Bool = false
-
     init() {
+        title = Defaults[.defaultTitle]
         model = Defaults[.defaultModel]
+        temperature = Defaults[.defaultTemperature]
+        topP = Defaults[.defaultTopP]
+        useMaxLength = Defaults[.defaultUseMaxLength]
+        maxLength = Defaults[.defaultMaxLength]
+        repetitionContextSize = Defaults[.defaultRepetitionContextSize]
+        repetitionPenalty = Defaults[.defaultRepetitionPenalty]
+        maxMessagesLimit = Defaults[.defaultMaxMessagesLimit]
+        useMaxMessagesLimit = Defaults[.defaultUseMaxMessagesLimit]
+        useRepetitionPenalty = Defaults[.defaultUseRepetitionPenalty]
+        repetitionPenalty = Defaults[.defaultRepetitionPenalty]
+
+        createdAt = .init()
+        updatedAt = .init()
     }
 
     func addMessage(_ message: Message) {

@@ -125,8 +125,10 @@ class LLMRunner {
                             }
                         }
 
-                        return tokens.count >= conversation.maxLength
-                            ? .stop : .more
+                        if conversation.useMaxLength && tokens.count >= conversation.maxLength {
+                            return .stop
+                        }
+                        return .more
                     }
                 }
 

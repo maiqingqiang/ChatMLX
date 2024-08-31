@@ -58,24 +58,35 @@ struct RightSidebarView: View {
                 .padding(padding)
 
                 HStack {
-                    Text("Max Length")
-                    Spacer()
-                    CompactSlider(
-                        value: Binding(
-                            get: {
-                                Double(conversation.maxLength)
-                            },
-                            set: {
-                                conversation.maxLength = Int($0)
-                            }
-                        ), in: 0...8192, step: 1
-                    ) {
-                        Text("\(Int(conversation.maxLength))")
-                            .foregroundStyle(.white)
-                    }
-                    .frame(width: 100)
+    Text("Use Max Length")
+    Spacer()
+    Toggle("", isOn: $conversation.useMaxLength)
+        .labelsHidden()
+        .toggleStyle(.switch)
+}
+.padding(padding)
+
+if conversation.useMaxLength {
+    HStack {
+        Text("Max Length")
+        Spacer()
+        CompactSlider(
+            value: Binding(
+                get: {
+                    Double(conversation.maxLength)
+                },
+                set: {
+                    conversation.maxLength = Int($0)
                 }
-                .padding(padding)
+            ), in: 0...8192, step: 1
+        ) {
+            Text("\(Int(conversation.maxLength))")
+                .foregroundStyle(.white)
+        }
+        .frame(width: 100)
+    }
+    .padding(padding)
+}
 
                 HStack {
                     Text("Repetition Context Size")
