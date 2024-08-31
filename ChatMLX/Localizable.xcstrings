@@ -86,6 +86,9 @@
         }
       }
     },
+    "Are you sure you want to delete '%@'?" : {
+
+    },
     "Blur" : {
       "localizations" : {
         "zh-Hans" : {
@@ -202,6 +205,9 @@
           }
         }
       }
+    },
+    "Confirm Deletion" : {
+
     },
     "Control" : {
       "extractionState" : "stale",
