@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct DownloadManagerView: View {
-    @Environment(ViewModel.self) private var viewModel
+    @Environment(SettingsView.ViewModel.self) private var settingsViewModel
     @State private var showingNewTask = false
     @State private var repoId = ""
 
     var body: some View {
         List {
-            ForEach(viewModel.tasks) { task in
+            ForEach(settingsViewModel.tasks) { task in
                 DownloadTaskView(task: task)
             }
         }
@@ -29,31 +29,20 @@ struct DownloadManagerView: View {
         }
         .scrollContentBackground(.hidden)
         .alert("New Task", isPresented: $showingNewTask) {
-            TextField("Hugging Face Repo Id", text: $repoId, prompt: Text("mlx-community/OpenELM-3B"))
+            TextField(
+                "Hugging Face Repo Id", text: $repoId,
+                prompt: Text("mlx-community/OpenELM-3B"))
             Button("Cancel", role: .cancel) {
                 repoId = ""
             }
             Button("Done") {
-                let newTask = DownloadTask(repoId)
-                newTask.start()
-                viewModel.tasks.append(newTask)
+                let task = DownloadTask(repoId)
+                task.start()
+                settingsViewModel.tasks.append(task)
             }
         } message: {
             Text("Please enter Hugging Face Repo ID")
         }
-    }
-
-    private func addNewTask() {
-        let newTask = DownloadTask("mlx-community/Qwen1.5-0.5B-Chat-4bit")
-        newTask.start()
-        viewModel.tasks.append(newTask)
-    }
-}
-
-extension DownloadManagerView {
-    @Observable
-    class ViewModel {
-        var tasks: [DownloadTask] = []
     }
 }
 

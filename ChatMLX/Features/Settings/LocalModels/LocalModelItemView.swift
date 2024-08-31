@@ -1,5 +1,5 @@
 //
-//  ModelItemView.swift
+//  LocalModelItemView.swift
 //  ChatMLX
 //
 //  Created by John Mai on 2024/8/13.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ModelItemView: View {
+struct LocalModelItemView: View {
     @Binding var model: LocalModel
     var onDelete: () -> Void
     
@@ -18,8 +18,9 @@ struct ModelItemView: View {
                 Spacer()
                 Button(action: onDelete) {
                     Image(systemName: "trash")
+                        .foregroundColor(.red)
                 }
-                .buttonStyle(.borderless)
+                .buttonStyle(.plain)
             }
         }
         .padding()

@@ -12,13 +12,13 @@ extension NSWindow {
     /// - Parameter radius: The blur radius to apply.
     func setBackgroundBlur(radius: Int, color: NSColor = .black.withAlphaComponent(0.4)) {
         guard let connection = try? getCGSConnection() else {
-            print("Failed to get CGS connection")
+            logger.error("Failed to get CGS connection")
             return
         }
 
         let status = CGSSetWindowBackgroundBlurRadius(connection, windowNumber, radius)
         if status != noErr {
-            print("Error setting blur radius: \(status)")
+            logger.error("Error setting blur radius: \(status)")
         }
 
         backgroundColor = color

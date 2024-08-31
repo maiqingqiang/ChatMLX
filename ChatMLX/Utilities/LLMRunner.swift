@@ -124,7 +124,7 @@ class LLMRunner {
                 conversation.tokensPerSecond = result.tokensPerSecond
             }
         } catch {
-            NSLog("LLM Generate Failed: \(error.localizedDescription)")
+            logger.error("LLM Generate Failed: \(error.localizedDescription)")
             conversation.failedMessage(message, with: error)
         }
 

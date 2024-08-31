@@ -12,6 +12,7 @@ import SwiftUI
 struct HuggingFaceView: View {
     @Default(.huggingFaceEndpoint) var endpoint
     @Default(.customHuggingFaceEndpoints) var customEndpoints
+    @Default(.useCustomHuggingFaceEndpoint) var useCustomEndpoint  // 新增
 
     @Default(.huggingFaceToken) var token
 
@@ -39,60 +40,76 @@ struct HuggingFaceView: View {
             }
 
             LuminareSection("Hugging Face Endpoint") {
+
                 HStack {
                     Text("Endpoint")
                     Spacer()
                     Picker("", selection: $endpoint) {
+                        if useCustomEndpoint {
+                            ForEach(customEndpoints, id: \.self) {
+                                customEndpoint in
+                                Text(customEndpoint).tag(customEndpoint)
+                            }
+                        }
                         Text("https://huggingface.co").tag(
                             "https://huggingface.co")
                         Text("https://hf-mirror.com").tag(
                             "https://hf-mirror.com")
-                        ForEach(customEndpoints, id: \.self) { customEndpoint in
-                            Text(customEndpoint).tag(customEndpoint)
-                        }
                     }
                     .labelsHidden()
                     .buttonStyle(.borderless)
                     .foregroundStyle(.white)
                     .tint(.white)
                 }
-                .padding(8)
-
-                HStack {
-                    Text("Custom Endpoint")
-                    Spacer()
-                    UltramanTextField(
-                        $newCustomEndpoint,
-                        placeholder: Text("Custom Hugging Face Endpoint"),
-                        alignment: .trailing
-                    )
-                    .frame(height: 25)
-                    .onSubmit {
-                        addCustomEndpoint()
-                    }
-                }
                 .padding(5)
 
-                if !customEndpoints.isEmpty {
-                    List {
-                        ForEach(customEndpoints, id: \.self) { customEndpoint in
-                            HStack {
-                                Text(customEndpoint)
-                                Spacer()
+                HStack {
+                    Text("Use Custom Endpoint")
+                    Spacer()
+                    Toggle("", isOn: $useCustomEndpoint)
+                        .toggleStyle(.switch)
+                        .labelsHidden()
+                }
+                .padding(8)
 
-                                Button {
-                                    removeCustomEndpoint(customEndpoint)
-                                } label: {
-                                    Image(systemName: "trash")
-                                        .foregroundColor(.red)
-                                }
-                                .buttonStyle(.plain)
-                            }
-                            .padding(.vertical, 4)
+                if useCustomEndpoint {
+                    HStack {
+                        Text("Custom Endpoint")
+                        Spacer()
+                        UltramanTextField(
+                            $newCustomEndpoint,
+                            placeholder: Text("Custom Hugging Face Endpoint"),
+                            alignment: .trailing
+                        )
+                        .frame(height: 25)
+                        .onSubmit {
+                            addCustomEndpoint()
                         }
                     }
-                    .scrollContentBackground(.hidden)
-                    .listStyle(.plain)
+                    .padding(5)
+
+                    if !customEndpoints.isEmpty {
+                        List {
+                            ForEach(customEndpoints, id: \.self) {
+                                customEndpoint in
+                                HStack {
+                                    Text(customEndpoint)
+                                    Spacer()
+
+                                    Button {
+                                        removeCustomEndpoint(customEndpoint)
+                                    } label: {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(.red)
+                                    }
+                                    .buttonStyle(.plain)
+                                }
+                                .padding(.vertical, 4)
+                            }
+                        }
+                        .scrollContentBackground(.hidden)
+                        .listStyle(.plain)
+                    }
                 }
             }
 

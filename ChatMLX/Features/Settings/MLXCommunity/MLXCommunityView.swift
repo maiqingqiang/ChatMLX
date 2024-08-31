@@ -10,7 +10,8 @@ import Luminare
 import SwiftUI
 
 struct MLXCommunityView: View {
-    @State var models: [RemoteModel] = []
+    @Environment(SettingsView.ViewModel.self) var settingsViewModel
+
     @State private var searchQuery = ""
     @State var isFetching = false
     @State var next: String?
@@ -34,6 +35,7 @@ struct MLXCommunityView: View {
     }
 
     var body: some View {
+        @Bindable var settingsViewModel = settingsViewModel
         VStack {
             LuminareSection {
                 LuminareTextField(
@@ -41,7 +43,7 @@ struct MLXCommunityView: View {
                     placeHolder: "Search")
                 {
                     Task {
-                        models = []
+                        settingsViewModel.remoteModels = []
                         await fetchModels(search: searchQuery)
                     }
                 }
@@ -50,7 +52,7 @@ struct MLXCommunityView: View {
             .padding(.horizontal)
 
             List {
-                ForEach($models) { model in
+                ForEach($settingsViewModel.remoteModels) { model in
                     MLXCommunityItemView(model: model)
                 }
                 lastRowView
@@ -63,6 +65,18 @@ struct MLXCommunityView: View {
             }
         }
         .ultramanNavigationTitle("MLX Community")
+        .ultramanToolbarItem(alignment: .trailing) {
+            Button(action: {
+                Task {
+                    settingsViewModel.remoteModels = []
+                    await fetchModels()
+                }
+            }) {
+                Image(systemName: "arrow.clockwise")
+            }
+            .disabled(isFetching)
+            .buttonStyle(.plain)
+        }
     }
 
     var lastRowView: some View {
@@ -72,9 +86,8 @@ struct MLXCommunityView: View {
                 ProgressView()
             case .idle:
                 EmptyView()
-            case .error(_):
-                EmptyView()
-//                ErrorView(error)
+            case .error(let error):
+                Text(error)
             }
         }
         .frame(height: 50)
@@ -132,13 +145,13 @@ struct MLXCommunityView: View {
         sessionManager.request(url).validate().responseDecodable(of: [RemoteModel].self) { response in
             switch response.result {
             case .success(let decodedResponse):
-                models = decodedResponse
+                settingsViewModel.remoteModels = decodedResponse
                 if let links = response.response?.allHeaderFields["Link"] as? String {
                     next = parseLinks(links)["next"]
                 }
                 status = .idle
             case .failure(let error):
-                print("Failed to fetch models: \(error)")
+                logger.error("Failed to fetch models: \(error)")
                 status = .error(error.localizedDescription)
             }
             isFetching = false
@@ -153,13 +166,13 @@ struct MLXCommunityView: View {
         sessionManager.request(nextURL).validate().responseDecodable(of: [RemoteModel].self) { response in
             switch response.result {
             case .success(let decodedResponse):
-                models.append(contentsOf: decodedResponse)
+                settingsViewModel.remoteModels.append(contentsOf: decodedResponse)
                 if let links = response.response?.allHeaderFields["Link"] as? String {
                     next = parseLinks(links)["next"]
                 }
                 status = .idle
             case .failure(let error):
-                print("Failed to fetch more models: \(error)")
+                logger.error("Failed to fetch more models: \(error)")
                 status = .error(error.localizedDescription)
             }
             isFetching = false

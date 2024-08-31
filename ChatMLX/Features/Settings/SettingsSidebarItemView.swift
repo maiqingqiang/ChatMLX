@@ -8,80 +8,71 @@
 import SwiftUI
 
 struct SettingsSidebarItemView: View {
-    @Binding var activeTab: SettingsTab
+    @Environment(SettingsView.ViewModel.self) var settingsViewModel
+
     let tab: SettingsTab
 
     @State private var isHovering: Bool = false
     @State private var isActive: Bool = false
-    let didTabChange: (SettingsTab) -> ()
+    @State private var showIndicator: Bool = false
 
-    init(_ tab: SettingsTab, _ activeTab: Binding<SettingsTab>, didTabChange: @escaping (SettingsTab) -> ()) {
-        self._activeTab = activeTab
+    init(_ tab: SettingsTab) {
         self.tab = tab
-        self.didTabChange = didTabChange
     }
 
     var body: some View {
-        Button {
-            activeTab = tab
-            didTabChange(tab)
-        } label: {
-            HStack(spacing: 8) {
-                tab.iconView()
+        HStack(spacing: 8) {
+            tab.iconView()
 
-                HStack(spacing: 0) {
-                    Text(tab.title)
+            Text(LocalizedStringKey(tab.id.rawValue))
+
+            if showIndicator {
+                VStack {
+                    Circle()
+                        .foregroundStyle(.red)
+                        .frame(width: 4, height: 4)
+                        .padding(.top, 6)
+                        .shadow(color: .red, radius: 4)
+
+                    Spacer()
                 }
-                .fixedSize()
+            }
 
-                Spacer()
+            Spacer()
+        }
+        .padding(4)
+        .background {
+            if isActive || isHovering {
+                Rectangle().foregroundStyle(.quaternary.opacity(0.7))
             }
         }
-        .buttonStyle(SidebarButtonStyle(isActive: $isActive))
+        .clipShape(.rect(cornerRadius: 12))
         .overlay {
             if isActive {
                 RoundedRectangle(cornerRadius: 12)
                     .strokeBorder(.quaternary, lineWidth: 1)
             }
         }
+        .onHover { isHovering = $0 }
         .onAppear {
             checkIfSelfIsActiveTab()
+            showIndicator = tab.showIndicator?(settingsViewModel) ?? false
         }
-        .onChange(of: activeTab) { _, _ in
+        .onChange(of: settingsViewModel.activeTabID) { _, _ in
             checkIfSelfIsActiveTab()
         }
+        .onChange(of: tab.showIndicator?(settingsViewModel) ?? false) {
+            _, newValue in
+            withAnimation {
+                showIndicator = newValue
+            }
+        }
+        .listRowSeparator(.hidden)
     }
 
     func checkIfSelfIsActiveTab() {
         withAnimation(.easeOut(duration: 0.1)) {
-            isActive = activeTab == tab
+            isActive = settingsViewModel.activeTabID == tab.id
         }
     }
 }
-
-struct SidebarButtonStyle: ButtonStyle {
-    let cornerRadius: CGFloat = 12
-    @State var isHovering: Bool = false
-    @Binding var isActive: Bool
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(4)
-            .background {
-                if configuration.isPressed {
-                    Rectangle().foregroundStyle(.quaternary)
-                } else if isHovering || isActive {
-                    Rectangle().foregroundStyle(.quaternary.opacity(0.7))
-                }
-            }
-            .onHover { hover in
-                isHovering = hover
-            }
-            .animation(.easeOut(duration: 0.1), value: [isHovering, isActive, configuration.isPressed])
-            .clipShape(.rect(cornerRadius: cornerRadius))
-    }
-}
-
-// #Preview {
-//    SettingsSidebarItemView()
-// }

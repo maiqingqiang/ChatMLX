@@ -81,7 +81,7 @@ struct ConversationSidebarItem: View {
                 selectedConversation = nil
             }
         } catch {
-            print("删除对话时出错: \(error)")
+            logger.error("deleteConversation failed: \(error)")
         }
     }
 }

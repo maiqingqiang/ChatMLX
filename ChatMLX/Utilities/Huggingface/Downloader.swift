@@ -53,20 +53,15 @@ class Downloader: NSObject, ObservableObject {
             if let existing = tasks.filter({ $0.originalRequest?.url == url }).first {
                 switch existing.state {
                 case .running:
-                    // print("Already downloading \(url)")
                     return
                 case .suspended:
-                    // print("Resuming suspended download task for \(url)")
                     existing.resume()
                     return
                 case .canceling:
-                    // print("Starting new download task for \(url), previous was canceling")
                     break
                 case .completed:
-                    // print("Starting new download task for \(url), previous is complete but the file is no longer present (I think it's cached)")
                     break
                 @unknown default:
-                    // print("Unknown state for running task; cancelling and creating a new one")
                     existing.cancel()
                 }
             }

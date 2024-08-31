@@ -17,17 +17,4 @@ struct LocalModel: Identifiable {
     var origin:String {
         "\(group)/\(name)"
     }
-
-    var isDefault: Bool {
-        get {
-            Defaults[.defaultModel] == origin
-        }
-        set {
-            if newValue {
-                Defaults[.defaultModel] = origin
-            } else if Defaults[.defaultModel] == origin {
-                Defaults[.defaultModel] = nil
-            }
-        }
-    }
 }

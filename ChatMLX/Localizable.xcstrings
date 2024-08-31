@@ -187,6 +187,7 @@
       }
     },
     "Confirm Clear All Conversations" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -593,6 +594,7 @@
       }
     },
     "This action will delete all conversation records and cannot be undone." : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -678,6 +680,9 @@
           }
         }
       }
+    },
+    "Use Custom Endpoint" : {
+
     },
     "Version %@" : {
       "localizations" : {

@@ -40,9 +40,11 @@ struct DefaultConversationView: View {
                         selection: $defaultModel,
                         label: Image(systemName: "brain")
                     ) {
-                        Text("Not selected").tag("")
-                        ForEach(localModels, id: \.id) { model in
-                            Text(model.name).tag(model.origin)
+                        if !localModels.isEmpty {
+                            Text("Not selected").tag("")
+                            ForEach(localModels, id: \.id) { model in
+                                Text(model.name).tag(model.origin)
+                            }
                         }
                     }
                     .labelsHidden()
@@ -158,7 +160,7 @@ struct DefaultConversationView: View {
                 localModels = models
             }
         } catch {
-            print("加载模型时出错: \(error)")
+            logger.error("loadModels failed: \(error)")
         }
     }
 }

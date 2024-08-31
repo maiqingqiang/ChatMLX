@@ -8,39 +8,55 @@
 import SwiftUI
 
 struct SettingsSidebarView: View {
+    @Environment(SettingsView.ViewModel.self) var settingsViewModel
+
     let titlebarHeight: CGFloat = 50
     let groupSpacing: CGFloat = 4
-    let itemPadding: CGFloat = 12
+    let itemPadding: CGFloat = 15
     let groupTitlePadding: CGFloat = 4
     let itemSpacing: CGFloat = 4
 
-    @Binding var activeTab: SettingsTab
-    let tabs: [SettingsTab]
-    let didTabChange: (SettingsTab) -> ()
+    static let tabs: [SettingsTab] = [
+        .init(.general, Image(systemName: "gearshape")),
+        .init(.defaultConversation, Image(systemName: "person.bubble")),
+        .init(.huggingFace, Image("hf-logo-pirate")),
+        .init(.models, Image(systemName: "brain")),
+        .init(.mlxCommunity, Image("mlx-logo-2")),
+        .init(
+            .downloadManager, Image(systemName: "arrow.down.circle"),
+            showIndicator: { $0.tasks.contains { $0.isDownloading } }
+        ),
+        .init(.about, Image(systemName: "info.circle")),
+    ]
 
     var body: some View {
+        @Bindable var settingsViewModel = settingsViewModel
         VStack(alignment: .leading) {
-            Text("Settings")
-                .font(.title2)
-                .padding(.top, 50)
-            Text("Preferences and model settings")
-                .font(.subheadline)
-                .foregroundStyle(.white.opacity(0.5))
-
-            ForEach(tabs) { tab in
-                SettingsSidebarItemView(tab, $activeTab, didTabChange: didTabChange)
+            Group {
+                Text("Settings")
+                    .font(.title2)
+                    .padding(.top, 50)
+                Text("Preferences and model settings")
+                    .font(.subheadline)
+                    .foregroundStyle(.white.opacity(0.5))
             }
+            .padding(.horizontal, itemPadding)
+
+            List(selection: $settingsViewModel.activeTabID) {
+                ForEach(Self.tabs) { tab in
+                    SettingsSidebarItemView(tab)
+                }
+            }
+            .scrollContentBackground(.hidden)
+            .listStyle(.plain)
 
             Spacer()
         }
-        .padding(.horizontal, itemPadding)
         .background(.black.opacity(0.4))
+        
     }
 }
 
-// #Preview {
-//    SettingsSidebarView()
-// }
 #Preview {
     SettingsView()
 }

@@ -27,7 +27,7 @@ class Conversation {
     var tokensPerSecond: Double?
 
     init() {
-        model = Defaults[.defaultModel] ?? ""
+        model = Defaults[.defaultModel]
     }
 
     func addMessage(_ message: Message) {

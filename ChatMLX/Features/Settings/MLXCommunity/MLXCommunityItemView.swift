@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MLXCommunityItemView: View {
     @Binding var model: RemoteModel
-    @Environment(DownloadManagerView.ViewModel.self) private var viewModel
+    @Environment(SettingsView.ViewModel.self) var settingsViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -20,17 +20,15 @@ struct MLXCommunityItemView: View {
 
                 Spacer()
 
-                Button(action: {
-                    let newTask = DownloadTask(model.repoId)
-                    newTask.start()
-                    viewModel.tasks.append(newTask)
-                }) {
+                Button(action: download) {
                     Image(systemName: "arrow.down.circle")
                 }
                 .buttonStyle(.borderless)
 
                 Button(action: {
-                    if let url = URL(string: "https://huggingface.co/\(model.repoId)") {
+                    if let url = URL(
+                        string: "https://huggingface.co/\(model.repoId)")
+                    {
                         NSWorkspace.shared.open(url)
                     }
                 }) {
@@ -46,7 +44,7 @@ struct MLXCommunityItemView: View {
                 Label("\(model.likes)", systemImage: "heart.fill")
                     .font(.subheadline)
                     .foregroundColor(.red.opacity(0.6))
-                
+
                 Spacer()
 
                 if let pipelineTag = model.pipelineTag {
@@ -76,8 +74,12 @@ struct MLXCommunityItemView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .shadow(color: .black, radius: 2)
     }
-}
 
-// #Preview {
-//    MLXCommunityItemView(model: RemoteModel()
-// }
+    private func download() {
+        let task = DownloadTask(model.repoId)
+        task.start()
+
+        settingsViewModel.tasks.append(task)
+        settingsViewModel.activeTabID = .downloadManager
+    }
+}

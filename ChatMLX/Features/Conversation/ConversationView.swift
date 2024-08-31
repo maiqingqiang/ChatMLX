@@ -13,7 +13,6 @@ struct ConversationView: View {
         @Bindable var viewModel = viewModel
 
         UltramanNavigationSplitView(
-            sidebarWidth: $viewModel.sidebarWidth,
             sidebar: {
                 ConversationSidebarView(
                     selectedConversation: $viewModel.selectedConversation)
@@ -45,7 +44,6 @@ struct ConversationView: View {
 extension ConversationView {
     @Observable
     class ViewModel {
-        var sidebarWidth: CGFloat = 250
         var detailWidth: CGFloat = 550
         var selectedConversation: Conversation?
     }

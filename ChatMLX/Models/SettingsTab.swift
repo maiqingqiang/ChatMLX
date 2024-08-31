@@ -7,22 +7,28 @@
 
 import SwiftUI
 
-public struct SettingsTab: Identifiable, Equatable {
+struct SettingsTab: Identifiable, Equatable {
     public static func == (lhs: SettingsTab, rhs: SettingsTab) -> Bool {
         rhs.id == lhs.id
     }
+    
+    enum ID:String {
+        case general = "General"
+        case defaultConversation = "Default Conversation"
+        case huggingFace = "Hugging Face"
+        case models = "Models"
+        case mlxCommunity = "MLX Community"
+        case downloadManager = "Download Manager"
+        case about = "About"
+    }
 
-    public var id: UUID = .init()
+    let id: ID
+    let icon: Image
+    let showIndicator: ((SettingsView.ViewModel) -> Bool)?
 
-    public let title: LocalizedStringKey
-    public let icon: Image
-    public let view: AnyView
-    public let showIndicator: (() -> Bool)?
-
-    public init(_ title: LocalizedStringKey, _ icon: Image, _ view: some View, showIndicator: (() -> Bool)? = nil) {
-        self.title = title
+    init(_ id: ID, _ icon: Image, showIndicator: ((SettingsView.ViewModel) -> Bool)? = nil) {
+        self.id = id
         self.icon = icon
-        self.view = AnyView(view)
         self.showIndicator = showIndicator
     }
 

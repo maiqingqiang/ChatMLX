@@ -43,7 +43,7 @@ extension View {
                     .preference(key: SafeAreaInsetsKey.self, value: proxy.safeAreaInsets)
             }
             .onPreferenceChange(SafeAreaInsetsKey.self) { value in
-                print("\(id) insets:\(value)")
+                logger.debug("\(id) insets:\(value)")
             }
         )
     }

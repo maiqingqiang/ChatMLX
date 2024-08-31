@@ -12,6 +12,7 @@ struct MessageBubbleView: View {
     let message: Message
     @Binding var displayStyle: DisplayStyle
     @State private var showCopiedAlert = false
+    var onDelete: () -> Void
 
     var body: some View {
         HStack {
@@ -57,7 +58,7 @@ struct MessageBubbleView: View {
                     Text(message.content)
                 }
 
-                if let error = message.error,!error.isEmpty {
+                if let error = message.error, !error.isEmpty {
                     HStack {
                         Image(systemName: "exclamationmark.triangle")
                             .foregroundStyle(.yellow)
@@ -116,6 +117,10 @@ struct MessageBubbleView: View {
                     showCopiedAlert = true
                 }) {
                     Image(systemName: "doc.on.doc")
+                }
+
+                Button(action: onDelete) {
+                    Image(systemName: "trash")
                 }
             }
             .buttonStyle(.plain)

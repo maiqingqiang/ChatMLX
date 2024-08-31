@@ -1,4 +1,3 @@
-
 //
 //  SettingsView.swift
 //  ChatMLX
@@ -9,36 +8,49 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var sidebarWidth: CGFloat = 200
-    @State private var activeTab: SettingsTab
-    let tabs: [SettingsTab] = [
-        .init("General", Image(systemName: "gearshape"), GeneralView()),
-        .init("Default Conversation", Image(systemName: "person.bubble"), DefaultConversationView()),
-        .init("Hugging Face", Image("hf-logo-pirate"), HuggingFaceView()),
-        .init("Models", Image(systemName: "brain"), ModelsView()),
-        .init("MLX Community", Image("mlx-logo-2"), MLXCommunityView()),
-        .init("Download Manager", Image(systemName: "arrow.down.circle"), DownloadManagerView()),
-        .init("About", Image(systemName: "info.circle"), AboutView()),
-    ]
-
-    init() {
-        self.activeTab = tabs.first!
-    }
+    @Environment(SettingsView.ViewModel.self) var settingsViewModel
 
     var body: some View {
-        UltramanNavigationSplitView(sidebarWidth: $sidebarWidth) {
-            SettingsSidebarView(activeTab: $activeTab, tabs: tabs) { _ in
-                
-            }
+        @Bindable var settingsViewModel = settingsViewModel
+
+        UltramanNavigationSplitView(sidebarWidth: 210) {
+            SettingsSidebarView()
         } detail: {
-            activeTab.view
+            Group {
+                switch settingsViewModel.activeTabID {
+                case .general:
+                    GeneralView()
+                case .defaultConversation:
+                    DefaultConversationView()
+                case .huggingFace:
+                    HuggingFaceView()
+                case .models:
+                    LocalModelsView()
+                case .mlxCommunity:
+                    MLXCommunityView()
+                case .downloadManager:
+                    DownloadManagerView()
+                case .about:
+                    AboutView()
+                }
+            }
         }
         .ultramanMinimalistWindowStyle()
-        .frame(width: 600, height: 500)
         .foregroundColor(.white)
+    }
+}
+
+extension SettingsView {
+    @Observable
+    class ViewModel {
+        var tasks: [DownloadTask] = []
+        var sidebarWidth: CGFloat = 250
+        var activeTabID: SettingsTab.ID = .general
+        var remoteModels: [RemoteModel] = []
     }
 }
 
 #Preview {
     SettingsView()
+        .environment(SettingsView.ViewModel())
 }

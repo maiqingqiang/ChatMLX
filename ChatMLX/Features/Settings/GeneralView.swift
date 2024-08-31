@@ -117,7 +117,7 @@ struct GeneralView: View {
             try modelContext.delete(model: Conversation.self)
             conversationViewModel.selectedConversation = nil
         } catch {
-            print("Error deleting all conversations: \(error)")
+            logger.error("Error deleting all conversations: \(error)")
         }
     }
 }

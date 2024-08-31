@@ -62,7 +62,7 @@ class DownloadTask: Identifiable, Equatable {
                     self.progress = 1.0
                 }
             } catch {
-                print("DownloadTask Error: \(error.localizedDescription)")
+                logger.error("DownloadTask Error: \(error.localizedDescription)")
                 self.hub = nil
                 await MainActor.run {
                     self.error = error

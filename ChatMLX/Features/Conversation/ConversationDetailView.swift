@@ -28,6 +28,8 @@ struct ConversationDetailView: View {
     @State private var showToast = false
     @State private var toastMessage = ""
     @State private var toastType: AlertToast.AlertType = .regular
+    
+    @State private var loading = true
 
     var sortedMessages: [Message] {
         conversation.messages.sorted { $0.timestamp < $1.timestamp }
@@ -71,7 +73,9 @@ struct ConversationDetailView: View {
             .buttonStyle(.plain)
         }
         .toast(isPresenting: $showToast) {
-            AlertToast(displayMode: .alert, type: toastType, title: toastMessage)
+            AlertToast(
+                displayMode: .alert, type: toastType, title: toastMessage
+            )
         }
     }
 
@@ -83,7 +87,10 @@ struct ConversationDetailView: View {
                     ForEach(sortedMessages) { message in
                         MessageBubbleView(
                             message: message,
-                            displayStyle: $displayStyle
+                            displayStyle: $displayStyle,
+                            onDelete: {
+                                deleteMessage(message)
+                            }
                         )
                     }
                 }
@@ -202,10 +209,12 @@ struct ConversationDetailView: View {
                 selection: $conversation.model,
                 label: Image(systemName: "brain")
             ) {
-                Text("Not selected").tag("")
-                ForEach(localModels, id: \.id) { model in
-                    Text(model.name)
-                        .tag("\(model.group)/\(model.name)")
+                if !loading {
+                    Text("Not selected").tag("")
+                    ForEach(localModels, id: \.id) { model in
+                        Text(model.name)
+                            .tag(model.origin)
+                    }
                 }
             }
             .pickerStyle(.menu)
@@ -293,14 +302,6 @@ struct ConversationDetailView: View {
         }
     }
 
-    private func scrollToBottom(proxy: ScrollViewProxy) {
-        if let lastMessage = conversation.messages.last {
-            withAnimation {
-                proxy.scrollTo(lastMessage.id, anchor: .bottom)
-            }
-        }
-    }
-
     private func loadModels() {
         let fileManager = FileManager.default
         let documentsURL = fileManager.urls(
@@ -339,9 +340,13 @@ struct ConversationDetailView: View {
 
             DispatchQueue.main.async {
                 localModels = models
+                loading = false
             }
         } catch {
-            showToastMessage("加载模型时出错: \(error.localizedDescription)", type: .error(Color.red))
+            showToastMessage(
+                "loadModels failed: \(error.localizedDescription)",
+                type: .error(Color.red)
+            )
         }
     }
 
@@ -360,5 +365,20 @@ struct ConversationDetailView: View {
         toastMessage = message
         toastType = type
         showToast = true
+    }
+
+    private func deleteMessage(_ message: Message) {
+        guard message.role == .user else { return }
+
+        let sortedMessages = conversation.messages.sorted { $0.timestamp < $1.timestamp }
+
+        if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
+            let messages = sortedMessages[index...]
+            for messageToDelete in messages {
+                conversation.messages.removeAll(where: { $0.id == messageToDelete.id })
+                modelContext.delete(messageToDelete)
+            }
+            conversation.updatedAt = Date()
+        }
     }
 }

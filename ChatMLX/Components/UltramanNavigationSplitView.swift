@@ -19,13 +19,16 @@ struct UltramanNavigationTitleModifier: ViewModifier {
 struct UltramanNavigationTitleKey: PreferenceKey {
     static var defaultValue: LocalizedStringKey = ""
 
-    static func reduce(value: inout LocalizedStringKey, nextValue: () -> LocalizedStringKey) {
+    static func reduce(
+        value: inout LocalizedStringKey, nextValue: () -> LocalizedStringKey
+    ) {
         value = nextValue()
     }
 }
 
 struct UltramanToolbarItem: Identifiable, Equatable {
-    static func == (lhs: UltramanToolbarItem, rhs: UltramanToolbarItem) -> Bool {
+    static func == (lhs: UltramanToolbarItem, rhs: UltramanToolbarItem) -> Bool
+    {
         lhs.id == rhs.id
     }
 
@@ -50,7 +53,10 @@ struct UltramanNavigationToolbarModifier: ViewModifier {
 struct UltramanNavigationToolbarKey: PreferenceKey {
     static var defaultValue: [UltramanToolbarItem] = []
 
-    static func reduce(value: inout [UltramanToolbarItem], nextValue: () -> [UltramanToolbarItem]) {
+    static func reduce(
+        value: inout [UltramanToolbarItem],
+        nextValue: () -> [UltramanToolbarItem]
+    ) {
         value.append(contentsOf: nextValue())
     }
 }
@@ -60,58 +66,41 @@ extension View {
         modifier(UltramanNavigationTitleModifier(title: title))
     }
 
-    func ultramanToolbarItem(alignment: UltramanToolbarItem.ToolbarAlignment = .trailing, @ViewBuilder content: () -> some View) -> some View {
-        let item = UltramanToolbarItem(content: AnyView(content()), alignment: alignment)
+    func ultramanToolbarItem(
+        alignment: UltramanToolbarItem.ToolbarAlignment = .trailing,
+        @ViewBuilder content: () -> some View
+    ) -> some View {
+        let item = UltramanToolbarItem(
+            content: AnyView(content()), alignment: alignment)
         return modifier(UltramanNavigationToolbarModifier(items: [item]))
     }
 }
 
 struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
-    @Binding var sidebarWidth: CGFloat
+    @State var sidebarWidth: CGFloat = 250
     @State private var lastNonZeroWidth: CGFloat = 0
-    let minSidebarWidth: CGFloat = 200
-    let maxSidebarWidth: CGFloat = 300
     let sidebar: () -> Sidebar
     let detail: () -> Detail
-
+    
     @State private var navigationTitle: LocalizedStringKey = ""
     @State private var toolbarItems: [UltramanToolbarItem] = []
-
+    
     @State private var isDragging = false
     @State private var isSidebarVisible = true
     
-
-
+    let minSidebarWidth: CGFloat = 200
+    let maxSidebarWidth: CGFloat = 400
+    
     var body: some View {
-        GeometryReader { _ in
-            HStack(spacing: 0) {
+        GeometryReader { geometry in
+            HStack(spacing: .zero) {
                 if isSidebarVisible {
-                    ZStack(alignment: .trailing) {
-                        sidebar()
-                            .frame(width: max(sidebarWidth, 0))
-
-                        Rectangle()
-                            .fill(Color.clear)
-                            .frame(width: 4)
-                            .onHover { inside in
-                                if inside {
-                                    NSCursor.resizeLeftRight.push()
-                                } else {
-                                    NSCursor.pop()
-                                }
-                            }
-                            .gesture(
-                                DragGesture()
-                                    .onChanged { value in
-                                        let newWidth = sidebarWidth + value.translation.width
-                                        sidebarWidth = min(max(newWidth, minSidebarWidth), maxSidebarWidth)
-                                    }
-                            )
-                    }
-                    .transition(.move(edge: .leading))
+                    sidebar()
+                        .frame(width: sidebarWidth)
+                        .transition(.move(edge: .leading))
                 }
-
-                VStack(spacing: 0) {
+                
+                VStack(spacing: .zero) {
                     Divider()
                     detail()
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -124,13 +113,14 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
                             toolbarItems = items
                         }
                 }
+                
                 .safeAreaInset(edge: .top, alignment: .center, spacing: 0) {
                     header().frame(height: 52)
                 }
             }
         }
     }
-
+    
     @ViewBuilder
     func header() -> some View {
         VStack(spacing: 0) {
@@ -146,9 +136,11 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
                     toggleSidebar()
                 } label: {
                     Image(systemName: "sidebar.leading")
-                }.buttonStyle(.plain)
+                }
+                .buttonStyle(.plain)
 
-                ForEach(toolbarItems.filter { $0.alignment == .leading }) { item in
+                ForEach(toolbarItems.filter { $0.alignment == .leading }) {
+                    item in
                     item.content
                 }
 
@@ -158,7 +150,8 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
 
                 Spacer()
 
-                ForEach(toolbarItems.filter { $0.alignment == .trailing }) { item in
+                ForEach(toolbarItems.filter { $0.alignment == .trailing }) {
+                    item in
                     item.content
                 }
             }

@@ -11,9 +11,9 @@ import SwiftUI
 
 @main
 struct ChatMLXApp: App {
-    @State private var conversationViewModel = ConversationView.ViewModel()
-    @State private var downloadManagerViewModel =
-        DownloadManagerView.ViewModel()
+    @State private var conversationViewModel:ConversationView.ViewModel = .init()
+    @State private var settingsViewModel: SettingsView.ViewModel = .init()
+
     @Default(.language) var language
     @State private var runner = LLMRunner()
 
@@ -32,11 +32,12 @@ struct ChatMLXApp: App {
         Settings {
             SettingsView()
                 .environment(conversationViewModel)
-                .environment(downloadManagerViewModel)
+                .environment(settingsViewModel)
                 .environment(
                     \.locale, .init(identifier: language.rawValue)
                 )
                 .environment(runner)
+                .frame(minWidth: 600, minHeight: 380)
         }
         .modelContainer(for: [Conversation.self, Message.self])
     }

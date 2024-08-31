@@ -17,6 +17,8 @@ struct ConversationSidebarView: View {
     @State private var newConversationTitle = ""
     @State private var showingClearConfirmation = false
 
+    let padding: CGFloat = 8
+
     var sortedConversations: [Conversation] {
         conversations.sorted { $0.updatedAt > $1.updatedAt }
     }
@@ -47,30 +49,12 @@ struct ConversationSidebarView: View {
                     Image(systemName: "plus")
                 }
 
-                Button(action: {
-                    showingClearConfirmation = true
-                }) {
-                    Image("clear")
-                }.confirmationDialog(
-                    "Confirm Clear All Conversations",
-                    isPresented: $showingClearConfirmation
-                ) {
-                    Button("Clear", role: .destructive) {
-                        clearAllConversations()
-                    }
-                    Button("Cancel", role: .cancel) {}
-                } message: {
-                    Text(
-                        "This action will delete all conversation records and cannot be undone."
-                    )
-                }
-
                 SettingsLink {
                     Image(systemName: "gear")
                 }
             }
             .frame(height: 50)
-            .padding(.horizontal, 20)
+            .padding(.horizontal, padding)
             .buttonStyle(.plain)
 
             HStack {
@@ -89,7 +73,7 @@ struct ConversationSidebarView: View {
                     $keyword, placeholder: Text("Search Conversation...")
                 )
                 .frame(height: 25)
-            }.padding(.horizontal, 6)
+            }.padding(.horizontal, padding)
 
             ScrollView {
                 LazyVStack(spacing: 0) {
@@ -117,7 +101,7 @@ struct ConversationSidebarView: View {
             try modelContext.delete(model: Conversation.self)
             selectedConversation = nil
         } catch {
-            print("Error deleting all conversations: \(error)")
+            logger.error("Error deleting all conversations: \(error)")
         }
     }
 }

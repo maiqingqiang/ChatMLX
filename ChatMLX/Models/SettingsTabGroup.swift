@@ -7,18 +7,18 @@
 
 import SwiftUI
 
-public struct SettingsTabGroup: Identifiable {
+struct SettingsTabGroup: Identifiable {
     public var id: UUID = .init()
 
-    public let title: LocalizedStringKey?
-    public let tabs: [SettingsTab]
+    let title: LocalizedStringKey?
+    let tabs: [SettingsTab]
 
-    public init(_ title: LocalizedStringKey, _ tabs: [SettingsTab]) {
+    init(_ title: LocalizedStringKey, _ tabs: [SettingsTab]) {
         self.title = title
         self.tabs = tabs
     }
 
-    public init(_ tabs: [SettingsTab]) {
+    init(_ tabs: [SettingsTab]) {
         self.title = nil
         self.tabs = tabs
     }
