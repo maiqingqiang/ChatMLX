@@ -29,7 +29,8 @@ struct MLXCommunityView: View {
     init() {
         let configuration = URLSessionConfiguration.default
         configuration.requestCachePolicy = .returnCacheDataElseLoad
-        configuration.urlCache = URLCache(memoryCapacity: 20 * 1024 * 1024, diskCapacity: 0)
+        configuration.urlCache = URLCache(
+            memoryCapacity: 20 * 1024 * 1024, diskCapacity: 0)
 
         sessionManager = Session(configuration: configuration)
     }
@@ -38,15 +39,15 @@ struct MLXCommunityView: View {
         @Bindable var settingsViewModel = settingsViewModel
         VStack {
             LuminareSection {
-                LuminareTextField(
-                    $searchQuery,
-                    placeHolder: "Search")
-                {
+                UltramanTextField(
+                    $searchQuery, placeholder: Text("Search...")
+                ) {
                     Task {
                         settingsViewModel.remoteModels = []
                         await fetchModels(search: searchQuery)
                     }
                 }
+
             }
             .padding(.top)
             .padding(.horizontal)
@@ -108,11 +109,15 @@ struct MLXCommunityView: View {
         for component in linkComponents {
             let parts = component.split(separator: ";")
             if parts.count == 2 {
-                let urlPart = parts[0].trimmingCharacters(in: .whitespacesAndNewlines)
-                let relPart = parts[1].trimmingCharacters(in: .whitespacesAndNewlines)
+                let urlPart = parts[0].trimmingCharacters(
+                    in: .whitespacesAndNewlines)
+                let relPart = parts[1].trimmingCharacters(
+                    in: .whitespacesAndNewlines)
 
-                let url = urlPart.trimmingCharacters(in: CharacterSet(charactersIn: "<>"))
-                let rel = relPart.replacingOccurrences(of: "rel=", with: "").trimmingCharacters(in: CharacterSet(charactersIn: "\""))
+                let url = urlPart.trimmingCharacters(
+                    in: CharacterSet(charactersIn: "<>"))
+                let rel = relPart.replacingOccurrences(of: "rel=", with: "")
+                    .trimmingCharacters(in: CharacterSet(charactersIn: "\""))
 
                 linkDict[rel] = url
             }
@@ -126,7 +131,8 @@ struct MLXCommunityView: View {
         isFetching = true
         status = .isLoading
 
-        var urlComponents = URLComponents(string: "https://huggingface.co/api/models")!
+        var urlComponents = URLComponents(
+            string: "https://huggingface.co/api/models")!
         var queryItems: [URLQueryItem] = [
             URLQueryItem(name: "limit", value: "20"),
             URLQueryItem(name: "author", value: "mlx-community"),
@@ -142,11 +148,15 @@ struct MLXCommunityView: View {
 
         guard let url = urlComponents.url else { return }
 
-        sessionManager.request(url).validate().responseDecodable(of: [RemoteModel].self) { response in
+        sessionManager.request(url).validate().responseDecodable(
+            of: [RemoteModel].self
+        ) { response in
             switch response.result {
             case .success(let decodedResponse):
                 settingsViewModel.remoteModels = decodedResponse
-                if let links = response.response?.allHeaderFields["Link"] as? String {
+                if let links = response.response?.allHeaderFields["Link"]
+                    as? String
+                {
                     next = parseLinks(links)["next"]
                 }
                 status = .idle
@@ -163,11 +173,16 @@ struct MLXCommunityView: View {
         isFetching = true
         status = .isLoading
 
-        sessionManager.request(nextURL).validate().responseDecodable(of: [RemoteModel].self) { response in
+        sessionManager.request(nextURL).validate().responseDecodable(
+            of: [RemoteModel].self
+        ) { response in
             switch response.result {
             case .success(let decodedResponse):
-                settingsViewModel.remoteModels.append(contentsOf: decodedResponse)
-                if let links = response.response?.allHeaderFields["Link"] as? String {
+                settingsViewModel.remoteModels.append(
+                    contentsOf: decodedResponse)
+                if let links = response.response?.allHeaderFields["Link"]
+                    as? String
+                {
                     next = parseLinks(links)["next"]
                 }
                 status = .idle

@@ -21,6 +21,8 @@ class Conversation {
     var maxLength: Int = 1000
     var repetitionContextSize: Int = 20
 
+    var repetitionPenalty: Float = 1.0
+
     var promptTime: TimeInterval?
     var generateTime: TimeInterval?
     var promptTokensPerSecond: Double?
@@ -28,6 +30,8 @@ class Conversation {
 
     var maxMessagesLimit: Int = 10
     var useMaxMessagesLimit: Bool = false
+
+    var useRepetitionPenalty: Bool = false
 
     init() {
         model = Defaults[.defaultModel]

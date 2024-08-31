@@ -507,6 +507,9 @@
     "Repetition Context Size" : {
 
     },
+    "Repetition Penalty" : {
+
+    },
     "Reset All Settings" : {
       "localizations" : {
         "zh-Hans" : {
@@ -518,6 +521,7 @@
       }
     },
     "Search" : {
+      "extractionState" : "stale",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -539,6 +543,9 @@
       }
     },
     "Search Conversation..." : {
+
+    },
+    "Search..." : {
 
     },
     "Send" : {
@@ -691,6 +698,9 @@
 
     },
     "Use Max Messages Limit" : {
+
+    },
+    "Use Repetition Penalty" : {
 
     },
     "Version %@" : {

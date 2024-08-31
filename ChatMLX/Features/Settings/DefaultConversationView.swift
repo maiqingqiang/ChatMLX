@@ -19,6 +19,8 @@ struct DefaultConversationView: View {
     @Default(.defaultRepetitionContextSize) var defaultRepetitionContextSize
     @Default(.defaultMaxMessagesCount) var defaultMaxMessagesLimit
     @Default(.defaultUseMaxMessagesCount) var defaultUseMaxMessagesLimit
+    @Default(.defaultRepetitionPenalty) var defaultRepetitionPenalty
+    @Default(.defaultUseRepetitionPenalty) var defaultUseRepetitionPenalty
 
     @State private var localModels: [LocalModel] = []
 
@@ -103,7 +105,7 @@ struct DefaultConversationView: View {
                         value: Binding(
                             get: { Double(defaultRepetitionContextSize) },
                             set: { defaultRepetitionContextSize = Int($0) }
-                        ), in: 1...100, step: 1
+                        ), in: 0...100, step: 1
                     ) {
                         Text("\(defaultRepetitionContextSize)")
                             .foregroundStyle(.white)
@@ -111,6 +113,32 @@ struct DefaultConversationView: View {
                     .frame(width: 200)
                 }
                 .padding(padding)
+
+                HStack {
+                    Text("Use Repetition Penalty")
+                    Spacer()
+                    Toggle("", isOn: $defaultUseRepetitionPenalty)
+                        .toggleStyle(.switch)
+                }
+                .padding(padding)
+
+                if defaultUseRepetitionPenalty {
+                    HStack {
+                        Text("Repetition Penalty")
+                        Spacer()
+                        CompactSlider(
+                            value: $defaultRepetitionPenalty, in: 1...2,
+                            step: 0.01
+                        ) {
+                            Text(
+                                "\(defaultRepetitionPenalty, specifier: "%.2f")"
+                            )
+                            .foregroundStyle(.white)
+                        }
+                        .frame(width: 200)
+                    }
+                    .padding(padding)
+                }
             }
             .compactSliderSecondaryColor(.white)
 

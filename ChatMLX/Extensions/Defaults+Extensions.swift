@@ -25,6 +25,8 @@ extension Defaults.Keys {
     static let defaultRepetitionContextSize = Key<Int>("defaultRepetitionContextSize", default: 20)
     static let defaultMaxMessagesCount = Key<Int>("defaultMaxMessagesCount", default: 20)
     static let defaultUseMaxMessagesCount = Key<Bool>("defaultUseMaxMessagesCount", default: false)
+    static let defaultRepetitionPenalty = Key<Float>("defaultRepetitionPenalty", default: 0)
+    static let defaultUseRepetitionPenalty = Key<Bool>("defaultUseRepetitionPenalty", default: false)
     
     static let gpuCacheLimit = Key<Int>("gpuCacheLimit", default: 128)
 }

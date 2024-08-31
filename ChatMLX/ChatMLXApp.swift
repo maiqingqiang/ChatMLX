@@ -37,7 +37,7 @@ struct ChatMLXApp: App {
                     \.locale, .init(identifier: language.rawValue)
                 )
                 .environment(runner)
-                .frame(minWidth: 600, minHeight: 380)
+                .frame(minWidth: 620, minHeight: 380)
         }
         .modelContainer(for: [Conversation.self, Message.self])
     }

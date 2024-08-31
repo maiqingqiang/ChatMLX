@@ -24,7 +24,8 @@ struct RightSidebarView: View {
                         },
                         set: { title in
                             conversation.title = title
-                        }), placeholder: Text("Conversation Title")
+                        }
+                    ), placeholder: Text("Conversation Title")
                 )
                 .frame(height: 25)
             }
@@ -75,6 +76,53 @@ struct RightSidebarView: View {
                     .frame(width: 100)
                 }
                 .padding(padding)
+
+                HStack {
+                    Text("Repetition Context Size")
+                    Spacer()
+                    CompactSlider(
+                        value: Binding(
+                            get: {
+                                Double(conversation.repetitionContextSize)
+                            },
+                            set: {
+                                conversation.repetitionContextSize = Int($0)
+                            }
+                        ), in: 0...100, step: 1
+                    ) {
+                        Text("\(conversation.repetitionContextSize)")
+                            .foregroundStyle(.white)
+                    }
+                    .frame(width: 100)
+                }
+                .padding(padding)
+
+                HStack {
+                    Text("Use Repetition Penalty")
+                    Spacer()
+                    Toggle("", isOn: $conversation.useRepetitionPenalty)
+                        .labelsHidden()
+                        .toggleStyle(.switch)
+                }
+                .padding(padding)
+
+                if conversation.useRepetitionPenalty {
+                    HStack {
+                        Text("Repetition Penalty")
+                        Spacer()
+                        CompactSlider(
+                            value: $conversation.repetitionPenalty, in: 1...2,
+                            step: 0.01
+                        ) {
+                            Text(
+                                "\(conversation.repetitionPenalty, specifier: "%.2f")"
+                            )
+                            .foregroundStyle(.white)
+                        }
+                        .frame(width: 100)
+                    }
+                    .padding(padding)
+                }
             }
             .compactSliderSecondaryColor(.white)
 
@@ -105,7 +153,6 @@ struct RightSidebarView: View {
                     }
                     .padding(padding)
                 }
-
             }
             .compactSliderSecondaryColor(.white)
 

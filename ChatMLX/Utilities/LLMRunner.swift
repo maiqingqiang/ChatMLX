@@ -111,8 +111,9 @@ class LLMRunner {
                         parameters: GenerateParameters(
                             temperature: conversation.temperature,
                             topP: conversation.topP,
-                            repetitionContextSize: conversation
-                                .repetitionContextSize),
+                            repetitionPenalty: conversation.useRepetitionPenalty ? conversation.repetitionPenalty : nil,
+                            repetitionContextSize: conversation.repetitionContextSize
+                        ),
                         model: model,
                         tokenizer: tokenizer,
                         extraEOSTokens: modelConfiguration.extraEOSTokens
