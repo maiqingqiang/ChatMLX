@@ -33,6 +33,9 @@
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=maiqingqiang/ChatMLX&type=Date)](https://star-history.com/#maiqingqiang/ChatMLX&Date)
 
 [contributors-shield]: https://img.shields.io/github/contributors/maiqingqiang/ChatMLX.svg?style=for-the-badge
 [contributors-url]: https://github.com/maiqingqiang/ChatMLX/graphs/contributors
