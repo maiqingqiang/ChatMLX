@@ -16,16 +16,20 @@
   <h3 align="center">ChatMLX</h3>
 
   <p align="center">
-    ChatMLX is a large model real-time conversation app implemented using <a href="https://github.com/ml-explore/mlx-swift">MLX</a>
+    ChatMLX is a modern, open-source, high-performance chat application for MacOS based on large language models, based on the powerful performance of <a href="https://github.com/ml-explore/mlx-swift">MLX</a> and Apple silicon. It supports multiple models, providing users with a rich variety of conversation options. It runs LLM locally to ensure user privacy and security.
     <br />
     <br />
     <a href="https://github.com/maiqingqiang/ChatMLX/issues">Report Bug</a>
     ·
     <a href="https://github.com/maiqingqiang/ChatMLX/issues">Request Feature</a>
+    ·
+    <a href="https://github.com/maiqingqiang/ChatMLX/releases">Download</a>
   </p>
 </div>
 
-> ⚠️ Still under development and improvement.
+> [!NOTE]
+>
+> Compatible with macOS 14.5 and later.
 
 ![iShot_2024-08-31_23.55.23.png](images/iShot_2024-08-31_23.55.23.png)
 
