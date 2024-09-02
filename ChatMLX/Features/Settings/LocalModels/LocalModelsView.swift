@@ -4,6 +4,7 @@
 //
 //  Created by John Mai on 2024/8/10.
 //
+
 import Defaults
 import SwiftUI
 
@@ -18,12 +19,11 @@ struct LocalModelsView: View {
                     header: Text(modelGroups[groupIndex].name).font(
                         .title2.bold())
                 ) {
-                    ForEach(modelGroups[groupIndex].models.indices, id: \.self)
-                    { modelIndex in
+                    ForEach(modelGroups[groupIndex].models.indices, id: \.self) { modelIndex in
                         LocalModelItemView(
                             model: $modelGroups[groupIndex].models[modelIndex],
                             onDelete: {
-                                Task{
+                                Task {
                                     deleteModel(
                                         at: IndexSet(integer: modelIndex),
                                         from: groupIndex)
@@ -33,7 +33,7 @@ struct LocalModelsView: View {
                         )
                     }
                     .onDelete { offsets in
-                        Task{
+                        Task {
                             deleteModel(at: offsets, from: groupIndex)
                             loadModels()
                         }

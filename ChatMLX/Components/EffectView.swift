@@ -40,7 +40,7 @@ struct EffectView: NSViewRepresentable {
         self.material = material
         self.blendingMode = blendingMode
         self.emphasized = emphasized
-        
+
     }
 
     func makeNSView(context: Context) -> NSVisualEffectView {
@@ -66,8 +66,7 @@ struct EffectView: NSViewRepresentable {
     static func selectionBackground(_ condition: Bool = true) -> some View {
         if condition {
             EffectView(.selection, blendingMode: .withinWindow, emphasized: true)
-        }
-        else {
+        } else {
             Color.clear
         }
     }

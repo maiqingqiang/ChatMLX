@@ -17,7 +17,7 @@ struct GeneralView: View {
     @Default(.gpuCacheLimit) var gpuCacheLimit
 
     @Environment(ConversationView.ViewModel.self) private
-    var conversationViewModel
+        var conversationViewModel
 
     @Environment(LLMRunner.self) var runner
     @Environment(\.modelContext) private var modelContext
@@ -50,7 +50,7 @@ struct GeneralView: View {
                 HStack {
                     Text("Blur")
                     Spacer()
-                    CompactSlider(value: $blurRadius, in: 0...100) {
+                    CompactSlider(value: $blurRadius, in: 0 ... 100) {
                         Text("\(Int(blurRadius))")
                             .foregroundStyle(.white)
                     }
@@ -76,7 +76,7 @@ struct GeneralView: View {
                         value: Binding(
                             get: { Double(gpuCacheLimit) },
                             set: { gpuCacheLimit = Int($0) }
-                        ), in: 0...Double(maxRAM), step: 128
+                        ), in: 0 ... Double(maxRAM), step: 128
                     ) {
                         Text("\(Int(gpuCacheLimit))MB")
                             .foregroundStyle(.white)

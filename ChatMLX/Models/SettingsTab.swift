@@ -11,8 +11,8 @@ struct SettingsTab: Identifiable, Equatable {
     public static func == (lhs: SettingsTab, rhs: SettingsTab) -> Bool {
         rhs.id == lhs.id
     }
-    
-    enum ID:String {
+
+    enum ID: String {
         case general = "General"
         case defaultConversation = "Default Conversation"
         case huggingFace = "Hugging Face"

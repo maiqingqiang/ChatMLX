@@ -34,7 +34,8 @@ struct DefaultConversationView: View {
         ScrollView {
             VStack {
                 LuminareSection("Title") {
-                    UltramanTextField($defaultTitle,
+                    UltramanTextField(
+                        $defaultTitle,
                         placeholder: Text("Default conversation title")
                     )
                     .frame(height: 25)
@@ -66,7 +67,7 @@ struct DefaultConversationView: View {
                         Text("Temperature")
                         Spacer()
                         CompactSlider(
-                            value: $defaultTemperature, in: 0...2, step: 0.01
+                            value: $defaultTemperature, in: 0 ... 2, step: 0.01
                         ) {
                             Text("\(defaultTemperature, specifier: "%.2f")")
                                 .foregroundStyle(.white)
@@ -79,7 +80,7 @@ struct DefaultConversationView: View {
                         Text("Top P")
                         Spacer()
                         CompactSlider(
-                            value: $defaultTopP, in: 0...1, step: 0.01
+                            value: $defaultTopP, in: 0 ... 1, step: 0.01
                         ) {
                             Text("\(defaultTopP, specifier: "%.2f")")
                                 .foregroundStyle(.white)
@@ -104,7 +105,7 @@ struct DefaultConversationView: View {
                                 value: Binding(
                                     get: { Double(defaultMaxLength) },
                                     set: { defaultMaxLength = Int($0) }
-                                ), in: 0...8192, step: 1
+                                ), in: 0 ... 8192, step: 1
                             ) {
                                 Text("\(defaultMaxLength)")
                                     .foregroundStyle(.white)
@@ -121,7 +122,7 @@ struct DefaultConversationView: View {
                             value: Binding(
                                 get: { Double(defaultRepetitionContextSize) },
                                 set: { defaultRepetitionContextSize = Int($0) }
-                            ), in: 0...100, step: 1
+                            ), in: 0 ... 100, step: 1
                         ) {
                             Text("\(defaultRepetitionContextSize)")
                                 .foregroundStyle(.white)
@@ -143,7 +144,7 @@ struct DefaultConversationView: View {
                             Text("Repetition Penalty")
                             Spacer()
                             CompactSlider(
-                                value: $defaultRepetitionPenalty, in: 1...2,
+                                value: $defaultRepetitionPenalty, in: 1 ... 2,
                                 step: 0.01
                             ) {
                                 Text(
@@ -175,7 +176,7 @@ struct DefaultConversationView: View {
                                 value: Binding(
                                     get: { Double(defaultMaxMessagesLimit) },
                                     set: { defaultMaxMessagesLimit = Int($0) }
-                                ), in: 1...50, step: 1
+                                ), in: 1 ... 50, step: 1
                             ) {
                                 Text("\(defaultMaxMessagesLimit)")
                                     .foregroundStyle(.white)

@@ -36,7 +36,7 @@ struct RightSidebarView: View {
                         Text("Temperature")
                         Spacer()
                         CompactSlider(
-                            value: $conversation.temperature, in: 0...2,
+                            value: $conversation.temperature, in: 0 ... 2,
                             step: 0.01
                         ) {
                             Text(
@@ -52,7 +52,7 @@ struct RightSidebarView: View {
                         Text("Top P")
                         Spacer()
                         CompactSlider(
-                            value: $conversation.topP, in: 0...1, step: 0.01
+                            value: $conversation.topP, in: 0 ... 1, step: 0.01
                         ) {
                             Text("\(conversation.topP, specifier: "%.2f")")
                                 .foregroundStyle(.white)
@@ -82,7 +82,7 @@ struct RightSidebarView: View {
                                     set: {
                                         conversation.maxLength = Int($0)
                                     }
-                                ), in: 0...8192, step: 1
+                                ), in: 0 ... 8192, step: 1
                             ) {
                                 Text("\(Int(conversation.maxLength))")
                                     .foregroundStyle(.white)
@@ -103,7 +103,7 @@ struct RightSidebarView: View {
                                 set: {
                                     conversation.repetitionContextSize = Int($0)
                                 }
-                            ), in: 0...100, step: 1
+                            ), in: 0 ... 100, step: 1
                         ) {
                             Text("\(conversation.repetitionContextSize)")
                                 .foregroundStyle(.white)
@@ -127,7 +127,7 @@ struct RightSidebarView: View {
                             Spacer()
                             CompactSlider(
                                 value: $conversation.repetitionPenalty,
-                                in: 1...2,
+                                in: 1 ... 2,
                                 step: 0.01
                             ) {
                                 Text(
@@ -164,7 +164,7 @@ struct RightSidebarView: View {
                                     set: {
                                         conversation.maxMessagesLimit = Int($0)
                                     }
-                                ), in: 1...50, step: 1
+                                ), in: 1 ... 50, step: 1
                             ) {
                                 Text("\(conversation.maxMessagesLimit)")
                                     .foregroundStyle(.white)
@@ -191,7 +191,7 @@ struct RightSidebarView: View {
                             text: $conversation.systemPrompt,
                             placeholder: "System prompt",
                             onSubmit: {
-                                
+
                             }
                         )
                         .frame(height: 100)

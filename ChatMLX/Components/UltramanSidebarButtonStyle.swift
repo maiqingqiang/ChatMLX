@@ -24,6 +24,7 @@ struct UltramanSidebarButtonStyle: ButtonStyle {
             .onHover { hover in
                 isHovering = hover
             }
-            .animation(.easeOut(duration: 0.1), value: [isHovering, isActive, configuration.isPressed])
+            .animation(
+                .easeOut(duration: 0.1), value: [isHovering, isActive, configuration.isPressed])
     }
 }

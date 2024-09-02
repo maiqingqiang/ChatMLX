@@ -66,13 +66,11 @@
 		5266766C2C85F903001EF113 /* HubApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526676322C85F903001EF113 /* HubApi.swift */; };
 		5266766D2C85F903001EF113 /* LLMRunner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526676342C85F903001EF113 /* LLMRunner.swift */; };
 		5266766E2C85F903001EF113 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526676352C85F903001EF113 /* Logger.swift */; };
-		5266766F2C85F903001EF113 /* ModelContainerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526676362C85F903001EF113 /* ModelContainerManager.swift */; };
 		526676702C85F903001EF113 /* Defaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526676382C85F903001EF113 /* Defaults+Extensions.swift */; };
 		526676712C85F903001EF113 /* MarkdownUI+Theme+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 526676392C85F903001EF113 /* MarkdownUI+Theme+Extensions.swift */; };
 		526676722C85F903001EF113 /* NSWindow+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5266763A2C85F903001EF113 /* NSWindow+Extensions.swift */; };
 		526676732C85F903001EF113 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5266763B2C85F903001EF113 /* String+Extensions.swift */; };
 		526676742C85F903001EF113 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5266763C2C85F903001EF113 /* View+Extensions.swift */; };
-		526676752C85F903001EF113 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5266763E2C85F903001EF113 /* Preview Assets.xcassets */; };
 		526676782C85F9DA001EF113 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 526676772C85F9DA001EF113 /* Localizable.xcstrings */; };
 /* End PBXBuildFile section */
 
@@ -128,13 +126,11 @@
 		526676322C85F903001EF113 /* HubApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HubApi.swift; sourceTree = "<group>"; };
 		526676342C85F903001EF113 /* LLMRunner.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LLMRunner.swift; sourceTree = "<group>"; };
 		526676352C85F903001EF113 /* Logger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		526676362C85F903001EF113 /* ModelContainerManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelContainerManager.swift; sourceTree = "<group>"; };
 		526676382C85F903001EF113 /* Defaults+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Defaults+Extensions.swift"; sourceTree = "<group>"; };
 		526676392C85F903001EF113 /* MarkdownUI+Theme+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MarkdownUI+Theme+Extensions.swift"; sourceTree = "<group>"; };
 		5266763A2C85F903001EF113 /* NSWindow+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSWindow+Extensions.swift"; sourceTree = "<group>"; };
 		5266763B2C85F903001EF113 /* String+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		5266763C2C85F903001EF113 /* View+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
-		5266763E2C85F903001EF113 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		526676762C85F952001EF113 /* ChatMLXRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatMLXRelease.entitlements; sourceTree = "<group>"; };
 		526676772C85F9DA001EF113 /* Localizable.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -188,7 +184,6 @@
 				5266763D2C85F903001EF113 /* Extensions */,
 				526676232C85F903001EF113 /* Features */,
 				5266762F2C85F903001EF113 /* Models */,
-				5266763F2C85F903001EF113 /* Preview Content */,
 				5266754B2C85EDCC001EF113 /* Preview Content */,
 				526676372C85F903001EF113 /* Utilities */,
 			);
@@ -329,7 +324,6 @@
 				526676332C85F903001EF113 /* Huggingface */,
 				526676342C85F903001EF113 /* LLMRunner.swift */,
 				526676352C85F903001EF113 /* Logger.swift */,
-				526676362C85F903001EF113 /* ModelContainerManager.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -344,14 +338,6 @@
 				5266763C2C85F903001EF113 /* View+Extensions.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		5266763F2C85F903001EF113 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				5266763E2C85F903001EF113 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -440,7 +426,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				526676752C85F903001EF113 /* Preview Assets.xcassets in Resources */,
 				5266754D2C85EDCC001EF113 /* Preview Assets.xcassets in Resources */,
 				526676782C85F9DA001EF113 /* Localizable.xcstrings in Resources */,
 				526676402C85F903001EF113 /* Assets.xcassets in Resources */,
@@ -499,7 +484,6 @@
 				5266766B2C85F903001EF113 /* Hub.swift in Sources */,
 				5266764D2C85F903001EF113 /* ConversationSidebarView.swift in Sources */,
 				5266765F2C85F903001EF113 /* Conversation.swift in Sources */,
-				5266766F2C85F903001EF113 /* ModelContainerManager.swift in Sources */,
 				5266765D2C85F903001EF113 /* SettingsSidebarView.swift in Sources */,
 				5266764B2C85F903001EF113 /* ConversationDetailView.swift in Sources */,
 				526676602C85F903001EF113 /* DisplayStyle.swift in Sources */,

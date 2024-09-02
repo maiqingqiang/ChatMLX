@@ -11,7 +11,7 @@ struct LocalModelItemView: View {
     @Binding var model: LocalModel
     var onDelete: () -> Void
     @State private var showingDeleteAlert = false
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -30,7 +30,7 @@ struct LocalModelItemView: View {
         .clipShape(RoundedRectangle(cornerRadius: 10))
         .shadow(color: .black, radius: 2)
         .alert("Confirm Deletion", isPresented: $showingDeleteAlert) {
-            Button("Cancel", role: .cancel) { }
+            Button("Cancel", role: .cancel) {}
             Button("Delete", role: .destructive, action: onDelete)
         } message: {
             Text("Are you sure you want to delete '\(model.origin)'?")

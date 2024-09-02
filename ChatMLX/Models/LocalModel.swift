@@ -13,8 +13,8 @@ struct LocalModel: Identifiable {
     let group: String
     let name: String
     let url: URL
-    
-    var origin:String {
+
+    var origin: String {
         "\(group)/\(name)"
     }
 }

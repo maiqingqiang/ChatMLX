@@ -13,9 +13,9 @@ enum Language: String, CaseIterable, Identifiable, Defaults.Serializable {
     case traditionalChinese = "zh-Hant"
     case japanese = "ja"
     case korean = "ko"
-    
+
     var id: String { self.rawValue }
-    
+
     var displayName: String {
         switch self {
         case .english: return "English"

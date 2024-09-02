@@ -5,8 +5,6 @@
 //  Created by John Mai on 2024/8/10.
 //
 
-import SwiftUI
-
 import Luminare
 import SwiftUI
 
@@ -26,9 +24,11 @@ struct AboutView: View {
                 .font(.largeTitle)
                 .fontWeight(.bold)
 
-            Text("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")")
-                .font(.subheadline)
-                .foregroundColor(.white)
+            Text(
+                "Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "Unknown")"
+            )
+            .font(.subheadline)
+            .foregroundColor(.white)
 
             Link("GitHub", destination: URL(string: "https://github.com/maiqingqiang/ChatMLX")!)
                 .font(.headline)
@@ -41,7 +41,7 @@ struct AboutView: View {
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                         isCheckingUpdate = false
                     }
-                    
+
                     NSWorkspace.shared.open(URL(string: "https://github.com/maiqingqiang/ChatMLX")!)
                 }) {
                     Text(isCheckingUpdate ? "Checking..." : "Check for updates")

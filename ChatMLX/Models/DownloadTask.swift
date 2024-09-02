@@ -5,9 +5,9 @@
 //  Created by John Mai on 2024/8/11.
 //
 
+import Defaults
 import Foundation
 import Logging
-import Defaults
 
 @Observable
 class DownloadTask: Identifiable, Equatable {
@@ -37,12 +37,15 @@ class DownloadTask: Identifiable, Equatable {
         self.error = nil
         self.progress = 0
         let currentEndpoint = Defaults[.huggingFaceEndpoint]
-        self.hub = HubApi(downloadBase: FileManager.default.temporaryDirectory, endpoint: currentEndpoint)
+        self.hub = HubApi(
+            downloadBase: FileManager.default.temporaryDirectory, endpoint: currentEndpoint)
 
         Task { [self] in
             do {
                 let repo = Hub.Repo(id: self.repoId)
-                let temporaryModelDirectory = try await self.hub!.snapshot(from: repo, matching: ["*.safetensors","*.json"]) { progress in
+                let temporaryModelDirectory = try await self.hub!.snapshot(
+                    from: repo, matching: ["*.safetensors", "*.json"]
+                ) { progress in
                     Task { @MainActor in
                         self.progress = progress.fractionCompleted
                         self.totalUnitCount = progress.totalUnitCount
@@ -77,21 +80,21 @@ class DownloadTask: Identifiable, Equatable {
             self.hub = nil
         }
     }
-    
+
     private func moveToDocumentsDirectory(from temporaryModelDirectory: URL) async throws {
         let fileManager = FileManager.default
         let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         let downloadBase = documents.appending(component: "huggingface").appending(path: "models")
-        
+
         let destinationPath = downloadBase.appendingPathComponent(self.repoId)
         try fileManager.createDirectory(at: destinationPath, withIntermediateDirectories: true)
-        
+
         if fileManager.fileExists(atPath: destinationPath.path) {
             try fileManager.removeItem(at: destinationPath)
         }
-        
+
         try fileManager.copyItem(at: temporaryModelDirectory, to: destinationPath)
-        
+
         logger.info("Model moved to: \(destinationPath.path)")
     }
 }

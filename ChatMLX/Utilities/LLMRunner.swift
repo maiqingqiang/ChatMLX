@@ -4,6 +4,7 @@
 //
 //  Created by John Mai on 2024/8/24.
 //
+
 import Defaults
 import MLX
 import MLXLLM
@@ -80,7 +81,7 @@ class LLMRunner {
                 var messages = conversation.messages.sorted {
                     $0.timestamp < $1.timestamp
                 }
-                
+
                 if conversation.useMaxMessagesLimit {
                     let maxCount = conversation.maxMessagesLimit + 1
                     if messages.count > maxCount {
@@ -90,7 +91,7 @@ class LLMRunner {
                         }
                     }
                 }
-                
+
                 messages.insert(
                     Message(
                         role: .system,
@@ -103,7 +104,7 @@ class LLMRunner {
                     message -> [String: String] in
                     ["role": message.role.rawValue, "content": message.content]
                 }
-                
+
                 let messageTokens = try await modelContainer.perform {
                     _, tokenizer in
                     try tokenizer.applyChatTemplate(messages: messagesDicts)
@@ -120,7 +121,8 @@ class LLMRunner {
                         parameters: GenerateParameters(
                             temperature: conversation.temperature,
                             topP: conversation.topP,
-                            repetitionPenalty: conversation.useRepetitionPenalty ? conversation.repetitionPenalty : nil,
+                            repetitionPenalty: conversation.useRepetitionPenalty
+                                ? conversation.repetitionPenalty : nil,
                             repetitionContextSize: conversation.repetitionContextSize
                         ),
                         model: model,

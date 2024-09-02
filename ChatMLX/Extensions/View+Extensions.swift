@@ -18,8 +18,8 @@ extension View {
     func placeholder(
         when shouldShow: Bool,
         alignment: Alignment = .leading,
-        @ViewBuilder placeholder: () -> some View) -> some View
-    {
+        @ViewBuilder placeholder: () -> some View
+    ) -> some View {
         ZStack(alignment: alignment) {
             placeholder()
                 .padding(2)
@@ -31,9 +31,11 @@ extension View {
     func placeholder(
         _ text: String,
         when shouldShow: Bool,
-        alignment: Alignment = .leading) -> some View
-    {
-        placeholder(when: shouldShow, alignment: alignment) { Text(text).foregroundColor(.white.opacity(0.6)) }
+        alignment: Alignment = .leading
+    ) -> some View {
+        placeholder(when: shouldShow, alignment: alignment) {
+            Text(text).foregroundColor(.white.opacity(0.6))
+        }
     }
 
     func printSafeAreaInsets(id: String) -> some View {

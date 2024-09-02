@@ -55,7 +55,9 @@ struct RemoteModel: Codable, Identifiable {
         if let date = dateFormatter.date(from: dateString) {
             createdAt = date
         } else {
-            throw DecodingError.dataCorruptedError(forKey: .createdAt, in: container, debugDescription: "Date string does not match expected format")
+            throw DecodingError.dataCorruptedError(
+                forKey: .createdAt, in: container,
+                debugDescription: "Date string does not match expected format")
         }
     }
 }

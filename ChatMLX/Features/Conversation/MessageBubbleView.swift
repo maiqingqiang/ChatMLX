@@ -119,9 +119,9 @@ struct MessageBubbleView: View {
                 Text(formatDate(message.timestamp))
                     .font(.caption)
 
-                Button(action: copyText) { 
+                Button(action: copyText) {
                     Image(systemName: "doc.on.doc")
-                         .help("Copy")
+                        .help("Copy")
                 }
 
                 Button(action: onDelete) {

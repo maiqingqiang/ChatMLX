@@ -1,10 +1,11 @@
-import AlertToast
 //
 //  ConversationDetailView.swift
 //  ChatMLX
 //
 //  Created by John Mai on 2024/8/4.
 //
+
+import AlertToast
 import Defaults
 import Luminare
 import MLX
@@ -372,8 +373,7 @@ struct ConversationDetailView: View {
         return formatter.string(from: interval!) ?? ""
     }
 
-    private func showToastMessage(_ message: String, type: AlertToast.AlertType)
-    {
+    private func showToastMessage(_ message: String, type: AlertToast.AlertType) {
         toastMessage = message
         toastType = type
         showToast = true
@@ -386,8 +386,7 @@ struct ConversationDetailView: View {
             $0.timestamp < $1.timestamp
         }
 
-        if let index = sortedMessages.firstIndex(where: { $0.id == message.id })
-        {
+        if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
             let messages = sortedMessages[index...]
             for messageToDelete in messages {
                 conversation.messages.removeAll(where: {
@@ -406,8 +405,7 @@ struct ConversationDetailView: View {
             $0.timestamp < $1.timestamp
         }
 
-        if let index = sortedMessages.firstIndex(where: { $0.id == message.id })
-        {
+        if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
             let messages = sortedMessages[index...]
             for messageToDelete in messages {
                 conversation.messages.removeAll(where: {

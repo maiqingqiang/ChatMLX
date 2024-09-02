@@ -27,8 +27,7 @@ struct UltramanNavigationTitleKey: PreferenceKey {
 }
 
 struct UltramanToolbarItem: Identifiable, Equatable {
-    static func == (lhs: UltramanToolbarItem, rhs: UltramanToolbarItem) -> Bool
-    {
+    static func == (lhs: UltramanToolbarItem, rhs: UltramanToolbarItem) -> Bool {
         lhs.id == rhs.id
     }
 

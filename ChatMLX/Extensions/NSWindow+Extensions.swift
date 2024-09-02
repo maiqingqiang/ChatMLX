@@ -40,10 +40,10 @@ func CGSSetWindowBackgroundBlurRadius(
     _ radius: Int
 ) -> OSStatus
 
-private extension NSWindow {
+extension NSWindow {
     /// Attempts to get the default CGS connection for the current thread.
     /// - Returns: A `CGSConnectionID` if successful, `nil` otherwise.
-    func getCGSConnection() throws -> CGSConnectionID {
+    fileprivate func getCGSConnection() throws -> CGSConnectionID {
         guard let connection = CGSDefaultConnectionForThread() else {
             throw NSError(
                 domain: "com.Luminare.NSWindow",

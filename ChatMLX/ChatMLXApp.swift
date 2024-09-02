@@ -11,7 +11,7 @@ import SwiftUI
 
 @main
 struct ChatMLXApp: App {
-    @State private var conversationViewModel:ConversationView.ViewModel = .init()
+    @State private var conversationViewModel: ConversationView.ViewModel = .init()
     @State private var settingsViewModel: SettingsView.ViewModel = .init()
 
     @Default(.language) var language
