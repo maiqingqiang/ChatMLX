@@ -1,5 +1,5 @@
 {
-  "originHash" : "26454f2823dfa81b6421261db2a131a4bd4b0ce586ddc57e71b6bbd36e4fc3b4",
+  "originHash" : "d1ae0dbe7d8ad68d526a484f92c3bd5ffc41e037295c9e9b3859978591325f31",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -61,7 +61,7 @@
       "location" : "https://github.com/MrKai77/Luminare.git",
       "state" : {
         "branch" : "main",
-        "revision" : "3702a0fe0a9766e5bed243c77075a2302d5ad23a"
+        "revision" : "18b70da9b042b3b55199e8b48740540a6eb0fd2e"
       }
     },
     {
@@ -123,8 +123,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/gonzalezreal/swift-markdown-ui.git",
       "state" : {
-        "revision" : "55441810c0f678c78ed7e2ebd46dde89228e02fc",
-        "version" : "2.4.0"
+        "branch" : "main",
+        "revision" : "55441810c0f678c78ed7e2ebd46dde89228e02fc"
       }
     },
     {

@@ -114,6 +114,7 @@ struct ConversationDetailView: View {
         }
     }
 
+    @MainActor
     private func EditorToolbar() -> some View {
         HStack {
             Button {
@@ -232,6 +233,7 @@ struct ConversationDetailView: View {
         .padding(.horizontal, 10)
     }
 
+    @MainActor
     @ViewBuilder
     private func Editor() -> some View {
         VStack(alignment: .leading, spacing: 0) {
