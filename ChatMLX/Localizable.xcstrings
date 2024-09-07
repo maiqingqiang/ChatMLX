@@ -76,12 +76,24 @@
             "state" : "translated",
             "value" : "您确定要删除'%@'吗？"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "您確定要刪除 '%@' 嗎？"
+          }
         }
       }
     },
     "Blur" : {
       "localizations" : {
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模糊"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "模糊"
@@ -113,7 +125,8 @@
             "value" : "ChatMLX"
           }
         }
-      }
+      },
+      "shouldTranslate" : false
     },
     "Check for updates" : {
       "extractionState" : "manual",
@@ -173,12 +186,24 @@
             "state" : "translated",
             "value" : "清除所有对话"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "清除所有對話"
+          }
         }
       }
     },
     "Color" : {
       "localizations" : {
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "颜色"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "颜色"
@@ -193,6 +218,12 @@
             "state" : "translated",
             "value" : "确认删除"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "確認刪除"
+          }
         }
       }
     },
@@ -203,12 +234,24 @@
             "state" : "translated",
             "value" : "对话标题"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "對話標題"
+          }
         }
       }
     },
     "Copy" : {
       "localizations" : {
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "复制"
@@ -223,6 +266,12 @@
             "state" : "translated",
             "value" : "自定义节点"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂端點"
+          }
         }
       }
     },
@@ -232,6 +281,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "自定义 Hugging Face 节点"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂 Hugging Face 端點"
           }
         }
       }
@@ -243,6 +298,12 @@
             "state" : "translated",
             "value" : "默认对话"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預設對話"
+          }
         }
       }
     },
@@ -253,12 +314,24 @@
             "state" : "translated",
             "value" : "默认对话标题"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "預設對話標題"
+          }
         }
       }
     },
     "Delete" : {
       "localizations" : {
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "删除"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "删除"
@@ -307,6 +380,12 @@
             "state" : "translated",
             "value" : "节点"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "端點"
+          }
         }
       }
     },
@@ -316,6 +395,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "进入全屏模式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "進入全螢幕"
           }
         }
       }
@@ -327,6 +412,12 @@
             "state" : "translated",
             "value" : "输入您的 Hugging Face 令牌"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "輸入您的 Hugging Face 令牌"
+          }
         }
       }
     },
@@ -336,6 +427,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "退出全屏"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出全螢幕"
           }
         }
       }
@@ -364,12 +461,24 @@
             "state" : "translated",
             "value" : "生成时间"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成時間"
+          }
         }
       }
     },
     "Generate Tokens/second" : {
       "localizations" : {
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "生成令牌/秒"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "生成令牌/秒"
@@ -386,6 +495,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "GPU缓存限制"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "GPU快取限制"
           }
         }
       }
@@ -406,6 +521,12 @@
             "state" : "translated",
             "value" : "Hugging Face 节点"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hugging Face 端點"
+          }
         }
       }
     },
@@ -417,12 +538,24 @@
             "state" : "translated",
             "value" : "Hugging Face 仓库 ID"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hugging Face 倉庫 ID"
+          }
         }
       }
     },
     "Hugging Face Token" : {
       "localizations" : {
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hugging Face 令牌"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Hugging Face 令牌"
@@ -437,6 +570,12 @@
             "state" : "translated",
             "value" : "语言"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "语言"
+          }
         }
       }
     },
@@ -446,6 +585,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "最大长度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最大長度"
           }
         }
       }
@@ -457,6 +602,12 @@
             "state" : "translated",
             "value" : "最大消息限制"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最大訊息限制"
+          }
         }
       }
     },
@@ -466,6 +617,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "消息控制"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "訊息控制"
           }
         }
       }
@@ -477,6 +634,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "MLX 社区"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MLX 社區"
           }
         }
       }
@@ -491,6 +654,12 @@
             "state" : "translated",
             "value" : "模型"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型"
+          }
         }
       }
     },
@@ -501,6 +670,12 @@
             "state" : "translated",
             "value" : "模型设置"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型設定"
+          }
         }
       }
     },
@@ -510,6 +685,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "模型状态"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型狀態"
           }
         }
       }
@@ -522,16 +703,11 @@
             "state" : "translated",
             "value" : "模型"
           }
-        }
-      }
-    },
-    "New Chat" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "新建对话"
+            "value" : "模型"
           }
         }
       }
@@ -542,6 +718,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新建对话"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新對話"
           }
         }
       }
@@ -554,16 +736,11 @@
             "state" : "translated",
             "value" : "新建任务"
           }
-        }
-      }
-    },
-    "No Chat" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "无对话"
+            "value" : "新任務"
           }
         }
       }
@@ -575,6 +752,12 @@
             "state" : "translated",
             "value" : "无对话"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "沒有對話"
+          }
         }
       }
     },
@@ -584,6 +767,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "无选择"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "未選擇"
           }
         }
       }
@@ -596,16 +785,11 @@
             "state" : "translated",
             "value" : "请输入 Hugging Face 仓库 ID"
           }
-        }
-      }
-    },
-    "Please select a new chat" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "请选择一个新的对话"
+            "value" : "請輸入 Hugging Face 倉庫 ID"
           }
         }
       }
@@ -616,6 +800,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请选择一个新的对话"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "請選擇一個新的對話"
           }
         }
       }
@@ -628,6 +818,12 @@
             "state" : "translated",
             "value" : "偏好和模型设置"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "偏好和模型設置"
+          }
         }
       }
     },
@@ -637,6 +833,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "提示词处理时间"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提示時間"
           }
         }
       }
@@ -648,12 +850,24 @@
             "state" : "translated",
             "value" : "提示词处理令牌/秒"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "提示標記/秒"
+          }
         }
       }
     },
     "Regenerate" : {
       "localizations" : {
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重新生成"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "重新生成"
@@ -668,6 +882,12 @@
             "state" : "translated",
             "value" : "重复上下文大小"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重複上下文大小"
+          }
         }
       }
     },
@@ -677,6 +897,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "重复惩罚"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重複懲罰"
           }
         }
       }
@@ -688,6 +914,12 @@
             "state" : "translated",
             "value" : "重置所有设置"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "重置所有設定"
+          }
         }
       }
     },
@@ -698,6 +930,12 @@
             "state" : "translated",
             "value" : "搜索对话..."
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋對話..."
+          }
         }
       }
     },
@@ -707,6 +945,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜索..."
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜尋..."
           }
         }
       }
@@ -752,6 +996,12 @@
             "state" : "translated",
             "value" : "系统提示词"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系統提示"
+          }
         }
       }
     },
@@ -762,12 +1012,24 @@
             "state" : "translated",
             "value" : "系统设置"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "系統設定"
+          }
         }
       }
     },
     "Temperature" : {
       "localizations" : {
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "温度"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "温度"
@@ -782,12 +1044,24 @@
             "state" : "translated",
             "value" : "标题"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標題"
+          }
         }
       }
     },
     "Token" : {
       "localizations" : {
         "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "令牌"
+          }
+        },
+        "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "令牌"
@@ -802,39 +1076,11 @@
             "state" : "translated",
             "value" : "核采样"
           }
-        }
-      }
-    },
-    "Type your message…" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "输入您的消息…"
-          }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "鍵入您的消息…"
-          }
-        }
-      }
-    },
-    "Unknown" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未知"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "未知"
+            "value" : "核採樣"
           }
         }
       }
@@ -846,6 +1092,12 @@
             "state" : "translated",
             "value" : "使用自定义节点"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用自訂端點"
+          }
         }
       }
     },
@@ -855,6 +1107,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用最大长度"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用最大長度"
           }
         }
       }
@@ -866,6 +1124,12 @@
             "state" : "translated",
             "value" : "使用最大消息限制"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用最大訊息限制"
+          }
         }
       }
     },
@@ -876,6 +1140,12 @@
             "state" : "translated",
             "value" : "使用重复惩罚"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用重複懲罰"
+          }
         }
       }
     },
@@ -885,6 +1155,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用系统提示词"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用系統提示"
           }
         }
       }
@@ -912,6 +1188,12 @@
             "state" : "translated",
             "value" : "警告"
           }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "告警"
+          }
         }
       }
     },
@@ -921,6 +1203,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "窗口样式"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "窗口外觀"
           }
         }
       }
