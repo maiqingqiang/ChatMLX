@@ -35,9 +35,15 @@
 
 ![iShot_2024-08-31_23.55.39.png](images/iShot_2024-08-31_23.55.39.png)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+## Features 🚀
 
-## Star History
+- **Multilingual**: Supports English, Simplified Chinese, Traditional Chinese, Japanese, and Korean.
+- **Multiple Models**: Provides multiple models, including Llama, OpenELM, Phi, Qwen, Starcoder, Cohere, Gemma.
+- **High Performance**: Based on the powerful performance of MLX and Apple silicon.
+- **Privacy and Security**: Run LLM locally to ensure user privacy and security.
+- **Open Source**: Open source, welcome to contribute.
+
+## Star History 🌟
 
 [![Star History Chart](https://api.star-history.com/svg?repos=maiqingqiang/ChatMLX&type=Date)](https://star-history.com/#maiqingqiang/ChatMLX&Date)
 
@@ -52,3 +58,5 @@
 [license-shield]: https://img.shields.io/github/license/maiqingqiang/ChatMLX.svg?style=for-the-badge
 [license-url]: https://github.com/maiqingqiang/ChatMLX/blob/main/LICENSE
 [product-screenshot]: images/screenshot.png
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
