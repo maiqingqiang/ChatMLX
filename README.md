@@ -29,14 +29,6 @@ English | [简体中文](./README-zh_CN.md)
   </p>
 </div>
 
-> [!NOTE]
->
-> Compatible with macOS 14.0 and later.
-
-https://github.com/user-attachments/assets/75984252-058f-4782-ad5d-33b3ce772639
-
-![iShot_2024-08-31_23.55.39.png](images/iShot_2024-08-31_23.55.39.png)
-
 ## Features 🚀
 
 - **Multilingual**: Supports English, Simplified Chinese, Traditional Chinese, Japanese, and Korean.
@@ -44,6 +36,14 @@ https://github.com/user-attachments/assets/75984252-058f-4782-ad5d-33b3ce772639
 - **High Performance**: Based on the powerful performance of MLX and Apple silicon.
 - **Privacy and Security**: Run LLM locally to ensure user privacy and security.
 - **Open Source**: Open source, welcome to contribute.
+
+> [!NOTE]
+>
+> Compatible with macOS 14.0 and later.
+
+https://github.com/user-attachments/assets/75984252-058f-4782-ad5d-33b3ce772639
+
+![iShot_2024-08-31_23.55.39.png](images/iShot_2024-08-31_23.55.39.png)
 
 ## Star History 🌟
 
