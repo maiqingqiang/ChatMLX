@@ -68,7 +68,7 @@ struct ConversationDetailView: View {
         .ultramanNavigationTitle(
             LocalizedStringKey(conversation.title)
         )
-        .ultramanToolbarItem(alignment: .trailing) {
+        .ultramanToolbar(alignment: .trailing) {
             Button(action: {
                 withAnimation {
                     showRightSidebar.toggle()
@@ -350,7 +350,7 @@ struct ConversationDetailView: View {
                 conversation.model = ""
             }
 
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 localModels = models
                 loading = false
             }

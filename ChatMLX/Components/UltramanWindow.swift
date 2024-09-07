@@ -43,7 +43,7 @@ class UltramanWindow: NSWindow {
         orderFrontRegardless()
         NSApp.activate(ignoringOtherApps: true)
 
-        DispatchQueue.main.async {
+        Task { @MainActor in
             self.center()
             self.alphaValue = 1
         }

@@ -26,7 +26,7 @@ struct DownloadManagerView: View {
         .scrollContentBackground(.hidden)
         .onAppear()
         .ultramanNavigationTitle("Download Manager")
-        .ultramanToolbarItem(alignment: .trailing) {
+        .ultramanToolbar(alignment: .trailing) {
             Button(action: show) {
                 Image(systemName: "plus")
             }

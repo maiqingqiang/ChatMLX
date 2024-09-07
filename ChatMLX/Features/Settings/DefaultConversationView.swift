@@ -259,7 +259,7 @@ struct DefaultConversationView: View {
                 defaultModel = ""
             }
 
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 localModels = models
             }
         } catch {

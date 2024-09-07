@@ -45,7 +45,7 @@ struct LocalModelsView: View {
         .scrollContentBackground(.hidden)
         .listStyle(SidebarListStyle())
         .ultramanNavigationTitle("Models")
-        .ultramanToolbarItem {
+        .ultramanToolbar {
             Button(action: openModelsDirectory) {
                 Image(systemName: "folder")
             }
@@ -98,7 +98,7 @@ struct LocalModelsView: View {
                 defaultModel = ""
             }
 
-            DispatchQueue.main.async {
+            Task { @MainActor in
                 modelGroups = groups
             }
         } catch {

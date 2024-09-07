@@ -130,8 +130,9 @@ class LLMRunner {
                         extraEOSTokens: modelConfiguration.extraEOSTokens
                     ) { tokens in
                         if tokens.count % displayEveryNTokens == 0 {
-                            DispatchQueue.main.async {
-                                let text = tokenizer.decode(tokens: tokens)
+                            let text = tokenizer.decode(tokens: tokens)
+                            
+                            Task { @MainActor in
                                 message.content = text
                             }
                         }

@@ -7,15 +7,6 @@
 
 import SwiftUI
 
-struct UltramanNavigationTitleModifier: ViewModifier {
-    let title: LocalizedStringKey
-
-    func body(content: Content) -> some View {
-        content
-            .preference(key: UltramanNavigationTitleKey.self, value: title)
-    }
-}
-
 struct UltramanNavigationTitleKey: PreferenceKey {
     static var defaultValue: LocalizedStringKey = ""
 
@@ -28,7 +19,7 @@ struct UltramanNavigationTitleKey: PreferenceKey {
 
 struct UltramanToolbarItem: Identifiable, Equatable {
     static func == (lhs: UltramanToolbarItem, rhs: UltramanToolbarItem) -> Bool {
-        lhs.id == rhs.id
+        lhs.id == rhs.id && lhs.alignment == rhs.alignment
     }
 
     let id = UUID()
@@ -38,14 +29,10 @@ struct UltramanToolbarItem: Identifiable, Equatable {
     enum ToolbarAlignment {
         case leading, trailing
     }
-}
 
-struct UltramanNavigationToolbarModifier: ViewModifier {
-    let items: [UltramanToolbarItem]
-
-    func body(content: Content) -> some View {
-        content
-            .preference(key: UltramanNavigationToolbarKey.self, value: items)
+    init(alignment: ToolbarAlignment = .trailing, @ViewBuilder content: () -> some View) {
+        self.content = AnyView(content())
+        self.alignment = alignment
     }
 }
 
@@ -63,18 +50,39 @@ struct UltramanNavigationToolbarKey: PreferenceKey {
     }
 }
 
+@resultBuilder
+struct UltramanToolbarBuilder {
+    static func buildBlock(_ components: UltramanToolbarItem...) -> [UltramanToolbarItem] {
+        components
+    }
+}
+
 extension View {
     func ultramanNavigationTitle(_ title: LocalizedStringKey) -> some View {
-        modifier(UltramanNavigationTitleModifier(title: title))
+        preference(key: UltramanNavigationTitleKey.self, value: title)
     }
 
-    func ultramanToolbarItem(
+    func ultramanToolbar(
         alignment: UltramanToolbarItem.ToolbarAlignment = .trailing,
         @ViewBuilder content: () -> some View
     ) -> some View {
-        let item = UltramanToolbarItem(
-            content: AnyView(content()), alignment: alignment)
-        return modifier(UltramanNavigationToolbarModifier(items: [item]))
+        preference(
+            key: UltramanNavigationToolbarKey.self,
+            value: [
+                UltramanToolbarItem(alignment: alignment, content: {
+                    content()
+                })
+            ]
+        )
+    }
+
+    func ultramanToolbar(
+        @UltramanToolbarBuilder content: () -> [UltramanToolbarItem]
+    ) -> some View {
+        preference(
+            key: UltramanNavigationToolbarKey.self,
+            value: content()
+        )
     }
 }
 
@@ -94,7 +102,7 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
     let maxSidebarWidth: CGFloat = 400
 
     var body: some View {
-        GeometryReader { geometry in
+        GeometryReader { _ in
             HStack(spacing: .zero) {
                 if isSidebarVisible {
                     sidebar()

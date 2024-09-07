@@ -66,7 +66,7 @@ struct MLXCommunityView: View {
             }
         }
         .ultramanNavigationTitle("MLX Community")
-        .ultramanToolbarItem(alignment: .trailing) {
+        .ultramanToolbar(alignment: .trailing) {
             Button(action: {
                 Task {
                     settingsViewModel.remoteModels = []
