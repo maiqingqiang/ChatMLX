@@ -19,7 +19,7 @@
 <h3 align="center">ChatMLX</h3>
 
   <p align="center">
-    ChatMLX 是一款现代化的开源高性能聊天应用，基于大型语言模型，依托于强大的<a href="https://github.com/ml-explore/mlx-swift">MLX</a>和苹果硅芯片。它支持多种模型，为用户提供丰富多样的对话选项。该应用在本地运行 LLM，以确保用户隐私和安全。
+    ChatMLX 是一款现代化的开源高性能聊天应用，基于大型语言模型，依托于强大的<a href="https://github.com/ml-explore/mlx-swift">MLX</a>和 Apple silicon。它支持多种模型，为用户提供丰富多样的对话选项。该应用在本地运行 LLM，以确保用户隐私和安全。
     <br />
     <br />
     <a href="https://github.com/maiqingqiang/ChatMLX/issues">报告错误</a>
