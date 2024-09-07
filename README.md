@@ -33,7 +33,7 @@ English | [简体中文](./README-zh_CN.md)
 >
 > Compatible with macOS 14.0 and later.
 
-![iShot_2024-08-31_23.55.23.png](images/iShot_2024-08-31_23.55.23.png)
+https://github.com/user-attachments/assets/75984252-058f-4782-ad5d-33b3ce772639
 
 ![iShot_2024-08-31_23.55.39.png](images/iShot_2024-08-31_23.55.39.png)
 
