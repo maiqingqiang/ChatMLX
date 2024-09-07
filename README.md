@@ -1,5 +1,7 @@
 <a name="readme-top"></a>
 
+English | [简体中文](./README-zh_CN.md)
+
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
@@ -29,7 +31,7 @@
 
 > [!NOTE]
 >
-> Compatible with macOS 14.5 and later.
+> Compatible with macOS 14.0 and later.
 
 ![iShot_2024-08-31_23.55.23.png](images/iShot_2024-08-31_23.55.23.png)
 
@@ -57,6 +59,5 @@
 [issues-url]: https://github.com/maiqingqiang/ChatMLX/issues
 [license-shield]: https://img.shields.io/github/license/maiqingqiang/ChatMLX.svg?style=for-the-badge
 [license-url]: https://github.com/maiqingqiang/ChatMLX/blob/main/LICENSE
-[product-screenshot]: images/screenshot.png
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
