@@ -69,9 +69,11 @@ extension View {
         preference(
             key: UltramanNavigationToolbarKey.self,
             value: [
-                UltramanToolbarItem(alignment: alignment, content: {
-                    content()
-                })
+                UltramanToolbarItem(
+                    alignment: alignment,
+                    content: {
+                        content()
+                    })
             ]
         )
     }

@@ -6,10 +6,10 @@
 //
 
 import Defaults
-import Metal
 import MLX
 import MLXLLM
 import MLXRandom
+import Metal
 import SwiftUI
 import Tokenizers
 
@@ -117,10 +117,8 @@ class LLMRunner {
 
                 let result = await modelContainer.perform {
                     model,
-                        tokenizer in
-                    
-                    
-                    
+                    tokenizer in
+
                     MLXLLM.generate(
                         promptTokens: messageTokens,
                         parameters: GenerateParameters(
@@ -132,7 +130,9 @@ class LLMRunner {
                         ),
                         model: model,
                         tokenizer: tokenizer,
-                        extraEOSTokens: modelConfiguration.extraEOSTokens.union(["<|im_end|>", "<|end|>"])
+                        extraEOSTokens: modelConfiguration.extraEOSTokens.union([
+                            "<|im_end|>", "<|end|>",
+                        ])
                     ) { tokens in
                         if tokens.count % displayEveryNTokens == 0 {
                             let text = tokenizer.decode(tokens: tokens)
