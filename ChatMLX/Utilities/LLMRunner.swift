@@ -6,10 +6,10 @@
 //
 
 import Defaults
+import Metal
 import MLX
 import MLXLLM
 import MLXRandom
-import Metal
 import SwiftUI
 import Tokenizers
 
@@ -31,6 +31,8 @@ class LLMRunner {
     var gpuActiveMemory: Int = 0
 
     let displayEveryNTokens = 4
+
+    init() {}
 
     private func load() async throws -> ModelContainer? {
         guard let modelConfiguration else {
@@ -115,7 +117,10 @@ class LLMRunner {
 
                 let result = await modelContainer.perform {
                     model,
-                    tokenizer in
+                        tokenizer in
+                    
+                    
+                    
                     MLXLLM.generate(
                         promptTokens: messageTokens,
                         parameters: GenerateParameters(
@@ -127,17 +132,17 @@ class LLMRunner {
                         ),
                         model: model,
                         tokenizer: tokenizer,
-                        extraEOSTokens: modelConfiguration.extraEOSTokens
+                        extraEOSTokens: modelConfiguration.extraEOSTokens.union(["<|im_end|>", "<|end|>"])
                     ) { tokens in
                         if tokens.count % displayEveryNTokens == 0 {
                             let text = tokenizer.decode(tokens: tokens)
-                            
+
                             Task { @MainActor in
                                 message.content = text
                             }
                         }
 
-                        if conversation.useMaxLength && tokens.count >= conversation.maxLength {
+                        if conversation.useMaxLength, tokens.count >= conversation.maxLength {
                             return .stop
                         }
                         return .more
@@ -157,6 +162,7 @@ class LLMRunner {
                 conversation.tokensPerSecond = result.tokensPerSecond
             }
         } catch {
+            print("\(error)")
             logger.error("LLM Generate Failed: \(error.localizedDescription)")
             conversation.failedMessage(message, with: error)
         }

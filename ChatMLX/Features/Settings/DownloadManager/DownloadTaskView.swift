@@ -15,17 +15,17 @@ struct DownloadTaskView: View {
         HStack {
             VStack {
                 HStack {
-                    Text(task.repoId)
+                    Text(task.repoId.deletingPrefix("mlx-community/"))
                         .font(.headline)
                         .lineLimit(1)
                         .help(task.repoId)
 
                     Spacer()
 
-                    Text("\(Int(task.progress * 100))%")
+                    Text("\(task.progress * 100, specifier: "%.2f")%")
                         .font(.subheadline)
                         .fontWeight(.bold)
-                        .frame(width: 40, alignment: .trailing)
+                        .frame(width: 50, alignment: .trailing)
                 }
 
                 HStack {
