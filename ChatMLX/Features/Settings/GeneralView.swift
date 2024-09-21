@@ -132,6 +132,7 @@ struct GeneralView: View {
     private func clearAllConversations() {
         do {
             try modelContext.delete(model: Conversation.self)
+            try modelContext.save()
             conversationViewModel.selectedConversation = nil
         } catch {
             logger.error("Error deleting all conversations: \(error)")
