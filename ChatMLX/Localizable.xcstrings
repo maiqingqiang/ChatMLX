@@ -7,6 +7,9 @@
     "%.2f" : {
       "shouldTranslate" : false
     },
+    "%.2f%%" : {
+      "shouldTranslate" : false
+    },
     "%lld" : {
       "localizations" : {
         "zh-Hans" : {
@@ -30,17 +33,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "%1$lld / %2$lld"
-          }
-        }
-      },
-      "shouldTranslate" : false
-    },
-    "%lld%%" : {
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld%%"
           }
         }
       },
