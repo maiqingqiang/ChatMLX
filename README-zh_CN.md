@@ -7,7 +7,7 @@
 [![分支数][forks-shield]][forks-url]
 [![星标数][stars-shield]][stars-url]
 [![问题数][issues-shield]][issues-url]
-[![MIT 许可证][license-shield]][license-url]
+[![Apache 许可证][license-shield]][license-url]
 
 
 <br />
