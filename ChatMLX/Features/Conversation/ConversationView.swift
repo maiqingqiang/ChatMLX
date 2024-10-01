@@ -26,6 +26,7 @@ struct ConversationView: View {
         .ultramanMinimalistWindowStyle()
     }
 
+    @MainActor
     @ViewBuilder
     private func Detail() -> some View {
         Group {

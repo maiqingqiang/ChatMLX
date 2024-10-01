@@ -73,6 +73,7 @@
 		526676742C85F903001EF113 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5266763C2C85F903001EF113 /* View+Extensions.swift */; };
 		526676782C85F9DA001EF113 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 526676772C85F9DA001EF113 /* Localizable.xcstrings */; };
 		527F48152C9EFD5D006AF9FA /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 527F48142C9EFD5D006AF9FA /* LLM */; };
+		528D82262CABE19900163AAB /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D82252CABE19000163AAB /* Date+Extensions.swift */; };
 		528DBE2F2C9C86FB004CDD88 /* Transformers in Frameworks */ = {isa = PBXBuildFile; productRef = 528DBE2E2C9C86FB004CDD88 /* Transformers */; };
 		52E50B1D2C8D6E81005A89DE /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B1C2C8D6E81005A89DE /* LLM */; };
 		52E50B202C8D719B005A89DE /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B1F2C8D719B005A89DE /* LLM */; };
@@ -146,6 +147,7 @@
 		5266763C2C85F903001EF113 /* View+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
 		526676762C85F952001EF113 /* ChatMLXRelease.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = ChatMLXRelease.entitlements; sourceTree = "<group>"; };
 		526676772C85F9DA001EF113 /* Localizable.xcstrings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		528D82252CABE19000163AAB /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,6 +359,7 @@
 		5266763D2C85F903001EF113 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				528D82252CABE19000163AAB /* Date+Extensions.swift */,
 				526676382C85F903001EF113 /* Defaults+Extensions.swift */,
 				526676392C85F903001EF113 /* MarkdownUI+Theme+Extensions.swift */,
 				5266763A2C85F903001EF113 /* NSWindow+Extensions.swift */,
@@ -501,6 +504,7 @@
 				526676472C85F903001EF113 /* UltramanSidebarButtonStyle.swift in Sources */,
 				5266764F2C85F903001EF113 /* EmptyConversation.swift in Sources */,
 				526676572C85F903001EF113 /* MLXCommunityView.swift in Sources */,
+				528D82262CABE19900163AAB /* Date+Extensions.swift in Sources */,
 				5266766D2C85F903001EF113 /* LLMRunner.swift in Sources */,
 				5266764E2C85F903001EF113 /* ConversationView.swift in Sources */,
 				5266766A2C85F903001EF113 /* Downloader.swift in Sources */,
@@ -812,8 +816,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ml-explore/mlx-swift-examples/";
 			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.16.0;
+				branch = main;
+				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

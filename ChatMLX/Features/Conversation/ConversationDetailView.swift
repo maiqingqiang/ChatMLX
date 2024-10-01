@@ -33,10 +33,6 @@ struct ConversationDetailView: View {
 
     @State private var loading = true
 
-    var sortedMessages: [Message] {
-        conversation.messages.sorted { $0.timestamp < $1.timestamp }
-    }
-
     var body: some View {
         ZStack(alignment: .trailing) {
             VStack(spacing: 0) {
@@ -82,12 +78,13 @@ struct ConversationDetailView: View {
 
     }
 
+    @MainActor
     @ViewBuilder
     private func MessageBox() -> some View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack {
-                    ForEach(sortedMessages) { message in
+                    ForEach(conversation.sortedMessages) { message in
                         MessageBubbleView(
                             message: message,
                             displayStyle: $displayStyle
@@ -98,7 +95,7 @@ struct ConversationDetailView: View {
                 .id(bottomId)
             }
             .onChange(
-                of: sortedMessages.last,
+                of: conversation.sortedMessages.last,
                 {
                     proxy.scrollTo(bottomId, anchor: .bottom)
                 }
@@ -110,6 +107,7 @@ struct ConversationDetailView: View {
     }
 
     @MainActor
+    @ViewBuilder
     private func EditorToolbar() -> some View {
         HStack {
             Button {

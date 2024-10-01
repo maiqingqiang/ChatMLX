@@ -8,6 +8,7 @@
 import CompactSlider
 import Defaults
 import Luminare
+import SwiftData
 import SwiftUI
 
 struct GeneralView: View {
@@ -131,7 +132,10 @@ struct GeneralView: View {
 
     private func clearAllConversations() {
         do {
-            try modelContext.delete(model: Conversation.self)
+            let conversations = try modelContext.fetch(FetchDescriptor<Conversation>())
+            for conversation in conversations {
+                modelContext.delete(conversation)
+            }
             try modelContext.save()
             conversationViewModel.selectedConversation = nil
         } catch {

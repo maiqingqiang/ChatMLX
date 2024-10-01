@@ -30,7 +30,7 @@ class LLMRunner {
 
     var gpuActiveMemory: Int = 0
 
-    let displayEveryNTokens = 4
+    let displayEveryNTokens = 10
 
     init() {}
 
@@ -83,9 +83,7 @@ class LLMRunner {
                     throw LLMRunnerError.failedToLoadModel
                 }
 
-                var messages = conversation.messages.sorted {
-                    $0.timestamp < $1.timestamp
-                }
+                var messages = conversation.sortedMessages
 
                 if conversation.useMaxMessagesLimit {
                     let maxCount = conversation.maxMessagesLimit + 1
@@ -97,18 +95,22 @@ class LLMRunner {
                     }
                 }
 
-                messages.insert(
-                    Message(
-                        role: .system,
-                        content: conversation.systemPrompt
-                    ),
-                    at: 0
-                )
+                if conversation.useSystemPrompt, !conversation.systemPrompt.isEmpty {
+                    messages.insert(
+                        Message(
+                            role: .system,
+                            content: conversation.systemPrompt
+                        ),
+                        at: 0
+                    )
+                }
 
-                let messagesDicts = messages.map {
+                let messagesDicts = messages[..<(messages.count - 1)].map {
                     message -> [String: String] in
                     ["role": message.role.rawValue, "content": message.content]
                 }
+
+                print("messagesDicts", messagesDicts)
 
                 let messageTokens = try await modelContainer.perform {
                     _, tokenizer in

@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 struct ConversationSidebarView: View {
-    @Query(sort: \Conversation.updatedAt, order: .reverse) private var conversations: [Conversation]
+    @Query(Conversation.all, animation: .bouncy) private var conversations: [Conversation]
     @Binding var selectedConversation: Conversation?
     @Environment(\.modelContext) private var modelContext
     @State private var showingNewConversationAlert = false
@@ -90,14 +90,5 @@ struct ConversationSidebarView: View {
         let conversation = Conversation()
         modelContext.insert(conversation)
         selectedConversation = conversation
-    }
-
-    private func clearAllConversations() {
-        do {
-            try modelContext.delete(model: Conversation.self)
-            selectedConversation = nil
-        } catch {
-            logger.error("Error deleting all conversations: \(error)")
-        }
     }
 }

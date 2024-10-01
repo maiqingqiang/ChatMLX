@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-class Message {
+final class Message {
     enum Role: String, Codable {
         case user
         case assistant
@@ -18,21 +18,23 @@ class Message {
 
     var role: Role
     var content: String
-    var isComplete: Bool
-    var timestamp: Date
+
+    @Transient var inferring: Bool = false
+
+    var createdAt: Date
+    var updatedAt: Date
+
     var error: String?
 
-    @Relationship var conversation: Conversation?
+    var conversation: Conversation?
 
     init(
         role: Role,
-        content: String = "",
-        isComplete: Bool = false,
-        timestamp: Date = Date()
+        content: String = ""
     ) {
         self.role = role
         self.content = content
-        self.isComplete = isComplete
-        self.timestamp = timestamp
+        self.createdAt = Date()
+        self.updatedAt = Date()
     }
 }

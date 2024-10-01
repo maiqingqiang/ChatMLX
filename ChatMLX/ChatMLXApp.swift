@@ -19,10 +19,13 @@ struct ChatMLXApp: App {
 
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([Conversation.self, Message.self])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+        let url = URL.applicationSupportDirectory.appending(path: "ChatMLX/Store.sqlite")
+
+        let modelConfiguration = ModelConfiguration(url: url)
 
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(for: schema, configurations: modelConfiguration)
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }

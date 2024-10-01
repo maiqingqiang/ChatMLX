@@ -10,12 +10,16 @@ import Foundation
 import SwiftData
 
 @Model
-class Conversation {
+final class Conversation {
     var title: String
     var model: String
     var createdAt: Date
     var updatedAt: Date
-    @Relationship(deleteRule: .cascade, inverse: \Message.conversation) var messages: [Message] = []
+    @Relationship(deleteRule: .cascade) var messages: [Message] = []
+
+    var sortedMessages: [Message] {
+        return messages.sorted { $0.updatedAt < $1.updatedAt }
+    }
 
     var temperature: Float
     var topP: Float
@@ -36,6 +40,12 @@ class Conversation {
     var generateTime: TimeInterval?
     var promptTokensPerSecond: Double?
     var tokensPerSecond: Double?
+
+    static var all: FetchDescriptor<Conversation> {
+        FetchDescriptor(
+            sortBy: [SortDescriptor(\.updatedAt, order: .reverse)]
+        )
+    }
 
     init() {
         title = Defaults[.defaultTitle]
@@ -63,7 +73,8 @@ class Conversation {
     }
 
     func startStreamingMessage(role: Message.Role) -> Message {
-        let message = Message(role: role, isComplete: false)
+        let message = Message(role: role)
+        message.inferring = true
         addMessage(message)
         return message
     }
@@ -74,12 +85,12 @@ class Conversation {
     }
 
     func completeStreamingMessage(_ message: Message) {
-        message.isComplete = true
+        message.inferring = false
         updatedAt = Date()
     }
 
     func failedMessage(_ message: Message, with error: Error) {
-        message.isComplete = true
+        message.inferring = false
         message.error = error.localizedDescription
         updatedAt = Date()
     }

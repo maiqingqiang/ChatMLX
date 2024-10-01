@@ -131,6 +131,7 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
         }
     }
 
+    @MainActor
     @ViewBuilder
     func header() -> some View {
         VStack(spacing: 0) {

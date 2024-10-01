@@ -16,19 +16,16 @@ struct ConversationSidebarItem: View {
     @State private var isActive: Bool = false
     @State private var showIndicator: Bool = false
 
-    private var sortedMessages: [Message] {
-        conversation.messages.sorted { $0.timestamp < $1.timestamp }
-    }
-
     private var firstMessageContent: String {
-        sortedMessages.first?.content ?? ""
+        conversation.sortedMessages.first?.content ?? ""
     }
 
     private var lastMessageTime: String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .short
-        return formatter.string(from: conversation.messages.last?.timestamp ?? Date())
+        if let message = conversation.messages.last {
+            return message.updatedAt.toFormattedString()
+        }
+
+        return ""
     }
 
     var body: some View {

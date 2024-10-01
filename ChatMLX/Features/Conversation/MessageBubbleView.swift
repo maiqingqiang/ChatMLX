@@ -38,6 +38,8 @@ struct MessageBubbleView: View {
         }
     }
 
+    @MainActor
+    @ViewBuilder
     private var assistantMessageView: some View {
         HStack(alignment: .top, spacing: 12) {
             Image("AppLogo")
@@ -87,10 +89,10 @@ struct MessageBubbleView: View {
                             .help("Regenerate")
                     }
 
-                    Text(formatDate(message.timestamp))
+                    Text(formatDate(message.updatedAt))
                         .font(.caption)
 
-                    if message.role == .assistant, !message.isComplete {
+                    if message.role == .assistant, message.inferring {
                         ProgressView()
                             .controlSize(.small)
                             .colorInvert()
@@ -107,6 +109,8 @@ struct MessageBubbleView: View {
         }
     }
 
+    @MainActor
+    @ViewBuilder
     private var userMessageView: some View {
         VStack(alignment: .trailing) {
             Text(message.content)
@@ -116,7 +120,7 @@ struct MessageBubbleView: View {
                 .cornerRadius(8)
 
             HStack {
-                Text(formatDate(message.timestamp))
+                Text(formatDate(message.updatedAt))
                     .font(.caption)
 
                 Button(action: copyText) {
@@ -145,12 +149,8 @@ struct MessageBubbleView: View {
         guard message.role == .user else { return }
 
         if let conversation = message.conversation {
-            let sortedMessages = conversation.messages.sorted {
-                $0.timestamp < $1.timestamp
-            }
-
-            if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
-                let messages = sortedMessages[index...]
+            if let index = conversation.sortedMessages.firstIndex(where: { $0.id == message.id }) {
+                let messages = conversation.sortedMessages[index...]
                 for messageToDelete in messages {
                     conversation.messages.removeAll(where: {
                         $0.id == messageToDelete.id
@@ -166,12 +166,8 @@ struct MessageBubbleView: View {
         guard message.role == .assistant else { return }
 
         if let conversation = message.conversation {
-            let sortedMessages = conversation.messages.sorted {
-                $0.timestamp < $1.timestamp
-            }
-
-            if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
-                let messages = sortedMessages[index...]
+            if let index = conversation.sortedMessages.firstIndex(where: { $0.id == message.id }) {
+                let messages = conversation.sortedMessages[index...]
                 for messageToDelete in messages {
                     conversation.messages.removeAll(where: {
                         $0.id == messageToDelete.id

@@ -80,6 +80,8 @@ struct MLXCommunityView: View {
         }
     }
 
+    @MainActor
+    @ViewBuilder
     var lastRowView: some View {
         ZStack(alignment: .center) {
             switch status {
