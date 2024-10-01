@@ -51,8 +51,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/maiqingqiang/Jinja",
       "state" : {
-        "revision" : "eee42768cb951fa1baa7dce0202da5b53ab49f15",
-        "version" : "1.0.3"
+        "revision" : "4ffa95ce02e013c992287e19e3bbd620b6cc233a",
+        "version" : "1.0.4"
       }
     },
     {
