@@ -64,7 +64,10 @@ class LLMRunner {
 
     func generate(conversation: Conversation) async {
         guard !running else { return }
-        running = true
+
+        await MainActor.run {
+            running = true
+        }
 
         let message = conversation.startStreamingMessage(role: .assistant)
 
@@ -149,25 +152,30 @@ class LLMRunner {
                     }
                 }
 
-                if result.output != message.content {
-                    message.content = result.output
-                }
+                await MainActor.run {
+                    if result.output != message.content {
+                        message.content = result.output
+                    }
 
-                conversation.completeStreamingMessage(
-                    message)
-                conversation.promptTime = result.promptTime
-                conversation.generateTime = result.generateTime
-                conversation.promptTokensPerSecond =
-                    result.promptTokensPerSecond
-                conversation.tokensPerSecond = result.tokensPerSecond
+                    conversation.completeStreamingMessage(
+                        message)
+                    conversation.promptTime = result.promptTime
+                    conversation.generateTime = result.generateTime
+                    conversation.promptTokensPerSecond =
+                        result.promptTokensPerSecond
+                    conversation.tokensPerSecond = result.tokensPerSecond
+                }
             }
         } catch {
             print("\(error)")
             logger.error("LLM Generate Failed: \(error.localizedDescription)")
-            conversation.failedMessage(message, with: error)
+            await MainActor.run {
+                conversation.failedMessage(message, with: error)
+            }
         }
-
-        running = false
+        await MainActor.run {
+            running = false
+        }
     }
 }
 

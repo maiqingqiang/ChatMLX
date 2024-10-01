@@ -15,7 +15,7 @@ class Conversation {
     var model: String
     var createdAt: Date
     var updatedAt: Date
-    @Relationship(deleteRule: .cascade) var messages: [Message] = []
+    @Relationship(deleteRule: .cascade, inverse: \Message.conversation) var messages: [Message] = []
 
     var temperature: Float
     var topP: Float

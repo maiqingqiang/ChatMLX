@@ -10,7 +10,7 @@ import SwiftData
 import SwiftUI
 
 struct ConversationSidebarView: View {
-    @Query private var conversations: [Conversation]
+    @Query(sort: \Conversation.updatedAt, order: .reverse) private var conversations: [Conversation]
     @Binding var selectedConversation: Conversation?
     @Environment(\.modelContext) private var modelContext
     @State private var showingNewConversationAlert = false
@@ -19,15 +19,11 @@ struct ConversationSidebarView: View {
 
     let padding: CGFloat = 8
 
-    var sortedConversations: [Conversation] {
-        conversations.sorted { $0.updatedAt > $1.updatedAt }
-    }
-
     var filteredConversations: [Conversation] {
         if keyword.isEmpty {
-            sortedConversations
+            conversations
         } else {
-            sortedConversations.filter { conversation in
+            conversations.filter { conversation in
                 conversation.title.lowercased().contains(keyword.lowercased())
                     || conversation.messages.contains { message in
                         message.content.lowercased().contains(

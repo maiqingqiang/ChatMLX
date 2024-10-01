@@ -13,8 +13,8 @@ struct MessageBubbleView: View {
     let message: Message
     @Binding var displayStyle: DisplayStyle
     @State private var showToast = false
-    var onDelete: () -> Void
-    var onRegenerate: () -> Void
+    @Environment(\.modelContext) private var modelContext
+    @Environment(LLMRunner.self) var runner
 
     private func copyText() {
         let pasteboard = NSPasteboard.general
@@ -82,7 +82,7 @@ struct MessageBubbleView: View {
                             .help("Copy")
                     }
 
-                    Button(action: onRegenerate) {
+                    Button(action: regenerate) {
                         Image(systemName: "arrow.clockwise")
                             .help("Regenerate")
                     }
@@ -124,7 +124,7 @@ struct MessageBubbleView: View {
                         .help("Copy")
                 }
 
-                Button(action: onDelete) {
+                Button(action: delete) {
                     Image(systemName: "trash")
                 }
             }
@@ -139,5 +139,51 @@ struct MessageBubbleView: View {
         let formatter = DateFormatter()
         formatter.dateFormat = "HH:mm:ss"
         return formatter.string(from: date)
+    }
+
+    private func delete() {
+        guard message.role == .user else { return }
+
+        if let conversation = message.conversation {
+            let sortedMessages = conversation.messages.sorted {
+                $0.timestamp < $1.timestamp
+            }
+
+            if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
+                let messages = sortedMessages[index...]
+                for messageToDelete in messages {
+                    conversation.messages.removeAll(where: {
+                        $0.id == messageToDelete.id
+                    })
+                    modelContext.delete(messageToDelete)
+                }
+                conversation.updatedAt = Date()
+            }
+        }
+    }
+
+    private func regenerate() {
+        guard message.role == .assistant else { return }
+
+        if let conversation = message.conversation {
+            let sortedMessages = conversation.messages.sorted {
+                $0.timestamp < $1.timestamp
+            }
+
+            if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
+                let messages = sortedMessages[index...]
+                for messageToDelete in messages {
+                    conversation.messages.removeAll(where: {
+                        $0.id == messageToDelete.id
+                    })
+                    modelContext.delete(messageToDelete)
+                }
+                conversation.updatedAt = Date()
+            }
+
+            Task {
+                await runner.generate(conversation: conversation)
+            }
+        }
     }
 }

@@ -90,13 +90,7 @@ struct ConversationDetailView: View {
                     ForEach(sortedMessages) { message in
                         MessageBubbleView(
                             message: message,
-                            displayStyle: $displayStyle,
-                            onDelete: {
-                                deleteMessage(message)
-                            },
-                            onRegenerate: {
-                                regenerateMessage(message)
-                            }
+                            displayStyle: $displayStyle
                         )
                     }
                 }
@@ -377,47 +371,5 @@ struct ConversationDetailView: View {
         toastMessage = message
         toastType = type
         showToast = true
-    }
-
-    private func deleteMessage(_ message: Message) {
-        guard message.role == .user else { return }
-
-        let sortedMessages = conversation.messages.sorted {
-            $0.timestamp < $1.timestamp
-        }
-
-        if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
-            let messages = sortedMessages[index...]
-            for messageToDelete in messages {
-                conversation.messages.removeAll(where: {
-                    $0.id == messageToDelete.id
-                })
-                modelContext.delete(messageToDelete)
-            }
-            conversation.updatedAt = Date()
-        }
-    }
-
-    private func regenerateMessage(_ message: Message) {
-        guard message.role == .assistant else { return }
-
-        let sortedMessages = conversation.messages.sorted {
-            $0.timestamp < $1.timestamp
-        }
-
-        if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
-            let messages = sortedMessages[index...]
-            for messageToDelete in messages {
-                conversation.messages.removeAll(where: {
-                    $0.id == messageToDelete.id
-                })
-                modelContext.delete(messageToDelete)
-            }
-            conversation.updatedAt = Date()
-        }
-
-        Task {
-            await runner.generate(conversation: conversation)
-        }
     }
 }

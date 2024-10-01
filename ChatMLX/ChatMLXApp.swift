@@ -17,6 +17,17 @@ struct ChatMLXApp: App {
     @Default(.language) var language
     @State private var runner = LLMRunner()
 
+    var sharedModelContainer: ModelContainer = {
+        let schema = Schema([Conversation.self, Message.self])
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+
+        do {
+            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+        } catch {
+            fatalError("Could not create ModelContainer: \(error)")
+        }
+    }()
+
     var body: some Scene {
         WindowGroup {
             ConversationView()
@@ -27,7 +38,7 @@ struct ChatMLXApp: App {
                 .environment(runner)
                 .frame(minWidth: 900, minHeight: 580)
         }
-        .modelContainer(for: [Conversation.self, Message.self])
+        .modelContainer(sharedModelContainer)
 
         Settings {
             SettingsView()
@@ -39,6 +50,6 @@ struct ChatMLXApp: App {
                 .environment(runner)
                 .frame(width: 620, height: 480)
         }
-        .modelContainer(for: [Conversation.self, Message.self])
+        .modelContainer(sharedModelContainer)
     }
 }

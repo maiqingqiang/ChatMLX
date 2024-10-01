@@ -22,6 +22,8 @@ class Message {
     var timestamp: Date
     var error: String?
 
+    @Relationship var conversation: Conversation?
+
     init(
         role: Role,
         content: String = "",
