@@ -5,33 +5,28 @@
 //  Created by John Mai on 2024/8/3.
 //
 
+import Defaults
 import Luminare
-import SwiftData
 import SwiftUI
 
 struct ConversationSidebarView: View {
-    @Query(Conversation.all, animation: .bouncy) private var conversations: [Conversation]
+    @Environment(ConversationViewModel.self) private var conversationViewModel
+
     @Binding var selectedConversation: Conversation?
-    @Environment(\.modelContext) private var modelContext
+
+    @Environment(\.managedObjectContext) private var viewContext
+
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Conversation.updatedAt, ascending: false)],
+        animation: .default
+    )
+    private var conversations: FetchedResults<Conversation>
+
     @State private var showingNewConversationAlert = false
     @State private var newConversationTitle = ""
     @State private var showingClearConfirmation = false
 
     let padding: CGFloat = 8
-
-    var filteredConversations: [Conversation] {
-        if keyword.isEmpty {
-            conversations
-        } else {
-            conversations.filter { conversation in
-                conversation.title.lowercased().contains(keyword.lowercased())
-                    || conversation.messages.contains { message in
-                        message.content.lowercased().contains(
-                            keyword.lowercased())
-                    }
-            }
-        }
-    }
 
     @State private var keyword = ""
 
@@ -39,9 +34,7 @@ struct ConversationSidebarView: View {
         VStack(spacing: 0) {
             HStack {
                 Spacer()
-                Button(action: {
-                    createConversation()
-                }) {
+                Button(action: conversationViewModel.createConversation) {
                     Image(systemName: "plus")
                 }
 
@@ -66,14 +59,15 @@ struct ConversationSidebarView: View {
 
             LuminareSection {
                 UltramanTextField(
-                    $keyword, placeholder: Text("Search Conversation...")
+                    $keyword, placeholder: Text("Search Conversation..."), onSubmit: updateSearchPredicate
                 )
+
                 .frame(height: 25)
             }.padding(.horizontal, padding)
 
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    ForEach(filteredConversations) { conversation in
+                    ForEach(conversations) { conversation in
                         ConversationSidebarItem(
                             conversation: conversation,
                             selectedConversation: $selectedConversation
@@ -86,9 +80,11 @@ struct ConversationSidebarView: View {
         .background(.black.opacity(0.4))
     }
 
-    private func createConversation() {
-        let conversation = Conversation()
-        modelContext.insert(conversation)
-        selectedConversation = conversation
+    private func updateSearchPredicate() {
+        if keyword.isEmpty {
+            conversations.nsPredicate = nil
+        } else {
+            conversations.nsPredicate = NSPredicate(format: "title CONTAINS [cd] %@ OR ANY messages.content CONTAINS [cd] %@", keyword, keyword)
+        }
     }
 }

@@ -104,7 +104,7 @@ struct DefaultConversationView: View {
                             CompactSlider(
                                 value: Binding(
                                     get: { Double(defaultMaxLength) },
-                                    set: { defaultMaxLength = Int($0) }
+                                    set: { defaultMaxLength = Int64($0) }
                                 ), in: 0 ... 8192, step: 1
                             ) {
                                 Text("\(defaultMaxLength)")
@@ -121,7 +121,7 @@ struct DefaultConversationView: View {
                         CompactSlider(
                             value: Binding(
                                 get: { Double(defaultRepetitionContextSize) },
-                                set: { defaultRepetitionContextSize = Int($0) }
+                                set: { defaultRepetitionContextSize = Int32($0) }
                             ), in: 0 ... 100, step: 1
                         ) {
                             Text("\(defaultRepetitionContextSize)")
@@ -175,7 +175,7 @@ struct DefaultConversationView: View {
                             CompactSlider(
                                 value: Binding(
                                     get: { Double(defaultMaxMessagesLimit) },
-                                    set: { defaultMaxMessagesLimit = Int($0) }
+                                    set: { defaultMaxMessagesLimit = Int32($0) }
                                 ), in: 1 ... 50, step: 1
                             ) {
                                 Text("\(defaultMaxMessagesLimit)")

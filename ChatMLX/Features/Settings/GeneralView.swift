@@ -6,6 +6,7 @@
 //
 
 import CompactSlider
+import CoreData
 import Defaults
 import Luminare
 import SwiftData
@@ -17,8 +18,10 @@ struct GeneralView: View {
     @Default(.language) var language
     @Default(.gpuCacheLimit) var gpuCacheLimit
 
-    @Environment(ConversationView.ViewModel.self) private
-        var conversationViewModel
+    @Environment(\.managedObjectContext) private var viewContext
+
+    @Environment(ConversationViewModel.self) private
+    var conversationViewModel
 
     @Environment(LLMRunner.self) var runner
     @Environment(\.modelContext) private var modelContext
@@ -76,7 +79,7 @@ struct GeneralView: View {
                     CompactSlider(
                         value: Binding(
                             get: { Double(gpuCacheLimit) },
-                            set: { gpuCacheLimit = Int($0) }
+                            set: { gpuCacheLimit = Int32($0) }
                         ), in: 0 ... Double(maxRAM), step: 128
                     ) {
                         Text("\(Int(gpuCacheLimit))MB")
@@ -131,16 +134,9 @@ struct GeneralView: View {
     }
 
     private func clearAllConversations() {
-        do {
-            let conversations = try modelContext.fetch(FetchDescriptor<Conversation>())
-            for conversation in conversations {
-                modelContext.delete(conversation)
-            }
-            try modelContext.save()
-            conversationViewModel.selectedConversation = nil
-        } catch {
-            logger.error("Error deleting all conversations: \(error)")
-        }
+        try? PersistenceController.shared.clearMessage()
+        try? PersistenceController.shared.clearConversation()
+        conversationViewModel.selectedConversation = nil
     }
 }
 

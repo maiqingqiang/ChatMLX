@@ -5,28 +5,20 @@
 //  Created by John Mai on 2024/8/4.
 //
 
+import SwiftData
 import SwiftUI
 
 struct ConversationSidebarItem: View {
-    let conversation: Conversation
+    @ObservedObject var conversation: Conversation
+    
+    @Environment(\.managedObjectContext) private var viewContext
+
+
     @Binding var selectedConversation: Conversation?
-    @Environment(\.modelContext) private var modelContext
 
     @State private var isHovering: Bool = false
     @State private var isActive: Bool = false
     @State private var showIndicator: Bool = false
-
-    private var firstMessageContent: String {
-        conversation.sortedMessages.first?.content ?? ""
-    }
-
-    private var lastMessageTime: String {
-        if let message = conversation.messages.last {
-            return message.updatedAt.toFormattedString()
-        }
-
-        return ""
-    }
 
     var body: some View {
         Button {
@@ -37,13 +29,13 @@ struct ConversationSidebarItem: View {
                     .font(.headline)
 
                 HStack {
-                    Text(firstMessageContent)
+                    Text(conversation.messages.first?.content ?? "")
                         .font(.subheadline)
                         .lineLimit(1)
 
                     Spacer()
 
-                    Text(lastMessageTime)
+                    Text(conversation.messages.last?.updatedAt.toFormattedString() ?? "")
                         .font(.caption)
                 }
                 .foregroundStyle(.white.opacity(0.7))
@@ -71,15 +63,6 @@ struct ConversationSidebarItem: View {
     }
 
     private func deleteConversation() {
-        modelContext.delete(conversation)
-
-        do {
-            try modelContext.save()
-            if selectedConversation == conversation {
-                selectedConversation = nil
-            }
-        } catch {
-            logger.error("deleteConversation failed: \(error)")
-        }
+        try? PersistenceController.shared.delete(conversation, in: viewContext)
     }
 }

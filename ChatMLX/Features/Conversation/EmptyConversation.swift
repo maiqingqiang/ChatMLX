@@ -10,7 +10,7 @@ import SwiftUI
 
 struct EmptyConversation: View {
     @Environment(\.modelContext) private var modelContext
-    @Environment(ConversationView.ViewModel.self) private var conversationViewModel
+    @Environment(ConversationViewModel.self) private var conversationViewModel
 
     var body: some View {
         ContentUnavailableView {
@@ -20,7 +20,7 @@ struct EmptyConversation: View {
             Text("Please select a new conversation")
                 .foregroundColor(.white)
             Button(
-                action: createConversation,
+                action: conversationViewModel.createConversation,
                 label: {
                     HStack {
                         Image(systemName: "plus")
@@ -32,11 +32,5 @@ struct EmptyConversation: View {
             ).buttonStyle(LuminareCompactButtonStyle())
                 .fixedSize()
         }
-    }
-
-    private func createConversation() {
-        let conversation = Conversation()
-        modelContext.insert(conversation)
-        conversationViewModel.selectedConversation = conversation
     }
 }

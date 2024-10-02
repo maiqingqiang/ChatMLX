@@ -10,24 +10,22 @@ import Foundation
 import SwiftData
 
 @Model
-final class Conversation {
+final class ConversationSW {
     var title: String
     var model: String
     var createdAt: Date
     var updatedAt: Date
-    @Relationship(deleteRule: .cascade) var messages: [Message] = []
+    @Relationship(deleteRule: .cascade) var messages: [MessageSW] = []
 
-    var sortedMessages: [Message] {
-        return messages.sorted { $0.updatedAt < $1.updatedAt }
-    }
+    var sortedMessages: [MessageSW] = []
 
     var temperature: Float
     var topP: Float
     var useMaxLength: Bool
-    var maxLength: Int
-    var repetitionContextSize: Int
+    var maxLength: Int64
+    var repetitionContextSize: Int32
 
-    var maxMessagesLimit: Int
+    var maxMessagesLimit: Int32
     var useMaxMessagesLimit: Bool
 
     var useRepetitionPenalty: Bool
@@ -41,7 +39,7 @@ final class Conversation {
     var promptTokensPerSecond: Double?
     var tokensPerSecond: Double?
 
-    static var all: FetchDescriptor<Conversation> {
+    static var all: FetchDescriptor<ConversationSW> {
         FetchDescriptor(
             sortBy: [SortDescriptor(\.updatedAt, order: .reverse)]
         )
@@ -67,29 +65,29 @@ final class Conversation {
         updatedAt = .init()
     }
 
-    func addMessage(_ message: Message) {
+    func addMessage(_ message: MessageSW) {
         messages.append(message)
         updatedAt = Date()
     }
 
-    func startStreamingMessage(role: Message.Role) -> Message {
-        let message = Message(role: role)
+    func startStreamingMessage(role: MessageSW.Role) -> MessageSW {
+        let message = MessageSW(role: role)
         message.inferring = true
         addMessage(message)
         return message
     }
 
-    func updateStreamingMessage(_ message: Message, with content: String) {
+    func updateStreamingMessage(_ message: MessageSW, with content: String) {
         message.content = content
         updatedAt = Date()
     }
 
-    func completeStreamingMessage(_ message: Message) {
+    func completeStreamingMessage(_ message: MessageSW) {
         message.inferring = false
         updatedAt = Date()
     }
 
-    func failedMessage(_ message: Message, with error: Error) {
+    func failedMessage(_ message: MessageSW, with error: Error) {
         message.inferring = false
         message.error = error.localizedDescription
         updatedAt = Date()

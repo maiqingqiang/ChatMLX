@@ -6,10 +6,10 @@
 //
 
 import Defaults
+import Metal
 import MLX
 import MLXLLM
 import MLXRandom
-import Metal
 import SwiftUI
 import Tokenizers
 
@@ -30,7 +30,7 @@ class LLMRunner {
 
     var gpuActiveMemory: Int = 0
 
-    let displayEveryNTokens = 10
+    let displayEveryNTokens = 4
 
     init() {}
 
@@ -62,14 +62,25 @@ class LLMRunner {
         }
     }
 
-    func generate(conversation: Conversation) async {
+    func generate(message: String, conversation: Conversation, in context: NSManagedObjectContext) async {
         guard !running else { return }
 
         await MainActor.run {
             running = true
         }
 
-        let message = conversation.startStreamingMessage(role: .assistant)
+        let userMessage = Message(context: context)
+        userMessage.role = MessageSW.Role.user.rawValue
+        userMessage.content = message
+        userMessage.conversation = conversation
+
+//        let message = conversation.startStreamingMessage(role: .assistant)
+
+        let assistantMessage = Message(context: context)
+        assistantMessage.role = MessageSW.Role.assistant.rawValue
+        assistantMessage.inferring = true
+        assistantMessage.content = ""
+        assistantMessage.conversation = conversation
 
         do {
             if conversation.model != modelConfiguration?.name {
@@ -83,31 +94,31 @@ class LLMRunner {
                     throw LLMRunnerError.failedToLoadModel
                 }
 
-                var messages = conversation.sortedMessages
+                var messages = conversation.messages
 
                 if conversation.useMaxMessagesLimit {
                     let maxCount = conversation.maxMessagesLimit + 1
                     if messages.count > maxCount {
-                        messages = Array(messages.suffix(maxCount))
-                        if messages.first?.role != .user {
+                        messages = Array(messages.suffix(Int(maxCount)))
+                        if messages.first?.role != MessageSW.Role.user.rawValue {
                             messages = Array(messages.dropFirst())
                         }
                     }
                 }
 
-                if conversation.useSystemPrompt, !conversation.systemPrompt.isEmpty {
-                    messages.insert(
-                        Message(
-                            role: .system,
-                            content: conversation.systemPrompt
-                        ),
-                        at: 0
-                    )
-                }
+//                if conversation.useSystemPrompt, !conversation.systemPrompt.isEmpty {
+//                    messages.insert(
+//                        Message(
+//                            role: .system,
+//                            content: conversation.systemPrompt
+//                        ),
+//                        at: 0
+//                    )
+//                }
 
                 let messagesDicts = messages[..<(messages.count - 1)].map {
                     message -> [String: String] in
-                    ["role": message.role.rawValue, "content": message.content]
+                    ["role": message.role, "content": message.content]
                 }
 
                 print("messagesDicts", messagesDicts)
@@ -122,7 +133,7 @@ class LLMRunner {
 
                 let result = await modelContainer.perform {
                     model,
-                    tokenizer in
+                        tokenizer in
 
                     MLXLLM.generate(
                         promptTokens: messageTokens,
@@ -131,7 +142,8 @@ class LLMRunner {
                             topP: conversation.topP,
                             repetitionPenalty: conversation.useRepetitionPenalty
                                 ? conversation.repetitionPenalty : nil,
-                            repetitionContextSize: conversation.repetitionContextSize
+//                            repetitionContextSize: Int(conversation.repetitionContextSize)
+                            repetitionContextSize: 20
                         ),
                         model: model,
                         tokenizer: tokenizer,
@@ -141,9 +153,9 @@ class LLMRunner {
                     ) { tokens in
                         if tokens.count % displayEveryNTokens == 0 {
                             let text = tokenizer.decode(tokens: tokens)
-
+                            print("assistantMessage.content ->", text)
                             Task { @MainActor in
-                                message.content = text
+                                assistantMessage.content = text
                             }
                         }
 
@@ -155,12 +167,11 @@ class LLMRunner {
                 }
 
                 await MainActor.run {
-                    if result.output != message.content {
-                        message.content = result.output
+                    if result.output != assistantMessage.content {
+                        assistantMessage.content = result.output
                     }
 
-                    conversation.completeStreamingMessage(
-                        message)
+                    assistantMessage.inferring = false
                     conversation.promptTime = result.promptTime
                     conversation.generateTime = result.generateTime
                     conversation.promptTokensPerSecond =
@@ -171,9 +182,9 @@ class LLMRunner {
         } catch {
             print("\(error)")
             logger.error("LLM Generate Failed: \(error.localizedDescription)")
-            await MainActor.run {
-                conversation.failedMessage(message, with: error)
-            }
+//            await MainActor.run {
+//                conversation.failedMessage(message, with: error)
+//            }
         }
         await MainActor.run {
             running = false

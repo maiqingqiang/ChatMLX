@@ -10,6 +10,9 @@
     "%.2f%%" : {
       "shouldTranslate" : false
     },
+    "%d" : {
+
+    },
     "%lld" : {
       "localizations" : {
         "zh-Hans" : {
@@ -677,6 +680,9 @@
         }
       }
     },
+    "Error" : {
+
+    },
     "Exit Full Screen" : {
       "localizations" : {
         "ja" : {
@@ -704,6 +710,9 @@
           }
         }
       }
+    },
+    "Feedback" : {
+
     },
     "General" : {
       "extractionState" : "manual",
@@ -1284,6 +1293,9 @@
           }
         }
       }
+    },
+    "OK" : {
+
     },
     "Please enter Hugging Face Repo ID" : {
       "extractionState" : "manual",

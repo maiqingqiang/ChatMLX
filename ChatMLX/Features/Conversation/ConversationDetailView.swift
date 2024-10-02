@@ -15,12 +15,15 @@ import SwiftUI
 
 struct ConversationDetailView: View {
     @Environment(LLMRunner.self) var runner
-    @Binding var conversation: Conversation
-    @State private var newMessage = ""
     @Environment(\.modelContext) private var modelContext
+
+    @ObservedObject var conversation: Conversation
+    @Environment(\.managedObjectContext) private var viewContext
+
+    @State private var newMessage = ""
     @FocusState private var isInputFocused: Bool
-    @Environment(ConversationView.ViewModel.self) private
-        var conversationViewModel
+    @Environment(ConversationViewModel.self) private
+    var conversationViewModel
     @State private var showRightSidebar = false
     @State private var showInfoPopover = false
     @Namespace var bottomId
@@ -52,7 +55,7 @@ struct ConversationDetailView: View {
                         }
                     }
 
-                RightSidebarView(conversation: $conversation)
+                RightSidebarView(conversation: conversation)
             }
         }
         .onAppear(perform: loadModels)
@@ -75,7 +78,6 @@ struct ConversationDetailView: View {
             }
             .buttonStyle(.plain)
         }
-
     }
 
     @MainActor
@@ -84,7 +86,7 @@ struct ConversationDetailView: View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack {
-                    ForEach(conversation.sortedMessages) { message in
+                    ForEach(conversation.messages) { message in
                         MessageBubbleView(
                             message: message,
                             displayStyle: $displayStyle
@@ -95,7 +97,7 @@ struct ConversationDetailView: View {
                 .id(bottomId)
             }
             .onChange(
-                of: conversation.sortedMessages.last,
+                of: conversation.messages.last,
                 {
                     proxy.scrollTo(bottomId, anchor: .bottom)
                 }
@@ -126,7 +128,9 @@ struct ConversationDetailView: View {
                 }
             }
 
-            Button(action: conversation.clearMessages) {
+            Button(action: {
+//                conversation.clearMessages()
+            }) {
                 Image("clear")
             }
 
@@ -171,7 +175,7 @@ struct ConversationDetailView: View {
                     }
 
                     LabeledContent {
-                        Text("\(Int(conversation.promptTokensPerSecond ?? 0))")
+                        Text("\(Int(conversation.promptTokensPerSecond))")
                     } label: {
                         Text("Prompt Tokens/second")
                             .fontWeight(.bold)
@@ -185,7 +189,7 @@ struct ConversationDetailView: View {
                     }
 
                     LabeledContent {
-                        Text("\(Int(conversation.tokensPerSecond ?? 0))")
+                        Text("\(Int(conversation.tokensPerSecond))")
                     } label: {
                         Text("Generate Tokens/second")
                             .fontWeight(.bold)
@@ -288,17 +292,20 @@ struct ConversationDetailView: View {
             return
         }
 
-        conversation.addMessage(
-            Message(
-                role: .user,
-                content: trimmedMessage
-            )
-        )
         newMessage = ""
         isInputFocused = false
-
         Task {
-            await runner.generate(conversation: conversation)
+            do {
+                await runner.generate(
+                    message: trimmedMessage,
+                    conversation: conversation,
+                    in: viewContext
+                )
+
+                try PersistenceController.shared.save()
+            } catch {
+                conversationViewModel.throwError(error: error)
+            }
         }
     }
 

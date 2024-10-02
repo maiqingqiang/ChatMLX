@@ -9,7 +9,7 @@ import Foundation
 import SwiftData
 
 @Model
-final class Message {
+final class MessageSW {
     enum Role: String, Codable {
         case user
         case assistant
@@ -26,7 +26,7 @@ final class Message {
 
     var error: String?
 
-    var conversation: Conversation?
+    var conversation: ConversationSW?
 
     init(
         role: Role,

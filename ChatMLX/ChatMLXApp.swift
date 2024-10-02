@@ -11,25 +11,16 @@ import SwiftUI
 
 @main
 struct ChatMLXApp: App {
-    @State private var conversationViewModel: ConversationView.ViewModel = .init()
+    @Environment(\.scenePhase) private var scenePhase
+
+    @State private var conversationViewModel: ConversationViewModel = .init()
     @State private var settingsViewModel: SettingsView.ViewModel = .init()
 
     @Default(.language) var language
+
     @State private var runner = LLMRunner()
 
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([Conversation.self, Message.self])
-
-        let url = URL.applicationSupportDirectory.appending(path: "ChatMLX/Store.sqlite")
-
-        let modelConfiguration = ModelConfiguration(url: url)
-
-        do {
-            return try ModelContainer(for: schema, configurations: modelConfiguration)
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    let persistenceController = PersistenceController.shared
 
     var body: some Scene {
         WindowGroup {
@@ -40,8 +31,23 @@ struct ChatMLXApp: App {
                 )
                 .environment(runner)
                 .frame(minWidth: 900, minHeight: 580)
+                .alert("Error", isPresented: $conversationViewModel.showErrorAlert, actions: {
+                    Button("OK") {
+                        conversationViewModel.error = nil
+                    }
+
+                    Button("Feedback") {
+                        conversationViewModel.error = nil
+                        NSWorkspace.shared.open(URL(string: "https://github.com/maiqingqiang/ChatMLX/issues")!)
+                    }
+                }, message: {
+                    Text(conversationViewModel.error?.localizedDescription ?? "An unknown error occurred.")
+                })
         }
-        .modelContainer(sharedModelContainer)
+        .environment(\.managedObjectContext, persistenceController.container.viewContext)
+        .onChange(of: scenePhase) { _, _ in
+            try? persistenceController.save()
+        }
 
         Settings {
             SettingsView()
@@ -53,6 +59,6 @@ struct ChatMLXApp: App {
                 .environment(runner)
                 .frame(width: 620, height: 480)
         }
-        .modelContainer(sharedModelContainer)
+        .environment(\.managedObjectContext, persistenceController.container.viewContext)
     }
 }

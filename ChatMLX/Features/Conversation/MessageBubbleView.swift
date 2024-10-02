@@ -10,7 +10,7 @@ import MarkdownUI
 import SwiftUI
 
 struct MessageBubbleView: View {
-    let message: Message
+    @ObservedObject var message: Message
     @Binding var displayStyle: DisplayStyle
     @State private var showToast = false
     @Environment(\.modelContext) private var modelContext
@@ -25,7 +25,7 @@ struct MessageBubbleView: View {
 
     var body: some View {
         HStack {
-            if message.role == .assistant {
+            if message.role == MessageSW.Role.assistant.rawValue {
                 assistantMessageView
             } else {
                 Spacer()
@@ -92,7 +92,7 @@ struct MessageBubbleView: View {
                     Text(formatDate(message.updatedAt))
                         .font(.caption)
 
-                    if message.role == .assistant, message.inferring {
+                    if message.role == MessageSW.Role.assistant.rawValue, message.inferring {
                         ProgressView()
                             .controlSize(.small)
                             .colorInvert()
@@ -146,40 +146,40 @@ struct MessageBubbleView: View {
     }
 
     private func delete() {
-        guard message.role == .user else { return }
-
-        if let conversation = message.conversation {
-            if let index = conversation.sortedMessages.firstIndex(where: { $0.id == message.id }) {
-                let messages = conversation.sortedMessages[index...]
-                for messageToDelete in messages {
-                    conversation.messages.removeAll(where: {
-                        $0.id == messageToDelete.id
-                    })
-                    modelContext.delete(messageToDelete)
-                }
-                conversation.updatedAt = Date()
-            }
-        }
+//        guard message.role == .user else { return }
+//
+//        if let conversation = message.conversation {
+//            if let index = conversation.sortedMessages.firstIndex(where: { $0.id == message.id }) {
+//                let messages = conversation.sortedMessages[index...]
+//                for messageToDelete in messages {
+//                    conversation.messages.removeAll(where: {
+//                        $0.id == messageToDelete.id
+//                    })
+//                    modelContext.delete(messageToDelete)
+//                }
+//                conversation.updatedAt = Date()
+//            }
+//        }
     }
 
     private func regenerate() {
-        guard message.role == .assistant else { return }
-
-        if let conversation = message.conversation {
-            if let index = conversation.sortedMessages.firstIndex(where: { $0.id == message.id }) {
-                let messages = conversation.sortedMessages[index...]
-                for messageToDelete in messages {
-                    conversation.messages.removeAll(where: {
-                        $0.id == messageToDelete.id
-                    })
-                    modelContext.delete(messageToDelete)
-                }
-                conversation.updatedAt = Date()
-            }
-
-            Task {
-                await runner.generate(conversation: conversation)
-            }
-        }
+//        guard message.role == .assistant else { return }
+//
+//        if let conversation = message.conversation {
+//            if let index = conversation.sortedMessages.firstIndex(where: { $0.id == message.id }) {
+//                let messages = conversation.sortedMessages[index...]
+//                for messageToDelete in messages {
+//                    conversation.messages.removeAll(where: {
+//                        $0.id == messageToDelete.id
+//                    })
+//                    modelContext.delete(messageToDelete)
+//                }
+//                conversation.updatedAt = Date()
+//            }
+//
+//            Task {
+//                await runner.generate(conversation: conversation)
+//            }
+//        }
     }
 }
