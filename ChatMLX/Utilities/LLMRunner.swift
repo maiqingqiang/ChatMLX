@@ -107,7 +107,10 @@ class LLMRunner {
         ]
     }
 
-    func generate(conversation: Conversation, in context: NSManagedObjectContext) {
+    func generate(
+        conversation: Conversation, in context: NSManagedObjectContext,
+        progressing: @escaping () -> Void = {}
+    ) {
         guard !running else { return }
         running = true
 
@@ -157,6 +160,7 @@ class LLMRunner {
                                 let text = tokenizer.decode(tokens: tokens)
                                 Task { @MainActor in
                                     assistantMessage.content = text
+                                    progressing()
                                 }
                             }
 

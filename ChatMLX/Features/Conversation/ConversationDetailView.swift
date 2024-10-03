@@ -31,8 +31,8 @@ struct ConversationDetailView: View {
     @State private var toastMessage = ""
     @State private var toastType: AlertToast.AlertType = .regular
     @State private var loading = true
+    @State private var scrollViewProxy: ScrollViewProxy?
 
-    @Namespace var bottomId
     @FocusState private var isInputFocused: Bool
 
     var body: some View {
@@ -93,17 +93,27 @@ struct ConversationDetailView: View {
                     }
                 }
                 .padding()
-                .id(bottomId)
             }
             .onChange(
                 of: conversation.messages.last,
-                {
-                    proxy.scrollTo(bottomId, anchor: .bottom)
+                { _, _ in
+                    scrollToBottom()
                 }
             )
             .onAppear {
-                proxy.scrollTo(bottomId, anchor: .bottom)
+                scrollViewProxy = proxy
+                scrollToBottom()
             }
+        }
+    }
+
+    private func scrollToBottom() {
+        guard let lastMessageId = conversation.messages.last?.id, let scrollViewProxy else {
+            return
+        }
+
+        withAnimation {
+            scrollViewProxy.scrollTo(lastMessageId, anchor: .bottom)
         }
     }
 
@@ -113,18 +123,10 @@ struct ConversationDetailView: View {
         HStack {
             Button {
                 withAnimation {
-                    if displayStyle == .markdown {
-                        displayStyle = .plain
-                    } else {
-                        displayStyle = .markdown
-                    }
+                    displayStyle = (displayStyle == .markdown) ? .plain : .markdown
                 }
             } label: {
-                if displayStyle == .markdown {
-                    Image("plaintext")
-                } else {
-                    Image("markdown")
-                }
+                Image(displayStyle == .markdown ? "plaintext" : "markdown")
             }
 
             Button(action: {
@@ -296,7 +298,11 @@ struct ConversationDetailView: View {
 
         Message(context: viewContext).user(content: trimmedMessage, conversation: conversation)
 
-        runner.generate(conversation: conversation, in: viewContext)
+        runner.generate(conversation: conversation, in: viewContext) {
+            scrollToBottom()
+        }
+
+        scrollToBottom()
 
         Task(priority: .background) {
             do {
