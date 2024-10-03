@@ -10,6 +10,9 @@
     "%.2f%%" : {
       "shouldTranslate" : false
     },
+    "%d" : {
+      "shouldTranslate" : false
+    },
     "%lld" : {
       "localizations" : {
         "zh-Hans" : {
@@ -705,6 +708,34 @@
         }
       }
     },
+    "Feedback" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フィードバック"
+          }
+        },
+        "ko" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "의견 피드백"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反馈"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "反饋"
+          }
+        }
+      }
+    },
     "General" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1284,6 +1315,17 @@
           }
         }
       }
+    },
+    "OK" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完成"
+          }
+        }
+      },
+      "shouldTranslate" : false
     },
     "Please enter Hugging Face Repo ID" : {
       "extractionState" : "manual",

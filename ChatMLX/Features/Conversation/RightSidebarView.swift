@@ -10,7 +10,7 @@ import Luminare
 import SwiftUI
 
 struct RightSidebarView: View {
-    @Binding var conversation: Conversation
+    @ObservedObject var conversation: Conversation
 
     private let padding: CGFloat = 6
 
@@ -80,7 +80,7 @@ struct RightSidebarView: View {
                                         Double(conversation.maxLength)
                                     },
                                     set: {
-                                        conversation.maxLength = Int($0)
+                                        conversation.maxLength = Int64($0)
                                     }
                                 ), in: 0 ... 8192, step: 1
                             ) {
@@ -162,7 +162,7 @@ struct RightSidebarView: View {
                                         Double(conversation.maxMessagesLimit)
                                     },
                                     set: {
-                                        conversation.maxMessagesLimit = Int($0)
+                                        conversation.maxMessagesLimit = Int32($0)
                                     }
                                 ), in: 1 ... 50, step: 1
                             ) {

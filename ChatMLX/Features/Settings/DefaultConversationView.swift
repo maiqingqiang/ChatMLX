@@ -27,10 +27,11 @@ struct DefaultConversationView: View {
 
     @State private var localModels: [LocalModel] = []
 
+    @Environment(SettingsViewModel.self) var vm
+
     private let padding: CGFloat = 6
 
     var body: some View {
-
         ScrollView {
             VStack {
                 LuminareSection("Title") {
@@ -104,7 +105,7 @@ struct DefaultConversationView: View {
                             CompactSlider(
                                 value: Binding(
                                     get: { Double(defaultMaxLength) },
-                                    set: { defaultMaxLength = Int($0) }
+                                    set: { defaultMaxLength = Int64($0) }
                                 ), in: 0 ... 8192, step: 1
                             ) {
                                 Text("\(defaultMaxLength)")
@@ -121,7 +122,7 @@ struct DefaultConversationView: View {
                         CompactSlider(
                             value: Binding(
                                 get: { Double(defaultRepetitionContextSize) },
-                                set: { defaultRepetitionContextSize = Int($0) }
+                                set: { defaultRepetitionContextSize = Int32($0) }
                             ), in: 0 ... 100, step: 1
                         ) {
                             Text("\(defaultRepetitionContextSize)")
@@ -175,7 +176,7 @@ struct DefaultConversationView: View {
                             CompactSlider(
                                 value: Binding(
                                     get: { Double(defaultMaxMessagesLimit) },
-                                    set: { defaultMaxMessagesLimit = Int($0) }
+                                    set: { defaultMaxMessagesLimit = Int32($0) }
                                 ), in: 1 ... 50, step: 1
                             ) {
                                 Text("\(defaultMaxMessagesLimit)")
@@ -201,9 +202,7 @@ struct DefaultConversationView: View {
                         UltramanTextEditor(
                             text: $defaultSystemPrompt,
                             placeholder: "System prompt",
-                            onSubmit: {
-
-                            }
+                            onSubmit: {}
                         )
                         .frame(height: 100)
                         .padding(padding)
@@ -263,7 +262,7 @@ struct DefaultConversationView: View {
                 localModels = models
             }
         } catch {
-            logger.error("loadModels failed: \(error)")
+            vm.throwError(error, title: "Load Models Failed")
         }
     }
 }

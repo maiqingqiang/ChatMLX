@@ -10,32 +10,30 @@ import Defaults
 import Luminare
 import MLX
 import MLXLLM
-import SwiftData
 import SwiftUI
 
 struct ConversationDetailView: View {
+    @ObservedObject var conversation: Conversation
+
     @Environment(LLMRunner.self) var runner
-    @Binding var conversation: Conversation
+    @Environment(\.managedObjectContext) private var viewContext
+    @Environment(ConversationViewModel.self) private var vm
+
     @State private var newMessage = ""
-    @Environment(\.modelContext) private var modelContext
-    @FocusState private var isInputFocused: Bool
-    @Environment(ConversationView.ViewModel.self) private
-        var conversationViewModel
+
     @State private var showRightSidebar = false
     @State private var showInfoPopover = false
-    @Namespace var bottomId
+
     @State private var localModels: [LocalModel] = []
     @State private var displayStyle: DisplayStyle = .markdown
     @State private var isEditorFullScreen = false
     @State private var showToast = false
     @State private var toastMessage = ""
     @State private var toastType: AlertToast.AlertType = .regular
-
     @State private var loading = true
+    @State private var scrollViewProxy: ScrollViewProxy?
 
-    var sortedMessages: [Message] {
-        conversation.messages.sorted { $0.timestamp < $1.timestamp }
-    }
+    @FocusState private var isInputFocused: Bool
 
     var body: some View {
         ZStack(alignment: .trailing) {
@@ -56,7 +54,7 @@ struct ConversationDetailView: View {
                         }
                     }
 
-                RightSidebarView(conversation: $conversation)
+                RightSidebarView(conversation: conversation)
             }
         }
         .onAppear(perform: loadModels)
@@ -79,62 +77,61 @@ struct ConversationDetailView: View {
             }
             .buttonStyle(.plain)
         }
-
     }
 
+    @MainActor
     @ViewBuilder
     private func MessageBox() -> some View {
         ScrollViewReader { proxy in
             ScrollView {
                 LazyVStack {
-                    ForEach(sortedMessages) { message in
+                    ForEach(conversation.messages) { message in
                         MessageBubbleView(
                             message: message,
-                            displayStyle: $displayStyle,
-                            onDelete: {
-                                deleteMessage(message)
-                            },
-                            onRegenerate: {
-                                regenerateMessage(message)
-                            }
-                        )
+                            displayStyle: $displayStyle
+                        ).id(message.id)
                     }
                 }
                 .padding()
-                .id(bottomId)
             }
             .onChange(
-                of: sortedMessages.last,
-                {
-                    proxy.scrollTo(bottomId, anchor: .bottom)
+                of: conversation.messages.last,
+                { _, _ in
+                    scrollToBottom()
                 }
             )
             .onAppear {
-                proxy.scrollTo(bottomId, anchor: .bottom)
+                scrollViewProxy = proxy
+                scrollToBottom()
             }
         }
     }
 
+    private func scrollToBottom() {
+        guard let lastMessageId = conversation.messages.last?.id, let scrollViewProxy else {
+            return
+        }
+
+        withAnimation {
+            scrollViewProxy.scrollTo(lastMessageId, anchor: .bottom)
+        }
+    }
+
     @MainActor
+    @ViewBuilder
     private func EditorToolbar() -> some View {
         HStack {
             Button {
                 withAnimation {
-                    if displayStyle == .markdown {
-                        displayStyle = .plain
-                    } else {
-                        displayStyle = .markdown
-                    }
+                    displayStyle = (displayStyle == .markdown) ? .plain : .markdown
                 }
             } label: {
-                if displayStyle == .markdown {
-                    Image("doc-plaintext")
-                } else {
-                    Image("markdown")
-                }
+                Image(displayStyle == .markdown ? "plaintext" : "markdown")
             }
 
-            Button(action: conversation.clearMessages) {
+            Button(action: {
+                conversation.messages = []
+            }) {
                 Image("clear")
             }
 
@@ -172,28 +169,28 @@ struct ConversationDetailView: View {
             .popover(isPresented: $showInfoPopover) {
                 VStack(alignment: .leading) {
                     LabeledContent {
-                        Text(formatTimeInterval(conversation.promptTime))
+                        Text(conversation.promptTime.formatted())
                     } label: {
                         Text("Prompt Time")
                             .fontWeight(.bold)
                     }
 
                     LabeledContent {
-                        Text("\(Int(conversation.promptTokensPerSecond ?? 0))")
+                        Text("\(Int(conversation.promptTokensPerSecond))")
                     } label: {
                         Text("Prompt Tokens/second")
                             .fontWeight(.bold)
                     }
 
                     LabeledContent {
-                        Text(formatTimeInterval(conversation.generateTime))
+                        Text(conversation.generateTime.formatted())
                     } label: {
                         Text("Generate Time")
                             .fontWeight(.bold)
                     }
 
                     LabeledContent {
-                        Text("\(Int(conversation.tokensPerSecond ?? 0))")
+                        Text("\(Int(conversation.tokensPerSecond))")
                     } label: {
                         Text("Generate Tokens/second")
                             .fontWeight(.bold)
@@ -296,17 +293,27 @@ struct ConversationDetailView: View {
             return
         }
 
-        conversation.addMessage(
-            Message(
-                role: .user,
-                content: trimmedMessage
-            )
-        )
         newMessage = ""
         isInputFocused = false
 
-        Task {
-            await runner.generate(conversation: conversation)
+        Message(context: viewContext).user(content: trimmedMessage, conversation: conversation)
+
+        runner.generate(conversation: conversation, in: viewContext) {
+            scrollToBottom()
+        }
+
+        scrollToBottom()
+
+        Task(priority: .background) {
+            do {
+                try await viewContext.perform {
+                    if viewContext.hasChanges {
+                        try viewContext.save()
+                    }
+                }
+            } catch {
+                vm.throwError(error, title: "Send Message Failed")
+            }
         }
     }
 
@@ -355,69 +362,13 @@ struct ConversationDetailView: View {
                 loading = false
             }
         } catch {
-            showToastMessage(
-                "loadModels failed: \(error.localizedDescription)",
-                type: .error(Color.red)
-            )
+            vm.throwError(error, title: "Load Models Failed")
         }
-    }
-
-    private func formatTimeInterval(_ interval: TimeInterval?) -> String {
-        guard interval != nil else {
-            return ""
-        }
-
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute]
-        formatter.unitsStyle = .abbreviated
-        return formatter.string(from: interval!) ?? ""
     }
 
     private func showToastMessage(_ message: String, type: AlertToast.AlertType) {
         toastMessage = message
         toastType = type
         showToast = true
-    }
-
-    private func deleteMessage(_ message: Message) {
-        guard message.role == .user else { return }
-
-        let sortedMessages = conversation.messages.sorted {
-            $0.timestamp < $1.timestamp
-        }
-
-        if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
-            let messages = sortedMessages[index...]
-            for messageToDelete in messages {
-                conversation.messages.removeAll(where: {
-                    $0.id == messageToDelete.id
-                })
-                modelContext.delete(messageToDelete)
-            }
-            conversation.updatedAt = Date()
-        }
-    }
-
-    private func regenerateMessage(_ message: Message) {
-        guard message.role == .assistant else { return }
-
-        let sortedMessages = conversation.messages.sorted {
-            $0.timestamp < $1.timestamp
-        }
-
-        if let index = sortedMessages.firstIndex(where: { $0.id == message.id }) {
-            let messages = sortedMessages[index...]
-            for messageToDelete in messages {
-                conversation.messages.removeAll(where: {
-                    $0.id == messageToDelete.id
-                })
-                modelContext.delete(messageToDelete)
-            }
-            conversation.updatedAt = Date()
-        }
-
-        Task {
-            await runner.generate(conversation: conversation)
-        }
     }
 }

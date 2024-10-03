@@ -9,7 +9,7 @@ import SwiftUI
 
 struct MLXCommunityItemView: View {
     @Binding var model: RemoteModel
-    @Environment(SettingsView.ViewModel.self) var settingsViewModel
+    @Environment(SettingsViewModel.self) var settingsViewModel
 
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {

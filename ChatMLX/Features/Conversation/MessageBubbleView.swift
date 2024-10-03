@@ -10,11 +10,14 @@ import MarkdownUI
 import SwiftUI
 
 struct MessageBubbleView: View {
-    let message: Message
+    @ObservedObject var message: Message
     @Binding var displayStyle: DisplayStyle
     @State private var showToast = false
-    var onDelete: () -> Void
-    var onRegenerate: () -> Void
+
+    @Environment(LLMRunner.self) var runner
+    @Environment(ConversationViewModel.self) var vm
+
+    @Environment(\.managedObjectContext) private var viewContext
 
     private func copyText() {
         let pasteboard = NSPasteboard.general
@@ -32,12 +35,15 @@ struct MessageBubbleView: View {
                 userMessageView
             }
         }
+        .textSelection(.enabled)
         .padding(.vertical, 8)
         .toast(isPresenting: $showToast, duration: 1.5, offsetY: 30) {
             AlertToast(displayMode: .hud, type: .complete(.green), title: "Copied")
         }
     }
 
+    @MainActor
+    @ViewBuilder
     private var assistantMessageView: some View {
         HStack(alignment: .top, spacing: 12) {
             Image("AppLogo")
@@ -58,8 +64,6 @@ struct MessageBubbleView: View {
                             ForegroundColor(.white)
                         }
                         .markdownTheme(.customGitHub)
-                        .textSelection(.enabled)
-
                 } else {
                     Text(message.content)
                 }
@@ -82,15 +86,15 @@ struct MessageBubbleView: View {
                             .help("Copy")
                     }
 
-                    Button(action: onRegenerate) {
+                    Button(action: regenerate) {
                         Image(systemName: "arrow.clockwise")
                             .help("Regenerate")
                     }
 
-                    Text(formatDate(message.timestamp))
+                    Text(message.updatedAt.toTimeFormatted())
                         .font(.caption)
 
-                    if message.role == .assistant, !message.isComplete {
+                    if message.role == .assistant, message.inferring {
                         ProgressView()
                             .controlSize(.small)
                             .colorInvert()
@@ -107,6 +111,8 @@ struct MessageBubbleView: View {
         }
     }
 
+    @MainActor
+    @ViewBuilder
     private var userMessageView: some View {
         VStack(alignment: .trailing) {
             Text(message.content)
@@ -116,7 +122,7 @@ struct MessageBubbleView: View {
                 .cornerRadius(8)
 
             HStack {
-                Text(formatDate(message.timestamp))
+                Text(message.updatedAt.toTimeFormatted())
                     .font(.caption)
 
                 Button(action: copyText) {
@@ -124,7 +130,7 @@ struct MessageBubbleView: View {
                         .help("Copy")
                 }
 
-                Button(action: onDelete) {
+                Button(action: delete) {
                     Image(systemName: "trash")
                 }
             }
@@ -135,9 +141,44 @@ struct MessageBubbleView: View {
         }
     }
 
-    private func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
-        return formatter.string(from: date)
+    private func delete() {
+        guard message.role == .user else { return }
+        let conversation = message.conversation
+        let messages = conversation.messages
+        if let index = messages.firstIndex(of: message) {
+            for message in messages[index...] {
+                viewContext.delete(message)
+            }
+        }
+
+        Task(priority: .background) {
+            do {
+                try await viewContext.perform {
+                    if viewContext.hasChanges {
+                        try viewContext.save()
+                    }
+                }
+            } catch {
+                vm.throwError(error, title: "Delete Message Failed")
+            }
+        }
+    }
+
+    private func regenerate() {
+        guard message.role == .assistant else { return }
+
+        Task {
+            let conversation = message.conversation
+            let messages = conversation.messages
+            if let index = messages.firstIndex(of: message) {
+                for message in messages[index...] {
+                    viewContext.delete(message)
+                }
+            }
+
+            await MainActor.run {
+                runner.generate(conversation: conversation, in: viewContext)
+            }
+        }
     }
 }

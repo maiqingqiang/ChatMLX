@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ConversationView: View {
-    @Environment(ViewModel.self) private var conversationViewModel
+    @Environment(ConversationViewModel.self) private var conversationViewModel
 
     var body: some View {
         @Bindable var conversationViewModel = conversationViewModel
@@ -26,27 +26,18 @@ struct ConversationView: View {
         .ultramanMinimalistWindowStyle()
     }
 
+    @MainActor
     @ViewBuilder
     private func Detail() -> some View {
         Group {
             if let conversation = conversationViewModel.selectedConversation {
                 ConversationDetailView(
-                    conversation: Binding(
-                        get: { conversation },
-                        set: { conversationViewModel.selectedConversation = $0 }
-                    ))
+                    conversation: conversation
+                ).id(conversation.id)
             } else {
                 EmptyConversation()
             }
         }
-    }
-}
-
-extension ConversationView {
-    @Observable
-    class ViewModel {
-        var detailWidth: CGFloat = 550
-        var selectedConversation: Conversation?
     }
 }
 

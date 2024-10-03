@@ -62,112 +62,147 @@ class LLMRunner {
         }
     }
 
-    func generate(conversation: Conversation) async {
+    private func switchModel(_ conversation: Conversation) {
+        if conversation.model != modelConfiguration?.name {
+            loadState = .idle
+            modelConfiguration = ModelConfiguration.configuration(
+                id: conversation.model)
+        }
+    }
+
+    func prepare(_ conversation: Conversation) -> [[String: String]] {
+        var messages = conversation.messages
+        if conversation.useMaxMessagesLimit {
+            let maxCount = conversation.maxMessagesLimit + 1
+            if messages.count > maxCount {
+                messages = Array(messages.suffix(Int(maxCount)))
+                if messages.first?.role != .user {
+                    messages = Array(messages.dropFirst())
+                }
+            }
+        }
+
+        var dictionary = messages[..<(messages.count - 1)].map {
+            message -> [String: String] in
+            message.format()
+        }
+
+        if conversation.useSystemPrompt, !conversation.systemPrompt.isEmpty {
+            dictionary.insert(
+                formatMessage(
+                    role: .system,
+                    content: conversation.systemPrompt
+                ),
+                at: 0
+            )
+        }
+
+        return dictionary
+    }
+
+    func formatMessage(role: Role, content: String) -> [String: String] {
+        [
+            "role": role.rawValue,
+            "content": content,
+        ]
+    }
+
+    func generate(
+        conversation: Conversation, in context: NSManagedObjectContext,
+        progressing: @escaping () -> Void = {}
+    ) {
         guard !running else { return }
         running = true
 
-        let message = conversation.startStreamingMessage(role: .assistant)
+        let assistantMessage = Message(context: context).assistant(conversation: conversation)
 
-        do {
-            if conversation.model != modelConfiguration?.name {
-                loadState = .idle
-                modelConfiguration = ModelConfiguration.configuration(
-                    id: conversation.model)
-            }
+        let parameters = GenerateParameters(
+            temperature: conversation.temperature,
+            topP: conversation.topP,
+            repetitionPenalty: conversation.useRepetitionPenalty
+                ? conversation.repetitionPenalty : nil,
+            repetitionContextSize: Int(conversation.repetitionContextSize)
+        )
 
-            if let modelConfiguration {
-                guard let modelContainer = try await load() else {
-                    throw LLMRunnerError.failedToLoadModel
-                }
+        let useMaxLength = conversation.useMaxLength
+        let maxLength = conversation.maxLength
 
-                var messages = conversation.messages.sorted {
-                    $0.timestamp < $1.timestamp
-                }
+        Task {
+            do {
+                switchModel(conversation)
 
-                if conversation.useMaxMessagesLimit {
-                    let maxCount = conversation.maxMessagesLimit + 1
-                    if messages.count > maxCount {
-                        messages = Array(messages.suffix(maxCount))
-                        if messages.first?.role != .user {
-                            messages = Array(messages.dropFirst())
-                        }
+                if let modelConfiguration {
+                    guard let modelContainer = try await load() else {
+                        throw LLMRunnerError.failedToLoadModel
                     }
-                }
 
-                messages.insert(
-                    Message(
-                        role: .system,
-                        content: conversation.systemPrompt
-                    ),
-                    at: 0
-                )
+                    let messages = prepare(conversation)
 
-                let messagesDicts = messages.map {
-                    message -> [String: String] in
-                    ["role": message.role.rawValue, "content": message.content]
-                }
+                    logger.info("prepare messages -> \(messages)")
 
-                let messageTokens = try await modelContainer.perform {
-                    _, tokenizer in
-                    try tokenizer.applyChatTemplate(messages: messagesDicts)
-                }
+                    let tokens = try await modelContainer.perform { _, tokenizer in
+                        try tokenizer.applyChatTemplate(messages: messages)
+                    }
 
-                MLXRandom.seed(
-                    UInt64(Date.timeIntervalSinceReferenceDate * 1000))
+                    MLXRandom.seed(UInt64(Date.timeIntervalSinceReferenceDate * 1000))
 
-                let result = await modelContainer.perform {
-                    model,
-                    tokenizer in
-
-                    MLXLLM.generate(
-                        promptTokens: messageTokens,
-                        parameters: GenerateParameters(
-                            temperature: conversation.temperature,
-                            topP: conversation.topP,
-                            repetitionPenalty: conversation.useRepetitionPenalty
-                                ? conversation.repetitionPenalty : nil,
-                            repetitionContextSize: conversation.repetitionContextSize
-                        ),
-                        model: model,
-                        tokenizer: tokenizer,
-                        extraEOSTokens: modelConfiguration.extraEOSTokens.union([
-                            "<|im_end|>", "<|end|>",
-                        ])
-                    ) { tokens in
-                        if tokens.count % displayEveryNTokens == 0 {
-                            let text = tokenizer.decode(tokens: tokens)
-
-                            Task { @MainActor in
-                                message.content = text
+                    let result = await modelContainer.perform { model, tokenizer in
+                        MLXLLM.generate(
+                            promptTokens: tokens,
+                            parameters: parameters,
+                            model: model,
+                            tokenizer: tokenizer,
+                            extraEOSTokens: modelConfiguration.extraEOSTokens.union([
+                                "<|im_end|>", "<|end|>",
+                            ])
+                        ) { tokens in
+                            if tokens.count % displayEveryNTokens == 0 {
+                                let text = tokenizer.decode(tokens: tokens)
+                                Task { @MainActor in
+                                    assistantMessage.content = text
+                                    progressing()
+                                }
                             }
+
+                            if useMaxLength, tokens.count >= maxLength {
+                                return .stop
+                            }
+
+                            return .more
+                        }
+                    }
+
+                    conversation.promptTime = result.promptTime
+                    conversation.generateTime = result.generateTime
+                    conversation.promptTokensPerSecond = result.promptTokensPerSecond
+                    conversation.tokensPerSecond = result.tokensPerSecond
+
+                    await MainActor.run {
+                        if result.output != assistantMessage.content {
+                            assistantMessage.content = result.output
                         }
 
-                        if conversation.useMaxLength, tokens.count >= conversation.maxLength {
-                            return .stop
-                        }
-                        return .more
+                        assistantMessage.inferring = false
+                        running = false
                     }
                 }
-
-                if result.output != message.content {
-                    message.content = result.output
+            } catch {
+                logger.error("LLM Generate Failed: \(error.localizedDescription)")
+                await MainActor.run {
+                    assistantMessage.inferring = false
+                    assistantMessage.error = error.localizedDescription
+                    running = false
                 }
-
-                conversation.completeStreamingMessage(
-                    message)
-                conversation.promptTime = result.promptTime
-                conversation.generateTime = result.generateTime
-                conversation.promptTokensPerSecond =
-                    result.promptTokensPerSecond
-                conversation.tokensPerSecond = result.tokensPerSecond
             }
-        } catch {
-            print("\(error)")
-            logger.error("LLM Generate Failed: \(error.localizedDescription)")
-            conversation.failedMessage(message, with: error)
-        }
 
-        running = false
+            Task(priority: .background) {
+                await context.perform {
+                    if context.hasChanges {
+                        try? context.save()
+                    }
+                }
+            }
+        }
     }
 }
 

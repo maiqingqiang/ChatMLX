@@ -6,6 +6,7 @@
 //
 
 import CompactSlider
+import CoreData
 import Defaults
 import Luminare
 import SwiftUI
@@ -16,11 +17,12 @@ struct GeneralView: View {
     @Default(.language) var language
     @Default(.gpuCacheLimit) var gpuCacheLimit
 
-    @Environment(ConversationView.ViewModel.self) private
-        var conversationViewModel
+    @Environment(\.managedObjectContext) private var viewContext
+
+    @Environment(SettingsViewModel.self) private var vm
+    @Environment(ConversationViewModel.self) private var conversationViewModel
 
     @Environment(LLMRunner.self) var runner
-    @Environment(\.modelContext) private var modelContext
 
     let maxRAM = ProcessInfo.processInfo.physicalMemory / (1024 * 1024)
 
@@ -75,7 +77,7 @@ struct GeneralView: View {
                     CompactSlider(
                         value: Binding(
                             get: { Double(gpuCacheLimit) },
-                            set: { gpuCacheLimit = Int($0) }
+                            set: { gpuCacheLimit = Int32($0) }
                         ), in: 0 ... Double(maxRAM), step: 128
                     ) {
                         Text("\(Int(gpuCacheLimit))MB")
@@ -131,11 +133,21 @@ struct GeneralView: View {
 
     private func clearAllConversations() {
         do {
-            try modelContext.delete(model: Conversation.self)
-            try modelContext.save()
+            let persistenceController = PersistenceController.shared
+
+            let messageObjectIds = try persistenceController.clear("Message")
+            let conversationObjectIds = try persistenceController.clear("Conversation")
+
+            NSManagedObjectContext.mergeChanges(
+                fromRemoteContextSave: [
+                    NSDeletedObjectsKey: messageObjectIds + conversationObjectIds
+                ],
+                into: [persistenceController.container.viewContext]
+            )
+
             conversationViewModel.selectedConversation = nil
         } catch {
-            logger.error("Error deleting all conversations: \(error)")
+            vm.throwError(error, title: "Clear All Conversations Failed")
         }
     }
 }

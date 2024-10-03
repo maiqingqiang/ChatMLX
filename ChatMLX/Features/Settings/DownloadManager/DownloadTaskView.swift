@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DownloadTaskView: View {
     @Bindable var task: DownloadTask
-    @Environment(SettingsView.ViewModel.self) private var settingsViewModel
+    @Environment(SettingsViewModel.self) private var settingsViewModel
 
     var body: some View {
         HStack {
@@ -69,7 +69,7 @@ struct DownloadTaskView: View {
                             })
                         }) {
                             Image(systemName: "trash")
-                                .foregroundColor(.red)
+                                .renderingMode(.original)
                         }
                     }
                 }

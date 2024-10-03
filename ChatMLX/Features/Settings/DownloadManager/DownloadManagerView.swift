@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DownloadManagerView: View {
-    @Environment(SettingsView.ViewModel.self) private var settingsViewModel
+    @Environment(SettingsViewModel.self) private var settingsViewModel
 
     @State private var repoId: String = ""
     @State var showingAlert = false

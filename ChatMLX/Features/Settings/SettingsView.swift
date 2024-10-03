@@ -8,16 +8,16 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @Environment(SettingsView.ViewModel.self) var settingsViewModel
+    @Environment(SettingsViewModel.self) var vm
 
     var body: some View {
-        @Bindable var settingsViewModel = settingsViewModel
+        @Bindable var vm = vm
 
         UltramanNavigationSplitView(sidebarWidth: 210) {
             SettingsSidebarView()
         } detail: {
             Group {
-                switch settingsViewModel.activeTabID {
+                switch vm.activeTabID {
                 case .general:
                     GeneralView()
                 case .defaultConversation:
@@ -38,19 +38,4 @@ struct SettingsView: View {
         .ultramanMinimalistWindowStyle()
         .foregroundColor(.white)
     }
-}
-
-extension SettingsView {
-    @Observable
-    class ViewModel {
-        var tasks: [DownloadTask] = []
-        var sidebarWidth: CGFloat = 250
-        var activeTabID: SettingsTab.ID = .general
-        var remoteModels: [RemoteModel] = []
-    }
-}
-
-#Preview {
-    SettingsView()
-        .environment(SettingsView.ViewModel())
 }
