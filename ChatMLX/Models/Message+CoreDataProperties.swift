@@ -9,25 +9,35 @@
 import CoreData
 import Foundation
 
-public extension Message {
-    @nonobjc class func fetchRequest() -> NSFetchRequest<Message> {
+extension Message {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Message> {
         NSFetchRequest<Message>(entityName: "Message")
     }
 
-    @NSManaged var role: String
-    @NSManaged var content: String
-    @NSManaged var createdAt: Date
-    @NSManaged var inferring: Bool
-    @NSManaged var updatedAt: Date
-    @NSManaged var error: String?
-    @NSManaged var conversation: Conversation
-    
-    override func awakeFromInsert() {
+    @NSManaged public var roleRaw: String
+
+    public var role: Role {
+        set {
+            roleRaw = newValue.rawValue
+        }
+        get {
+            Role(rawValue: roleRaw) ?? .assistant
+        }
+    }
+
+    @NSManaged public var content: String
+    @NSManaged public var createdAt: Date
+    @NSManaged public var inferring: Bool
+    @NSManaged public var updatedAt: Date
+    @NSManaged public var error: String?
+    @NSManaged public var conversation: Conversation
+
+    public override func awakeFromInsert() {
         setPrimitiveValue(Date.now, forKey: #keyPath(Message.createdAt))
         setPrimitiveValue(Date.now, forKey: #keyPath(Message.updatedAt))
     }
 
-    override func willSave() {
+    public override func willSave() {
         super.willSave()
         setPrimitiveValue(Date.now, forKey: #keyPath(Message.updatedAt))
     }

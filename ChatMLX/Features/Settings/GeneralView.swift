@@ -9,7 +9,6 @@ import CompactSlider
 import CoreData
 import Defaults
 import Luminare
-import SwiftData
 import SwiftUI
 
 struct GeneralView: View {
@@ -20,11 +19,10 @@ struct GeneralView: View {
 
     @Environment(\.managedObjectContext) private var viewContext
 
-    @Environment(ConversationViewModel.self) private
-    var conversationViewModel
+    @Environment(SettingsViewModel.self) private var vm
+    @Environment(ConversationViewModel.self) private var conversationViewModel
 
     @Environment(LLMRunner.self) var runner
-    @Environment(\.modelContext) private var modelContext
 
     let maxRAM = ProcessInfo.processInfo.physicalMemory / (1024 * 1024)
 
@@ -134,9 +132,23 @@ struct GeneralView: View {
     }
 
     private func clearAllConversations() {
-        try? PersistenceController.shared.clearMessage()
-        try? PersistenceController.shared.clearConversation()
-        conversationViewModel.selectedConversation = nil
+        do {
+            let persistenceController = PersistenceController.shared
+
+            let messageObjectIds = try persistenceController.clear("Message")
+            let conversationObjectIds = try persistenceController.clear("Conversation")
+
+            NSManagedObjectContext.mergeChanges(
+                fromRemoteContextSave: [
+                    NSDeletedObjectsKey: messageObjectIds + conversationObjectIds
+                ],
+                into: [persistenceController.container.viewContext]
+            )
+
+            conversationViewModel.selectedConversation = nil
+        } catch {
+            vm.throwError(error, title: "Clear All Conversations Failed")
+        }
     }
 }
 

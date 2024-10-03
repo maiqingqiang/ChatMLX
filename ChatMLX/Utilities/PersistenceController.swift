@@ -25,55 +25,50 @@ struct PersistenceController {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
 
-    func exisits<T: NSManagedObject>(_ model: T,
-                                     in context: NSManagedObjectContext) -> T?
-    {
+    func exisits<T: NSManagedObject>(
+        _ model: T,
+        in context: NSManagedObjectContext
+    ) -> T? {
         try? context.existingObject(with: model.objectID) as? T
     }
 
-    func delete(_ model: some NSManagedObject,
-                in context: NSManagedObjectContext) throws
-    {
-        if let existingContact = exisits(model, in: context) {
-            context.delete(existingContact)
+    func delete(_ model: some NSManagedObject) throws {
+        if let existingContact = exisits(model, in: container.viewContext) {
+            container.viewContext.delete(existingContact)
             Task(priority: .background) {
-                try await context.perform {
-                    try context.save()
+                try await container.viewContext.perform {
+                    try container.viewContext.save()
                 }
             }
         }
     }
 
-    func clear(_ entityName: String) throws {
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
+    func clear(_ entityName: String) throws -> [NSManagedObjectID] {
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(
+            entityName: entityName)
         let batchDeteleRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
         batchDeteleRequest.resultType = .resultTypeObjectIDs
 
-        if let fetchResult = try container.viewContext.execute(batchDeteleRequest) as? NSBatchDeleteResult,
-           let deletedManagedObjectIds = fetchResult.result as? [NSManagedObjectID], !deletedManagedObjectIds.isEmpty
+        if let fetchResult = try container.viewContext.execute(batchDeteleRequest)
+            as? NSBatchDeleteResult,
+            let deletedManagedObjectIds = fetchResult.result as? [NSManagedObjectID],
+            !deletedManagedObjectIds.isEmpty
         {
-            let changes = [NSDeletedObjectsKey: deletedManagedObjectIds]
-            NSManagedObjectContext.mergeChanges(fromRemoteContextSave: changes, into: [container.viewContext])
+            return deletedManagedObjectIds
         }
+
+        return []
     }
-    
+
     func save() throws {
-        if container.viewContext.hasChanges {
-            try container.viewContext.save()
+        Task(priority: .background) {
+            let context = container.viewContext
+
+            try await context.perform {
+                if context.hasChanges {
+                    try context.save()
+                }
+            }
         }
-    }
-    
-    func createConversation() throws -> Conversation {
-        let conversation = Conversation(context: container.viewContext)
-        try save()
-        return conversation
-    }
-    
-    func clearConversation() throws {
-        try clear("Conversation")
-    }
-    
-    func clearMessage() throws {
-        try clear("Message")
     }
 }

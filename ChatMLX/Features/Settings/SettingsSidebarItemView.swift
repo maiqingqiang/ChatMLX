@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsSidebarItemView: View {
-    @Environment(SettingsView.ViewModel.self) var settingsViewModel
+    @Environment(SettingsViewModel.self) var settingsViewModel
 
     let tab: SettingsTab
 

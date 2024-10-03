@@ -10,7 +10,7 @@ import Luminare
 import SwiftUI
 
 struct MLXCommunityView: View {
-    @Environment(SettingsView.ViewModel.self) var settingsViewModel
+    @Environment(SettingsViewModel.self) var settingsViewModel
 
     @State private var searchQuery = ""
     @State var isFetching = false

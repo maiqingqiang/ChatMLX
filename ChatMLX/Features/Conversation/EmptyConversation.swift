@@ -9,7 +9,6 @@ import Luminare
 import SwiftUI
 
 struct EmptyConversation: View {
-    @Environment(\.modelContext) private var modelContext
     @Environment(ConversationViewModel.self) private var conversationViewModel
 
     var body: some View {

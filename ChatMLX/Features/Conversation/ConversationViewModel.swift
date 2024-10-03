@@ -7,26 +7,30 @@
 
 import SwiftUI
 
-
 @Observable
 class ConversationViewModel {
     var detailWidth: CGFloat = 550
     var selectedConversation: Conversation?
-    
+
     var error: Error?
+    var errorTitle: String?
     var showErrorAlert = false
 
-    func throwError(error: Error) {
+    func throwError(_ error: Error, title: String? = nil) {
+        logger.error("\(error.localizedDescription)")
         self.error = error
+        errorTitle = title
         showErrorAlert = true
     }
-    
+
     func createConversation() {
         do {
-            let conversation = try PersistenceController.shared.createConversation()
+            let context = PersistenceController.shared.container.viewContext
+            let conversation = Conversation(context: context)
+            try PersistenceController.shared.save()
             selectedConversation = conversation
         } catch {
-            throwError(error: error)
+            throwError(error, title: "Create Conversation Failed")
         }
     }
 }

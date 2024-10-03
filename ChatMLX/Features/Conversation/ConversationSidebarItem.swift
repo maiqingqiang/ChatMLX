@@ -5,14 +5,12 @@
 //  Created by John Mai on 2024/8/4.
 //
 
-import SwiftData
 import SwiftUI
 
 struct ConversationSidebarItem: View {
     @ObservedObject var conversation: Conversation
-    
-    @Environment(\.managedObjectContext) private var viewContext
 
+    @Environment(\.managedObjectContext) private var viewContext
 
     @Binding var selectedConversation: Conversation?
 
@@ -35,7 +33,7 @@ struct ConversationSidebarItem: View {
 
                     Spacer()
 
-                    Text(conversation.messages.last?.updatedAt.toFormattedString() ?? "")
+                    Text(conversation.updatedAt.toFormatted())
                         .font(.caption)
                 }
                 .foregroundStyle(.white.opacity(0.7))
@@ -63,6 +61,6 @@ struct ConversationSidebarItem: View {
     }
 
     private func deleteConversation() {
-        try? PersistenceController.shared.delete(conversation, in: viewContext)
+        try? PersistenceController.shared.delete(conversation)
     }
 }

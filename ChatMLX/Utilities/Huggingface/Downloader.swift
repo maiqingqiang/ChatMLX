@@ -128,10 +128,6 @@ extension Downloader: URLSessionDownloadDelegate {
     {
         if let error = error {
             downloadState.value = .failed(error)
-            //        } else if let response = task.response as? HTTPURLResponse {
-            //            print("HTTP response status code: \(response.statusCode)")
-            //            let headers = response.allHeaderFields
-            //            print("HTTP response headers: \(headers)")
         }
     }
 }

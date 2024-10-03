@@ -10,31 +10,30 @@ import Defaults
 import Luminare
 import MLX
 import MLXLLM
-import SwiftData
 import SwiftUI
 
 struct ConversationDetailView: View {
-    @Environment(LLMRunner.self) var runner
-    @Environment(\.modelContext) private var modelContext
-
     @ObservedObject var conversation: Conversation
+
+    @Environment(LLMRunner.self) var runner
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(ConversationViewModel.self) private var vm
 
     @State private var newMessage = ""
-    @FocusState private var isInputFocused: Bool
-    @Environment(ConversationViewModel.self) private
-    var conversationViewModel
+
     @State private var showRightSidebar = false
     @State private var showInfoPopover = false
-    @Namespace var bottomId
+
     @State private var localModels: [LocalModel] = []
     @State private var displayStyle: DisplayStyle = .markdown
     @State private var isEditorFullScreen = false
     @State private var showToast = false
     @State private var toastMessage = ""
     @State private var toastType: AlertToast.AlertType = .regular
-
     @State private var loading = true
+
+    @Namespace var bottomId
+    @FocusState private var isInputFocused: Bool
 
     var body: some View {
         ZStack(alignment: .trailing) {
@@ -90,7 +89,7 @@ struct ConversationDetailView: View {
                         MessageBubbleView(
                             message: message,
                             displayStyle: $displayStyle
-                        )
+                        ).id(message.id)
                     }
                 }
                 .padding()
@@ -122,14 +121,14 @@ struct ConversationDetailView: View {
                 }
             } label: {
                 if displayStyle == .markdown {
-                    Image("doc-plaintext")
+                    Image("plaintext")
                 } else {
                     Image("markdown")
                 }
             }
 
             Button(action: {
-//                conversation.clearMessages()
+                conversation.messages = []
             }) {
                 Image("clear")
             }
@@ -168,7 +167,7 @@ struct ConversationDetailView: View {
             .popover(isPresented: $showInfoPopover) {
                 VStack(alignment: .leading) {
                     LabeledContent {
-                        Text(formatTimeInterval(conversation.promptTime))
+                        Text(conversation.promptTime.formatted())
                     } label: {
                         Text("Prompt Time")
                             .fontWeight(.bold)
@@ -182,7 +181,7 @@ struct ConversationDetailView: View {
                     }
 
                     LabeledContent {
-                        Text(formatTimeInterval(conversation.generateTime))
+                        Text(conversation.generateTime.formatted())
                     } label: {
                         Text("Generate Time")
                             .fontWeight(.bold)
@@ -294,17 +293,20 @@ struct ConversationDetailView: View {
 
         newMessage = ""
         isInputFocused = false
-        Task {
-            do {
-                await runner.generate(
-                    message: trimmedMessage,
-                    conversation: conversation,
-                    in: viewContext
-                )
 
-                try PersistenceController.shared.save()
+        Message(context: viewContext).user(content: trimmedMessage, conversation: conversation)
+
+        runner.generate(conversation: conversation, in: viewContext)
+
+        Task(priority: .background) {
+            do {
+                try await viewContext.perform {
+                    if viewContext.hasChanges {
+                        try viewContext.save()
+                    }
+                }
             } catch {
-                conversationViewModel.throwError(error: error)
+                vm.throwError(error, title: "Send Message Failed")
             }
         }
     }
@@ -354,22 +356,8 @@ struct ConversationDetailView: View {
                 loading = false
             }
         } catch {
-            showToastMessage(
-                "loadModels failed: \(error.localizedDescription)",
-                type: .error(Color.red)
-            )
+            vm.throwError(error, title: "Load Models Failed")
         }
-    }
-
-    private func formatTimeInterval(_ interval: TimeInterval?) -> String {
-        guard interval != nil else {
-            return ""
-        }
-
-        let formatter = DateComponentsFormatter()
-        formatter.allowedUnits = [.hour, .minute]
-        formatter.unitsStyle = .abbreviated
-        return formatter.string(from: interval!) ?? ""
     }
 
     private func showToastMessage(_ message: String, type: AlertToast.AlertType) {

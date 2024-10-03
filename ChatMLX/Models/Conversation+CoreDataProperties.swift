@@ -10,33 +10,33 @@ import CoreData
 import Defaults
 import Foundation
 
-public extension Conversation {
-    @nonobjc class func fetchRequest() -> NSFetchRequest<Conversation> {
+extension Conversation {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Conversation> {
         NSFetchRequest<Conversation>(entityName: "Conversation")
     }
 
-    @NSManaged var title: String
-    @NSManaged var model: String
-    @NSManaged var createdAt: Date
-    @NSManaged var updatedAt: Date
-    @NSManaged var temperature: Float
-    @NSManaged var topP: Float
-    @NSManaged var useMaxLength: Bool
-    @NSManaged var maxLength: Int64
-    @NSManaged var repetitionContextSize: Int32
-    @NSManaged var maxMessagesLimit: Int32
-    @NSManaged var useMaxMessagesLimit: Bool
-    @NSManaged var useRepetitionPenalty: Bool
-    @NSManaged var repetitionPenalty: Float
-    @NSManaged var useSystemPrompt: Bool
-    @NSManaged var systemPrompt: String
-    @NSManaged var promptTime: Double
-    @NSManaged var generateTime: Double
-    @NSManaged var promptTokensPerSecond: Double
-    @NSManaged var tokensPerSecond: Double
-    @NSManaged var messages: [Message]
+    @NSManaged public var title: String
+    @NSManaged public var model: String
+    @NSManaged public var createdAt: Date
+    @NSManaged public var updatedAt: Date
+    @NSManaged public var temperature: Float
+    @NSManaged public var topP: Float
+    @NSManaged public var useMaxLength: Bool
+    @NSManaged public var maxLength: Int64
+    @NSManaged public var repetitionContextSize: Int
+    @NSManaged public var maxMessagesLimit: Int32
+    @NSManaged public var useMaxMessagesLimit: Bool
+    @NSManaged public var useRepetitionPenalty: Bool
+    @NSManaged public var repetitionPenalty: Float
+    @NSManaged public var useSystemPrompt: Bool
+    @NSManaged public var systemPrompt: String
+    @NSManaged public var promptTime: TimeInterval
+    @NSManaged public var generateTime: TimeInterval
+    @NSManaged public var promptTokensPerSecond: Double
+    @NSManaged public var tokensPerSecond: Double
+    @NSManaged public var messages: [Message]
 
-    override func awakeFromInsert() {
+    public override func awakeFromInsert() {
         super.awakeFromInsert()
 
         setPrimitiveValue(Defaults[.defaultTitle], forKey: #keyPath(Conversation.title))
@@ -44,24 +44,35 @@ public extension Conversation {
 
         setPrimitiveValue(Defaults[.defaultTemperature], forKey: #keyPath(Conversation.temperature))
         setPrimitiveValue(Defaults[.defaultTopP], forKey: #keyPath(Conversation.topP))
-        setPrimitiveValue(Defaults[.defaultRepetitionContextSize], forKey: #keyPath(Conversation.repetitionContextSize))
+        setPrimitiveValue(
+            Defaults[.defaultRepetitionContextSize],
+            forKey: #keyPath(Conversation.repetitionContextSize))
 
-        setPrimitiveValue(Defaults[.defaultUseRepetitionPenalty], forKey: #keyPath(Conversation.useRepetitionPenalty))
-        setPrimitiveValue(Defaults[.defaultRepetitionPenalty], forKey: #keyPath(Conversation.repetitionPenalty))
+        setPrimitiveValue(
+            Defaults[.defaultUseRepetitionPenalty],
+            forKey: #keyPath(Conversation.useRepetitionPenalty))
+        setPrimitiveValue(
+            Defaults[.defaultRepetitionPenalty], forKey: #keyPath(Conversation.repetitionPenalty))
 
-        setPrimitiveValue(Defaults[.defaultUseMaxLength], forKey: #keyPath(Conversation.useMaxLength))
+        setPrimitiveValue(
+            Defaults[.defaultUseMaxLength], forKey: #keyPath(Conversation.useMaxLength))
         setPrimitiveValue(Defaults[.defaultMaxLength], forKey: #keyPath(Conversation.maxLength))
-        setPrimitiveValue(Defaults[.defaultMaxMessagesLimit], forKey: #keyPath(Conversation.maxMessagesLimit))
-        setPrimitiveValue(Defaults[.defaultUseMaxMessagesLimit], forKey: #keyPath(Conversation.useMaxMessagesLimit))
+        setPrimitiveValue(
+            Defaults[.defaultMaxMessagesLimit], forKey: #keyPath(Conversation.maxMessagesLimit))
+        setPrimitiveValue(
+            Defaults[.defaultUseMaxMessagesLimit],
+            forKey: #keyPath(Conversation.useMaxMessagesLimit))
 
-        setPrimitiveValue(Defaults[.defaultUseSystemPrompt], forKey: #keyPath(Conversation.useSystemPrompt))
-        setPrimitiveValue(Defaults[.defaultSystemPrompt], forKey: #keyPath(Conversation.systemPrompt))
+        setPrimitiveValue(
+            Defaults[.defaultUseSystemPrompt], forKey: #keyPath(Conversation.useSystemPrompt))
+        setPrimitiveValue(
+            Defaults[.defaultSystemPrompt], forKey: #keyPath(Conversation.systemPrompt))
 
         setPrimitiveValue(Date.now, forKey: #keyPath(Conversation.createdAt))
         setPrimitiveValue(Date.now, forKey: #keyPath(Conversation.updatedAt))
     }
 
-    override func willSave() {
+    public override func willSave() {
         super.willSave()
         setPrimitiveValue(Date.now, forKey: #keyPath(Conversation.updatedAt))
     }
@@ -69,36 +80,36 @@ public extension Conversation {
 
 // MARK: Generated accessors for messages
 
-public extension Conversation {
+extension Conversation {
     @objc(insertObject:inMessagesAtIndex:)
-    @NSManaged func insertIntoMessages(_ value: Message, at idx: Int)
+    @NSManaged public func insertIntoMessages(_ value: Message, at idx: Int)
 
     @objc(removeObjectFromMessagesAtIndex:)
-    @NSManaged func removeFromMessages(at idx: Int)
+    @NSManaged public func removeFromMessages(at idx: Int)
 
     @objc(insertMessages:atIndexes:)
-    @NSManaged func insertIntoMessages(_ values: [Message], at indexes: NSIndexSet)
+    @NSManaged public func insertIntoMessages(_ values: [Message], at indexes: NSIndexSet)
 
     @objc(removeMessagesAtIndexes:)
-    @NSManaged func removeFromMessages(at indexes: NSIndexSet)
+    @NSManaged public func removeFromMessages(at indexes: NSIndexSet)
 
     @objc(replaceObjectInMessagesAtIndex:withObject:)
-    @NSManaged func replaceMessages(at idx: Int, with value: Message)
+    @NSManaged public func replaceMessages(at idx: Int, with value: Message)
 
     @objc(replaceMessagesAtIndexes:withMessages:)
-    @NSManaged func replaceMessages(at indexes: NSIndexSet, with values: [Message])
+    @NSManaged public func replaceMessages(at indexes: NSIndexSet, with values: [Message])
 
     @objc(addMessagesObject:)
-    @NSManaged func addToMessages(_ value: Message)
+    @NSManaged public func addToMessages(_ value: Message)
 
     @objc(removeMessagesObject:)
-    @NSManaged func removeFromMessages(_ value: Message)
+    @NSManaged public func removeFromMessages(_ value: Message)
 
     @objc(addMessages:)
-    @NSManaged func addToMessages(_ values: [Message])
+    @NSManaged public func addToMessages(_ values: [Message])
 
     @objc(removeMessages:)
-    @NSManaged func removeFromMessages(_ values: [Message])
+    @NSManaged public func removeFromMessages(_ values: [Message])
 }
 
 extension Conversation: Identifiable {}

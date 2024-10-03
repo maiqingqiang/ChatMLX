@@ -6,7 +6,6 @@
 //
 
 import Defaults
-import SwiftData
 import SwiftUI
 
 @main
@@ -14,7 +13,7 @@ struct ChatMLXApp: App {
     @Environment(\.scenePhase) private var scenePhase
 
     @State private var conversationViewModel: ConversationViewModel = .init()
-    @State private var settingsViewModel: SettingsView.ViewModel = .init()
+    @State private var settingsViewModel: SettingsViewModel = .init()
 
     @Default(.language) var language
 
@@ -31,22 +30,25 @@ struct ChatMLXApp: App {
                 )
                 .environment(runner)
                 .frame(minWidth: 900, minHeight: 580)
-                .alert("Error", isPresented: $conversationViewModel.showErrorAlert, actions: {
-                    Button("OK") {
-                        conversationViewModel.error = nil
-                    }
-
-                    Button("Feedback") {
-                        conversationViewModel.error = nil
-                        NSWorkspace.shared.open(URL(string: "https://github.com/maiqingqiang/ChatMLX/issues")!)
-                    }
-                }, message: {
-                    Text(conversationViewModel.error?.localizedDescription ?? "An unknown error occurred.")
-                })
+                .errorAlert(
+                    isPresented: $conversationViewModel.showErrorAlert,
+                    title: $settingsViewModel.errorTitle,
+                    error: $conversationViewModel.error
+                )
         }
         .environment(\.managedObjectContext, persistenceController.container.viewContext)
-        .onChange(of: scenePhase) { _, _ in
-            try? persistenceController.save()
+        .onChange(of: scenePhase) { _, newValue in
+            if newValue == .background {
+                let context = persistenceController.container.viewContext
+                if context.hasChanges {
+                    do {
+                        try context.save()
+                    } catch {
+                        logger.error(
+                            "scenePhase.background save error: \(error.localizedDescription)")
+                    }
+                }
+            }
         }
 
         Settings {
@@ -58,6 +60,11 @@ struct ChatMLXApp: App {
                 )
                 .environment(runner)
                 .frame(width: 620, height: 480)
+                .errorAlert(
+                    isPresented: $settingsViewModel.showErrorAlert,
+                    title: $settingsViewModel.errorTitle,
+                    error: $settingsViewModel.error
+                )
         }
         .environment(\.managedObjectContext, persistenceController.container.viewContext)
     }

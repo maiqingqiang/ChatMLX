@@ -12,6 +12,8 @@ struct LocalModelsView: View {
     @State private var modelGroups: [LocalModelGroup] = []
     @Default(.defaultModel) var defaultModel
 
+    @Environment(SettingsViewModel.self) var vm
+
     var body: some View {
         List {
             ForEach(modelGroups.indices, id: \.self) { groupIndex in
@@ -29,8 +31,7 @@ struct LocalModelsView: View {
                                         from: groupIndex)
                                     loadModels()
                                 }
-                            }
-                        )
+                            })
                     }
                     .onDelete { offsets in
                         Task {
@@ -102,7 +103,7 @@ struct LocalModelsView: View {
                 modelGroups = groups
             }
         } catch {
-            logger.error("loadModels failed: \(error)")
+            vm.throwError(error, title: "Load Models Failed")
         }
     }
 
@@ -118,7 +119,7 @@ struct LocalModelsView: View {
                     defaultModel = ""
                 }
             } catch {
-                logger.error("deleteModel failed: \(error)")
+                vm.throwError(error, title: "Delete Model Failed")
             }
         }
     }

@@ -101,7 +101,7 @@ struct RightSidebarView: View {
                                     Double(conversation.repetitionContextSize)
                                 },
                                 set: {
-                                    conversation.repetitionContextSize = Int32($0)
+                                    conversation.repetitionContextSize = Int($0)
                                 }
                             ), in: 0 ... 100, step: 1
                         ) {

@@ -59,7 +59,8 @@ struct ConversationSidebarView: View {
 
             LuminareSection {
                 UltramanTextField(
-                    $keyword, placeholder: Text("Search Conversation..."), onSubmit: updateSearchPredicate
+                    $keyword, placeholder: Text("Search Conversation..."),
+                    onSubmit: updateSearchPredicate
                 )
 
                 .frame(height: 25)
@@ -84,7 +85,9 @@ struct ConversationSidebarView: View {
         if keyword.isEmpty {
             conversations.nsPredicate = nil
         } else {
-            conversations.nsPredicate = NSPredicate(format: "title CONTAINS [cd] %@ OR ANY messages.content CONTAINS [cd] %@", keyword, keyword)
+            conversations.nsPredicate = NSPredicate(
+                format: "title CONTAINS [cd] %@ OR ANY messages.content CONTAINS [cd] %@", keyword,
+                keyword)
         }
     }
 }

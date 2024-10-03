@@ -9,10 +9,10 @@ import SwiftUI
 
 struct ConversationView: View {
     @Environment(ConversationViewModel.self) private var conversationViewModel
-    
+
     var body: some View {
         @Bindable var conversationViewModel = conversationViewModel
-        
+
         UltramanNavigationSplitView(
             sidebar: {
                 ConversationSidebarView(
@@ -25,14 +25,15 @@ struct ConversationView: View {
         .foregroundColor(.white)
         .ultramanMinimalistWindowStyle()
     }
-    
+
     @MainActor
     @ViewBuilder
     private func Detail() -> some View {
         Group {
             if let conversation = conversationViewModel.selectedConversation {
                 ConversationDetailView(
-                    conversation: conversation).id(conversation.id)
+                    conversation: conversation
+                ).id(conversation.id)
             } else {
                 EmptyConversation()
             }

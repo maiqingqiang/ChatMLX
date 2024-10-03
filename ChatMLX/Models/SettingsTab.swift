@@ -24,9 +24,9 @@ struct SettingsTab: Identifiable, Equatable {
 
     let id: ID
     let icon: Image
-    let showIndicator: ((SettingsView.ViewModel) -> Bool)?
+    let showIndicator: ((SettingsViewModel) -> Bool)?
 
-    init(_ id: ID, _ icon: Image, showIndicator: ((SettingsView.ViewModel) -> Bool)? = nil) {
+    init(_ id: ID, _ icon: Image, showIndicator: ((SettingsViewModel) -> Bool)? = nil) {
         self.id = id
         self.icon = icon
         self.showIndicator = showIndicator

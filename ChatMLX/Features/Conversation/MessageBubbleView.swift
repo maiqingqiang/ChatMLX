@@ -13,8 +13,11 @@ struct MessageBubbleView: View {
     @ObservedObject var message: Message
     @Binding var displayStyle: DisplayStyle
     @State private var showToast = false
-    @Environment(\.modelContext) private var modelContext
+
     @Environment(LLMRunner.self) var runner
+    @Environment(ConversationViewModel.self) var vm
+
+    @Environment(\.managedObjectContext) private var viewContext
 
     private func copyText() {
         let pasteboard = NSPasteboard.general
@@ -25,13 +28,14 @@ struct MessageBubbleView: View {
 
     var body: some View {
         HStack {
-            if message.role == MessageSW.Role.assistant.rawValue {
+            if message.role == .assistant {
                 assistantMessageView
             } else {
                 Spacer()
                 userMessageView
             }
         }
+        .textSelection(.enabled)
         .padding(.vertical, 8)
         .toast(isPresenting: $showToast, duration: 1.5, offsetY: 30) {
             AlertToast(displayMode: .hud, type: .complete(.green), title: "Copied")
@@ -60,8 +64,6 @@ struct MessageBubbleView: View {
                             ForegroundColor(.white)
                         }
                         .markdownTheme(.customGitHub)
-                        .textSelection(.enabled)
-
                 } else {
                     Text(message.content)
                 }
@@ -89,10 +91,10 @@ struct MessageBubbleView: View {
                             .help("Regenerate")
                     }
 
-                    Text(formatDate(message.updatedAt))
+                    Text(message.updatedAt.toTimeFormatted())
                         .font(.caption)
 
-                    if message.role == MessageSW.Role.assistant.rawValue, message.inferring {
+                    if message.role == .assistant, message.inferring {
                         ProgressView()
                             .controlSize(.small)
                             .colorInvert()
@@ -120,7 +122,7 @@ struct MessageBubbleView: View {
                 .cornerRadius(8)
 
             HStack {
-                Text(formatDate(message.updatedAt))
+                Text(message.updatedAt.toTimeFormatted())
                     .font(.caption)
 
                 Button(action: copyText) {
@@ -139,47 +141,44 @@ struct MessageBubbleView: View {
         }
     }
 
-    private func formatDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm:ss"
-        return formatter.string(from: date)
-    }
-
     private func delete() {
-//        guard message.role == .user else { return }
-//
-//        if let conversation = message.conversation {
-//            if let index = conversation.sortedMessages.firstIndex(where: { $0.id == message.id }) {
-//                let messages = conversation.sortedMessages[index...]
-//                for messageToDelete in messages {
-//                    conversation.messages.removeAll(where: {
-//                        $0.id == messageToDelete.id
-//                    })
-//                    modelContext.delete(messageToDelete)
-//                }
-//                conversation.updatedAt = Date()
-//            }
-//        }
+        guard message.role == .user else { return }
+        let conversation = message.conversation
+        let messages = conversation.messages
+        if let index = messages.firstIndex(of: message) {
+            for message in messages[index...] {
+                viewContext.delete(message)
+            }
+        }
+
+        Task(priority: .background) {
+            do {
+                try await viewContext.perform {
+                    if viewContext.hasChanges {
+                        try viewContext.save()
+                    }
+                }
+            } catch {
+                vm.throwError(error, title: "Delete Message Failed")
+            }
+        }
     }
 
     private func regenerate() {
-//        guard message.role == .assistant else { return }
-//
-//        if let conversation = message.conversation {
-//            if let index = conversation.sortedMessages.firstIndex(where: { $0.id == message.id }) {
-//                let messages = conversation.sortedMessages[index...]
-//                for messageToDelete in messages {
-//                    conversation.messages.removeAll(where: {
-//                        $0.id == messageToDelete.id
-//                    })
-//                    modelContext.delete(messageToDelete)
-//                }
-//                conversation.updatedAt = Date()
-//            }
-//
-//            Task {
-//                await runner.generate(conversation: conversation)
-//            }
-//        }
+        guard message.role == .assistant else { return }
+
+        Task {
+            let conversation = message.conversation
+            let messages = conversation.messages
+            if let index = messages.firstIndex(of: message) {
+                for message in messages[index...] {
+                    viewContext.delete(message)
+                }
+            }
+
+            await MainActor.run {
+                runner.generate(conversation: conversation, in: viewContext)
+            }
+        }
     }
 }

@@ -6,10 +6,10 @@
 //
 
 import Defaults
-import Metal
 import MLX
 import MLXLLM
 import MLXRandom
+import Metal
 import SwiftUI
 import Tokenizers
 
@@ -62,132 +62,142 @@ class LLMRunner {
         }
     }
 
-    func generate(message: String, conversation: Conversation, in context: NSManagedObjectContext) async {
-        guard !running else { return }
+    private func switchModel(_ conversation: Conversation) {
+        if conversation.model != modelConfiguration?.name {
+            loadState = .idle
+            modelConfiguration = ModelConfiguration.configuration(
+                id: conversation.model)
+        }
+    }
 
-        await MainActor.run {
-            running = true
+    func prepare(_ conversation: Conversation) -> [[String: String]] {
+        var messages = conversation.messages
+        if conversation.useMaxMessagesLimit {
+            let maxCount = conversation.maxMessagesLimit + 1
+            if messages.count > maxCount {
+                messages = Array(messages.suffix(Int(maxCount)))
+                if messages.first?.role != .user {
+                    messages = Array(messages.dropFirst())
+                }
+            }
         }
 
-        let userMessage = Message(context: context)
-        userMessage.role = MessageSW.Role.user.rawValue
-        userMessage.content = message
-        userMessage.conversation = conversation
+        var dictionary = messages[..<(messages.count - 1)].map {
+            message -> [String: String] in
+            message.format()
+        }
 
-//        let message = conversation.startStreamingMessage(role: .assistant)
+        if conversation.useSystemPrompt, !conversation.systemPrompt.isEmpty {
+            dictionary.insert(
+                formatMessage(
+                    role: .system,
+                    content: conversation.systemPrompt
+                ),
+                at: 0
+            )
+        }
 
-        let assistantMessage = Message(context: context)
-        assistantMessage.role = MessageSW.Role.assistant.rawValue
-        assistantMessage.inferring = true
-        assistantMessage.content = ""
-        assistantMessage.conversation = conversation
+        return dictionary
+    }
 
-        do {
-            if conversation.model != modelConfiguration?.name {
-                loadState = .idle
-                modelConfiguration = ModelConfiguration.configuration(
-                    id: conversation.model)
-            }
+    func formatMessage(role: Role, content: String) -> [String: String] {
+        [
+            "role": role.rawValue,
+            "content": content,
+        ]
+    }
 
-            if let modelConfiguration {
-                guard let modelContainer = try await load() else {
-                    throw LLMRunnerError.failedToLoadModel
-                }
+    func generate(conversation: Conversation, in context: NSManagedObjectContext) {
+        guard !running else { return }
+        running = true
 
-                var messages = conversation.messages
+        let assistantMessage = Message(context: context).assistant(conversation: conversation)
 
-                if conversation.useMaxMessagesLimit {
-                    let maxCount = conversation.maxMessagesLimit + 1
-                    if messages.count > maxCount {
-                        messages = Array(messages.suffix(Int(maxCount)))
-                        if messages.first?.role != MessageSW.Role.user.rawValue {
-                            messages = Array(messages.dropFirst())
-                        }
+        let parameters = GenerateParameters(
+            temperature: conversation.temperature,
+            topP: conversation.topP,
+            repetitionPenalty: conversation.useRepetitionPenalty
+                ? conversation.repetitionPenalty : nil,
+            repetitionContextSize: Int(conversation.repetitionContextSize)
+        )
+
+        let useMaxLength = conversation.useMaxLength
+        let maxLength = conversation.maxLength
+
+        Task {
+            do {
+                switchModel(conversation)
+
+                if let modelConfiguration {
+                    guard let modelContainer = try await load() else {
+                        throw LLMRunnerError.failedToLoadModel
                     }
-                }
 
-//                if conversation.useSystemPrompt, !conversation.systemPrompt.isEmpty {
-//                    messages.insert(
-//                        Message(
-//                            role: .system,
-//                            content: conversation.systemPrompt
-//                        ),
-//                        at: 0
-//                    )
-//                }
+                    let messages = prepare(conversation)
 
-                let messagesDicts = messages[..<(messages.count - 1)].map {
-                    message -> [String: String] in
-                    ["role": message.role, "content": message.content]
-                }
+                    logger.info("prepare messages -> \(messages)")
 
-                print("messagesDicts", messagesDicts)
+                    let tokens = try await modelContainer.perform { _, tokenizer in
+                        try tokenizer.applyChatTemplate(messages: messages)
+                    }
 
-                let messageTokens = try await modelContainer.perform {
-                    _, tokenizer in
-                    try tokenizer.applyChatTemplate(messages: messagesDicts)
-                }
+                    MLXRandom.seed(UInt64(Date.timeIntervalSinceReferenceDate * 1000))
 
-                MLXRandom.seed(
-                    UInt64(Date.timeIntervalSinceReferenceDate * 1000))
-
-                let result = await modelContainer.perform {
-                    model,
-                        tokenizer in
-
-                    MLXLLM.generate(
-                        promptTokens: messageTokens,
-                        parameters: GenerateParameters(
-                            temperature: conversation.temperature,
-                            topP: conversation.topP,
-                            repetitionPenalty: conversation.useRepetitionPenalty
-                                ? conversation.repetitionPenalty : nil,
-//                            repetitionContextSize: Int(conversation.repetitionContextSize)
-                            repetitionContextSize: 20
-                        ),
-                        model: model,
-                        tokenizer: tokenizer,
-                        extraEOSTokens: modelConfiguration.extraEOSTokens.union([
-                            "<|im_end|>", "<|end|>",
-                        ])
-                    ) { tokens in
-                        if tokens.count % displayEveryNTokens == 0 {
-                            let text = tokenizer.decode(tokens: tokens)
-                            print("assistantMessage.content ->", text)
-                            Task { @MainActor in
-                                assistantMessage.content = text
+                    let result = await modelContainer.perform { model, tokenizer in
+                        MLXLLM.generate(
+                            promptTokens: tokens,
+                            parameters: parameters,
+                            model: model,
+                            tokenizer: tokenizer,
+                            extraEOSTokens: modelConfiguration.extraEOSTokens.union([
+                                "<|im_end|>", "<|end|>",
+                            ])
+                        ) { tokens in
+                            if tokens.count % displayEveryNTokens == 0 {
+                                let text = tokenizer.decode(tokens: tokens)
+                                Task { @MainActor in
+                                    assistantMessage.content = text
+                                }
                             }
-                        }
 
-                        if conversation.useMaxLength, tokens.count >= conversation.maxLength {
-                            return .stop
-                        }
-                        return .more
-                    }
-                }
+                            if useMaxLength, tokens.count >= maxLength {
+                                return .stop
+                            }
 
-                await MainActor.run {
-                    if result.output != assistantMessage.content {
-                        assistantMessage.content = result.output
+                            return .more
+                        }
                     }
 
-                    assistantMessage.inferring = false
                     conversation.promptTime = result.promptTime
                     conversation.generateTime = result.generateTime
-                    conversation.promptTokensPerSecond =
-                        result.promptTokensPerSecond
+                    conversation.promptTokensPerSecond = result.promptTokensPerSecond
                     conversation.tokensPerSecond = result.tokensPerSecond
+
+                    await MainActor.run {
+                        if result.output != assistantMessage.content {
+                            assistantMessage.content = result.output
+                        }
+
+                        assistantMessage.inferring = false
+                        running = false
+                    }
+                }
+            } catch {
+                logger.error("LLM Generate Failed: \(error.localizedDescription)")
+                await MainActor.run {
+                    assistantMessage.inferring = false
+                    assistantMessage.error = error.localizedDescription
+                    running = false
                 }
             }
-        } catch {
-            print("\(error)")
-            logger.error("LLM Generate Failed: \(error.localizedDescription)")
-//            await MainActor.run {
-//                conversation.failedMessage(message, with: error)
-//            }
-        }
-        await MainActor.run {
-            running = false
+
+            Task(priority: .background) {
+                await context.perform {
+                    if context.hasChanges {
+                        try? context.save()
+                    }
+                }
+            }
         }
     }
 }

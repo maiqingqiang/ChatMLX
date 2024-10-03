@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SettingsSidebarView: View {
-    @Environment(SettingsView.ViewModel.self) var settingsViewModel
+    @Environment(SettingsViewModel.self) var settingsViewModel
 
     let titlebarHeight: CGFloat = 50
     let groupSpacing: CGFloat = 4
@@ -19,9 +19,9 @@ struct SettingsSidebarView: View {
     static let tabs: [SettingsTab] = [
         .init(.general, Image(systemName: "gearshape")),
         .init(.defaultConversation, Image(systemName: "person.bubble")),
-        .init(.huggingFace, Image("hf-logo-pirate")),
+        .init(.huggingFace, Image("huggingface")),
         .init(.models, Image(systemName: "brain")),
-        .init(.mlxCommunity, Image("mlx-logo-2")),
+        .init(.mlxCommunity, Image("MLX")),
         .init(
             .downloadManager, Image(systemName: "arrow.down.circle"),
             showIndicator: { $0.tasks.contains { $0.isDownloading } }
