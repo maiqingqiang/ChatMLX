@@ -18,7 +18,7 @@ extension Defaults.Keys {
     static let customHuggingFaceEndpoints = Key<[String]>("customHuggingFaceEndpoints", default: [])
     static let useCustomHuggingFaceEndpoint = Key<Bool>(
         "useCustomHuggingFaceEndpoint", default: false)
-    static let huggingFaceToken = Key<String?>("huggingFaceToken", default: nil)
+    static let huggingFaceToken = Key<String>("huggingFaceToken", default: "")
 
     static let defaultTitle = Key<String>("defaultTitle", default: "Default Conversation")
     static let defaultTemperature = Key<Float>("defaultTemperature", default: 0.6)
@@ -35,5 +35,7 @@ extension Defaults.Keys {
     static let defaultUseSystemPrompt = Key<Bool>("defaultUseSystemPrompt", default: false)
     static let defaultSystemPrompt = Key<String>("defaultSystemPrompt", default: "")
 
-    static let gpuCacheLimit = Key<Int32>("gpuCacheLimit", default: 128)
+    static let enableGPUMemorySettings = Key<Bool>("enableGPUMemorySettings", default: false)
+    static let gpuCacheLimit = Key<Int>("gpuCacheLimit", default: 128)
+    static let gpuMemoryLimit = Key<Int>("gpuMemoryLimit", default: 1024)
 }
