@@ -41,10 +41,15 @@ class LLMRunner {
 
         switch loadState {
         case .idle:
-            let cacheLimit =
-                UserDefaults.standard.integer(
-                    forKey: Defaults.Keys.gpuCacheLimit.name) * 1024 * 1024
-            MLX.GPU.set(cacheLimit: cacheLimit)
+
+            let enableGPUMemorySettings = Defaults[.enableGPUMemorySettings]
+            if enableGPUMemorySettings {
+                let cacheLimit = Defaults[.gpuCacheLimit] * 1024 * 1024
+                MLX.GPU.set(cacheLimit: cacheLimit)
+
+                let memoryLimit = Defaults[.gpuMemoryLimit] * 1024 * 1024
+                MLX.GPU.set(memoryLimit: memoryLimit)
+            }
 
             let modelContainer = try await MLXLLM.loadModelContainer(
                 configuration: modelConfiguration

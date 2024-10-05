@@ -20,10 +20,8 @@ struct ConversationDetailView: View {
     @Environment(ConversationViewModel.self) private var vm
 
     @State private var newMessage = ""
-
     @State private var showRightSidebar = false
     @State private var showInfoPopover = false
-
     @State private var localModels: [LocalModel] = []
     @State private var displayStyle: DisplayStyle = .markdown
     @State private var isEditorFullScreen = false

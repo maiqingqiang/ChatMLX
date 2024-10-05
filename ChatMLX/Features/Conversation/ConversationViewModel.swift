@@ -11,7 +11,6 @@ import SwiftUI
 class ConversationViewModel {
     var detailWidth: CGFloat = 550
     var selectedConversation: Conversation?
-
     var error: Error?
     var errorTitle: String?
     var showErrorAlert = false

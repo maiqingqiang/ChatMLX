@@ -75,14 +75,7 @@ struct RightSidebarView: View {
                             Text("Max Length")
                             Spacer()
                             CompactSlider(
-                                value: Binding(
-                                    get: {
-                                        Double(conversation.maxLength)
-                                    },
-                                    set: {
-                                        conversation.maxLength = Int64($0)
-                                    }
-                                ), in: 0 ... 8192, step: 1
+                                value: $conversation.maxLength.asDouble(), in: 0 ... 8192, step: 1
                             ) {
                                 Text("\(Int(conversation.maxLength))")
                                     .foregroundStyle(.white)
@@ -96,14 +89,8 @@ struct RightSidebarView: View {
                         Text("Repetition Context Size")
                         Spacer()
                         CompactSlider(
-                            value: Binding(
-                                get: {
-                                    Double(conversation.repetitionContextSize)
-                                },
-                                set: {
-                                    conversation.repetitionContextSize = Int($0)
-                                }
-                            ), in: 0 ... 100, step: 1
+                            value: $conversation.repetitionContextSize.asDouble(), in: 0 ... 100,
+                            step: 1
                         ) {
                             Text("\(conversation.repetitionContextSize)")
                                 .foregroundStyle(.white)
@@ -157,14 +144,8 @@ struct RightSidebarView: View {
                             Text("Max Messages Limit")
                             Spacer()
                             CompactSlider(
-                                value: Binding(
-                                    get: {
-                                        Double(conversation.maxMessagesLimit)
-                                    },
-                                    set: {
-                                        conversation.maxMessagesLimit = Int32($0)
-                                    }
-                                ), in: 1 ... 50, step: 1
+                                value: $conversation.maxMessagesLimit.asDouble(), in: 1 ... 50,
+                                step: 1
                             ) {
                                 Text("\(conversation.maxMessagesLimit)")
                                     .foregroundStyle(.white)
@@ -190,9 +171,7 @@ struct RightSidebarView: View {
                         UltramanTextEditor(
                             text: $conversation.systemPrompt,
                             placeholder: "System prompt",
-                            onSubmit: {
-
-                            }
+                            onSubmit: {}
                         )
                         .frame(height: 100)
                         .padding(padding)
@@ -214,5 +193,6 @@ struct RightSidebarView: View {
                 emphasized: true
             )
         )
+        .zIndex(10)
     }
 }

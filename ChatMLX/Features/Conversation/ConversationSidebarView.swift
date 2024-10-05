@@ -11,9 +11,6 @@ import SwiftUI
 
 struct ConversationSidebarView: View {
     @Environment(ConversationViewModel.self) private var conversationViewModel
-
-    @Binding var selectedConversation: Conversation?
-
     @Environment(\.managedObjectContext) private var viewContext
 
     @FetchRequest(
@@ -22,13 +19,14 @@ struct ConversationSidebarView: View {
     )
     private var conversations: FetchedResults<Conversation>
 
+    @Binding var selectedConversation: Conversation?
+
+    @State private var keyword = ""
     @State private var showingNewConversationAlert = false
     @State private var newConversationTitle = ""
     @State private var showingClearConfirmation = false
 
     let padding: CGFloat = 8
-
-    @State private var keyword = ""
 
     var body: some View {
         VStack(spacing: 0) {

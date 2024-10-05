@@ -10,14 +10,15 @@ import MarkdownUI
 import SwiftUI
 
 struct MessageBubbleView: View {
-    @ObservedObject var message: Message
-    @Binding var displayStyle: DisplayStyle
-    @State private var showToast = false
-
     @Environment(LLMRunner.self) var runner
     @Environment(ConversationViewModel.self) var vm
-
     @Environment(\.managedObjectContext) private var viewContext
+
+    @ObservedObject var message: Message
+
+    @Binding var displayStyle: DisplayStyle
+
+    @State private var showToast = false
 
     private func copyText() {
         let pasteboard = NSPasteboard.general

@@ -14,10 +14,9 @@ struct ChatMLXApp: App {
 
     @State private var conversationViewModel: ConversationViewModel = .init()
     @State private var settingsViewModel: SettingsViewModel = .init()
+    @State private var runner: LLMRunner = .init()
 
     @Default(.language) var language
-
-    @State private var runner = LLMRunner()
 
     let persistenceController = PersistenceController.shared
 
@@ -59,7 +58,7 @@ struct ChatMLXApp: App {
                     \.locale, .init(identifier: language.rawValue)
                 )
                 .environment(runner)
-                .frame(width: 620, height: 480)
+                .frame(width: 650, height: 480)
                 .errorAlert(
                     isPresented: $settingsViewModel.showErrorAlert,
                     title: $settingsViewModel.errorTitle,
