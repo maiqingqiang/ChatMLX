@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ErrorAlertModifier: ViewModifier {
     @Binding var showErrorAlert: Bool
+
     @Binding var errorTitle: String?
     @Binding var error: Error?
 

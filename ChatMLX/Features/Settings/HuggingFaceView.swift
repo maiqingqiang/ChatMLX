@@ -23,14 +23,9 @@ struct HuggingFaceView: View {
     var body: some View {
         VStack(spacing: 18) {
             LuminareSection("Hugging Face Token") {
-                HStack {
-                    Text("Token")
-                    Spacer()
+                LabeledContent("Token") {
                     UltramanSecureField(
-                        Binding(
-                            get: { token ?? "" },
-                            set: { token = $0.isEmpty ? nil : $0 }
-                        ),
+                        $token,
                         placeholder: Text("Enter your Hugging Face token"),
                         alignment: .trailing
                     )
@@ -40,10 +35,7 @@ struct HuggingFaceView: View {
             }
 
             LuminareSection("Hugging Face Endpoint") {
-
-                HStack {
-                    Text("Endpoint")
-                    Spacer()
+                LabeledContent("Endpoint") {
                     Picker("", selection: $endpoint) {
                         if useCustomEndpoint {
                             ForEach(customEndpoints, id: \.self) {
@@ -56,26 +48,16 @@ struct HuggingFaceView: View {
                         Text("https://hf-mirror.com").tag(
                             "https://hf-mirror.com")
                     }
-                    .labelsHidden()
-                    .buttonStyle(.borderless)
-                    .foregroundStyle(.white)
-                    .tint(.white)
                 }
-                .padding(5)
+                .padding(8)
 
-                HStack {
-                    Text("Use Custom Endpoint")
-                    Spacer()
+                LabeledContent("Use Custom Endpoint") {
                     Toggle("", isOn: $useCustomEndpoint)
-                        .toggleStyle(.switch)
-                        .labelsHidden()
                 }
                 .padding(8)
 
                 if useCustomEndpoint {
-                    HStack {
-                        Text("Custom Endpoint")
-                        Spacer()
+                    LabeledContent("Custom Endpoint") {
                         UltramanTextField(
                             $newCustomEndpoint,
                             placeholder: Text("Custom Hugging Face Endpoint"),
@@ -115,6 +97,12 @@ struct HuggingFaceView: View {
 
             Spacer()
         }
+        .toggleStyle(.switch)
+        .labeledContentStyle(.horizontal)
+        .labelsHidden()
+        .buttonStyle(.borderless)
+        .foregroundStyle(.white)
+        .tint(.white)
         .ultramanNavigationTitle("Hugging Face")
         .padding()
         .alert(isPresented: $showingAlert) {

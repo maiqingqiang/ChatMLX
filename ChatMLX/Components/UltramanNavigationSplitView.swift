@@ -73,7 +73,8 @@ extension View {
                     alignment: alignment,
                     content: {
                         content()
-                    })
+                    }
+                )
             ]
         )
     }
@@ -110,6 +111,7 @@ struct UltramanNavigationSplitView<Sidebar: View, Detail: View>: View {
                     sidebar()
                         .frame(width: sidebarWidth)
                         .transition(.move(edge: .leading))
+                        .zIndex(10)
                 }
 
                 VStack(spacing: .zero) {

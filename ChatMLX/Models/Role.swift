@@ -9,6 +9,7 @@ public enum Role: String, Codable {
     case user
     case assistant
     case system
+    case tool
 
     var description: String {
         "\(self)"

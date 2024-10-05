@@ -13,3 +13,12 @@ extension Binding {
         Binding<T>(get: { self.wrappedValue ?? defaultValue }, set: { self.wrappedValue = $0 })
     }
 }
+
+extension Binding {
+    func asDouble() -> Binding<Double> where Value: BinaryInteger {
+        Binding<Double>(
+            get: { Double(self.wrappedValue) },
+            set: { self.wrappedValue = Value($0) }
+        )
+    }
+}

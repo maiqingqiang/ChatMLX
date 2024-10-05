@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct DownloadManagerView: View {
-    @Environment(SettingsViewModel.self) private var settingsViewModel
+    @Environment(SettingsViewModel.self) private var vm
 
     @State private var repoId: String = ""
     @State var showingAlert = false
@@ -16,7 +16,7 @@ struct DownloadManagerView: View {
     var body: some View {
 
         List {
-            ForEach(settingsViewModel.tasks) { task in
+            ForEach(vm.tasks) { task in
                 DownloadTaskView(task: task)
             }
         }
@@ -54,6 +54,6 @@ struct DownloadManagerView: View {
     private func addTask() {
         let task = DownloadTask(repoId)
         task.start()
-        settingsViewModel.tasks.append(task)
+        vm.tasks.append(task)
     }
 }

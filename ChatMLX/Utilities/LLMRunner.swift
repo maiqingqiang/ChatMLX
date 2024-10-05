@@ -6,10 +6,10 @@
 //
 
 import Defaults
+import Metal
 import MLX
 import MLXLLM
 import MLXRandom
-import Metal
 import SwiftUI
 import Tokenizers
 
@@ -41,10 +41,15 @@ class LLMRunner {
 
         switch loadState {
         case .idle:
-            let cacheLimit =
-                UserDefaults.standard.integer(
-                    forKey: Defaults.Keys.gpuCacheLimit.name) * 1024 * 1024
-            MLX.GPU.set(cacheLimit: cacheLimit)
+
+            let enableGPUMemorySettings = Defaults[.enableGPUMemorySettings]
+            if enableGPUMemorySettings {
+                let cacheLimit = Defaults[.gpuCacheLimit] * 1024 * 1024
+                MLX.GPU.set(cacheLimit: cacheLimit)
+
+                let memoryLimit = Defaults[.gpuMemoryLimit] * 1024 * 1024
+                MLX.GPU.set(memoryLimit: memoryLimit)
+            }
 
             let modelContainer = try await MLXLLM.loadModelContainer(
                 configuration: modelConfiguration
@@ -108,13 +113,18 @@ class LLMRunner {
     }
 
     func generate(
-        conversation: Conversation, in context: NSManagedObjectContext,
+        conversation: Conversation,
+        in context: NSManagedObjectContext,
         progressing: @escaping () -> Void = {}
     ) {
         guard !running else { return }
         running = true
 
-        let assistantMessage = Message(context: context).assistant(conversation: conversation)
+        let assistantMessage: Message = if let message = conversation.messages.last, message.role == .assistant {
+            message
+        } else {
+            Message(context: context).assistant(conversation: conversation)
+        }
 
         let parameters = GenerateParameters(
             temperature: conversation.temperature,

@@ -11,17 +11,12 @@ struct ConversationSidebarItem: View {
     @ObservedObject var conversation: Conversation
 
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(ConversationViewModel.self) private var vm
 
-    @Binding var selectedConversation: Conversation?
-
-    @State private var isHovering: Bool = false
     @State private var isActive: Bool = false
-    @State private var showIndicator: Bool = false
 
     var body: some View {
-        Button {
-            selectedConversation = conversation
-        } label: {
+        Button(action: selectConversation) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(LocalizedStringKey(conversation.title))
                     .font(.headline)
@@ -33,20 +28,18 @@ struct ConversationSidebarItem: View {
 
                     Spacer()
 
-                    Text(conversation.updatedAt.toFormatted())
-                        .font(.caption)
+                    if !(conversation.isFault || conversation.isDeleted) {
+                        Text(conversation.updatedAt.toFormatted())
+                            .font(.caption)
+                    }
                 }
                 .foregroundStyle(.white.opacity(0.7))
             }
             .padding(6)
         }
         .buttonStyle(UltramanSidebarButtonStyle(isActive: $isActive))
-        .onAppear {
-            checkIfSelfIsActiveTab()
-        }
-        .onChange(of: selectedConversation) { _, _ in
-            checkIfSelfIsActiveTab()
-        }
+        .onAppear(perform: updateActiveState)
+        .onChange(of: vm.selectedConversation) { _, _ in updateActiveState() }
         .contextMenu {
             Button(role: .destructive, action: deleteConversation) {
                 Label("Delete", systemImage: "trash")
@@ -54,13 +47,21 @@ struct ConversationSidebarItem: View {
         }
     }
 
-    private func checkIfSelfIsActiveTab() {
+    private func selectConversation() {
+        vm.selectedConversation = conversation
+    }
+
+    private func updateActiveState() {
         withAnimation(.easeOut(duration: 0.1)) {
-            isActive = selectedConversation == conversation
+            isActive = vm.selectedConversation == conversation
         }
     }
 
     private func deleteConversation() {
-        try? PersistenceController.shared.delete(conversation)
+        do {
+            try PersistenceController.shared.delete(conversation)
+        } catch {
+            vm.throwError(error, title: "Delete Conversation Failed")
+        }
     }
 }

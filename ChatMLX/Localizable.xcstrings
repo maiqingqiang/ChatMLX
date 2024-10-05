@@ -47,6 +47,12 @@
     "%lldMB" : {
       "shouldTranslate" : false
     },
+    "🍻 If you have ideas, welcome to contribute." : {
+
+    },
+    "👋🏻 It will be supported soon ~ " : {
+
+    },
     "About" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -852,6 +858,9 @@
         }
       }
     },
+    "GPU Memory Limit" : {
+
+    },
     "https://hf-mirror.com" : {
       "shouldTranslate" : false
     },
@@ -1058,6 +1067,9 @@
         }
       }
     },
+    "ML" : {
+
+    },
     "MLX Community" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1117,6 +1129,9 @@
           }
         }
       }
+    },
+    "Model Manager" : {
+
     },
     "Model Settings" : {
       "localizations" : {
@@ -1326,6 +1341,9 @@
         }
       },
       "shouldTranslate" : false
+    },
+    "Other AI Provider" : {
+
     },
     "Please enter Hugging Face Repo ID" : {
       "extractionState" : "manual",
@@ -2086,6 +2104,9 @@
           }
         }
       }
+    },
+    "X" : {
+
     }
   },
   "version" : "1.0"

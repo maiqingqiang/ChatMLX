@@ -38,4 +38,15 @@ public class Message: NSManagedObject {
             "content": self.content,
         ]
     }
+
+    func suffixMessages() -> [Message] {
+        let conversation = self.conversation
+        let messages = conversation.messages
+
+        guard let index = messages.firstIndex(of: self) else {
+            return []
+        }
+
+        return Array(messages[index...])
+    }
 }

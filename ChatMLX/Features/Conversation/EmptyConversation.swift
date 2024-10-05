@@ -14,22 +14,15 @@ struct EmptyConversation: View {
     var body: some View {
         ContentUnavailableView {
             Label("No Conversation", systemImage: "tray.fill")
-                .foregroundColor(.white)
         } description: {
             Text("Please select a new conversation")
-                .foregroundColor(.white)
-            Button(
-                action: conversationViewModel.createConversation,
-                label: {
-                    HStack {
-                        Image(systemName: "plus")
-                            .foregroundStyle(.white)
-                        Text("New Conversation")
-                    }
-                    .foregroundColor(.white)
-                }
-            ).buttonStyle(LuminareCompactButtonStyle())
-                .fixedSize()
+
+            Button(action: conversationViewModel.createConversation) {
+                Label("New Conversation", systemImage: "plus")
+            }
+            .buttonStyle(LuminareCompactButtonStyle())
+            .fixedSize()
         }
+        .foregroundColor(.white)
     }
 }

@@ -10,21 +10,15 @@ import MarkdownUI
 import SwiftUI
 
 struct MessageBubbleView: View {
-    @ObservedObject var message: Message
-    @Binding var displayStyle: DisplayStyle
-    @State private var showToast = false
-
     @Environment(LLMRunner.self) var runner
     @Environment(ConversationViewModel.self) var vm
-
     @Environment(\.managedObjectContext) private var viewContext
 
-    private func copyText() {
-        let pasteboard = NSPasteboard.general
-        pasteboard.clearContents()
-        pasteboard.setString(message.content, forType: .string)
-        showToast = true
-    }
+    @ObservedObject var message: Message
+
+    @Binding var displayStyle: DisplayStyle
+
+    @State private var showToast = false
 
     var body: some View {
         HStack {
@@ -90,9 +84,12 @@ struct MessageBubbleView: View {
                         Image(systemName: "arrow.clockwise")
                             .help("Regenerate")
                     }
+                    .disabled(runner.running)
 
-                    Text(message.updatedAt.toTimeFormatted())
-                        .font(.caption)
+                    if !(message.isFault || message.isDeleted) {
+                        Text(message.updatedAt.toTimeFormatted())
+                            .font(.caption)
+                    }
 
                     if message.role == .assistant, message.inferring {
                         ProgressView()
@@ -143,12 +140,8 @@ struct MessageBubbleView: View {
 
     private func delete() {
         guard message.role == .user else { return }
-        let conversation = message.conversation
-        let messages = conversation.messages
-        if let index = messages.firstIndex(of: message) {
-            for message in messages[index...] {
-                viewContext.delete(message)
-            }
+        for message in message.suffixMessages() {
+            viewContext.delete(message)
         }
 
         Task(priority: .background) {
@@ -169,16 +162,22 @@ struct MessageBubbleView: View {
 
         Task {
             let conversation = message.conversation
-            let messages = conversation.messages
-            if let index = messages.firstIndex(of: message) {
-                for message in messages[index...] {
+
+            if conversation.messages.last != message {
+                for message in message.suffixMessages() {
                     viewContext.delete(message)
                 }
             }
-
             await MainActor.run {
                 runner.generate(conversation: conversation, in: viewContext)
             }
         }
+    }
+
+    private func copyText() {
+        let pasteboard = NSPasteboard.general
+        pasteboard.clearContents()
+        pasteboard.setString(message.content, forType: .string)
+        showToast = true
     }
 }

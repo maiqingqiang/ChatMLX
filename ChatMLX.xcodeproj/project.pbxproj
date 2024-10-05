@@ -84,6 +84,14 @@
 		52A689F62CAE8AAB0078CDF9 /* TimeInterval+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A689F52CAE8AAB0078CDF9 /* TimeInterval+Extensions.swift */; };
 		52A689F82CAE8DA30078CDF9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A689F72CAE8DA00078CDF9 /* SettingsViewModel.swift */; };
 		52A689FA2CAECFE00078CDF9 /* ErrorAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A689F92CAECFDE0078CDF9 /* ErrorAlertModifier.swift */; };
+		52B053272CAFD6DB00E8DDBA /* ModelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053262CAFD6D400E8DDBA /* ModelConfig.swift */; };
+		52B0532A2CAFDFB000E8DDBA /* ProviderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053292CAFDFAF00E8DDBA /* ProviderView.swift */; };
+		52B0532C2CAFEFD800E8DDBA /* Color+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B0532B2CAFEFD000E8DDBA /* Color+Extensions.swift */; };
+		52B0534D2CB02C4600E8DDBA /* ModelManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B0534C2CB02C3E00E8DDBA /* ModelManagerView.swift */; };
+		52B053502CB02CF900E8DDBA /* MLXProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B0534F2CB02CF100E8DDBA /* MLXProvider.swift */; };
+		52B053522CB0385800E8DDBA /* OpenAIProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053512CB0384E00E8DDBA /* OpenAIProvider.swift */; };
+		52B053542CB0F5B300E8DDBA /* LabeledContentStyle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053532CB0F5AA00E8DDBA /* LabeledContentStyle+Extensions.swift */; };
+		52B053572CB0F8EE00E8DDBA /* Binding+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053562CB0F8EE00E8DDBA /* Binding+Extensions.swift */; };
 		52E50B1D2C8D6E81005A89DE /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B1C2C8D6E81005A89DE /* LLM */; };
 		52E50B202C8D719B005A89DE /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B1F2C8D719B005A89DE /* LLM */; };
 		52E50B222C8D719B005A89DE /* MNIST in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B212C8D719B005A89DE /* MNIST */; };
@@ -166,6 +174,14 @@
 		52A689F52CAE8AAB0078CDF9 /* TimeInterval+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extensions.swift"; sourceTree = "<group>"; };
 		52A689F72CAE8DA00078CDF9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		52A689F92CAECFDE0078CDF9 /* ErrorAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertModifier.swift; sourceTree = "<group>"; };
+		52B053262CAFD6D400E8DDBA /* ModelConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelConfig.swift; sourceTree = "<group>"; };
+		52B053292CAFDFAF00E8DDBA /* ProviderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderView.swift; sourceTree = "<group>"; };
+		52B0532B2CAFEFD000E8DDBA /* Color+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Extensions.swift"; sourceTree = "<group>"; };
+		52B0534C2CB02C3E00E8DDBA /* ModelManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelManagerView.swift; sourceTree = "<group>"; };
+		52B0534F2CB02CF100E8DDBA /* MLXProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MLXProvider.swift; sourceTree = "<group>"; };
+		52B053512CB0384E00E8DDBA /* OpenAIProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIProvider.swift; sourceTree = "<group>"; };
+		52B053532CB0F5AA00E8DDBA /* LabeledContentStyle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LabeledContentStyle+Extensions.swift"; sourceTree = "<group>"; };
+		52B053562CB0F8EE00E8DDBA /* Binding+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Binding+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -315,6 +331,7 @@
 		526676222C85F903001EF113 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				52B053282CAFDF8500E8DDBA /* ModelManager */,
 				52A689F72CAE8DA00078CDF9 /* SettingsViewModel.swift */,
 				526676142C85F903001EF113 /* DownloadManager */,
 				526676172C85F903001EF113 /* LocalModels */,
@@ -342,6 +359,7 @@
 		5266762F2C85F903001EF113 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				52B053262CAFD6D400E8DDBA /* ModelConfig.swift */,
 				526676252C85F903001EF113 /* DisplayStyle.swift */,
 				526676262C85F903001EF113 /* DownloadTask.swift */,
 				526676272C85F903001EF113 /* Language.swift */,
@@ -385,6 +403,9 @@
 		5266763D2C85F903001EF113 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				52B053562CB0F8EE00E8DDBA /* Binding+Extensions.swift */,
+				52B053532CB0F5AA00E8DDBA /* LabeledContentStyle+Extensions.swift */,
+				52B0532B2CAFEFD000E8DDBA /* Color+Extensions.swift */,
 				528D82252CABE19000163AAB /* Date+Extensions.swift */,
 				52A689F52CAE8AAB0078CDF9 /* TimeInterval+Extensions.swift */,
 				526676382C85F903001EF113 /* Defaults+Extensions.swift */,
@@ -394,6 +415,25 @@
 				5266763C2C85F903001EF113 /* View+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		52B053282CAFDF8500E8DDBA /* ModelManager */ = {
+			isa = PBXGroup;
+			children = (
+				52B0534E2CB02CDF00E8DDBA /* Providers */,
+				52B0534C2CB02C3E00E8DDBA /* ModelManagerView.swift */,
+			);
+			path = ModelManager;
+			sourceTree = "<group>";
+		};
+		52B0534E2CB02CDF00E8DDBA /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				52B053512CB0384E00E8DDBA /* OpenAIProvider.swift */,
+				52B053292CAFDFAF00E8DDBA /* ProviderView.swift */,
+				52B0534F2CB02CF100E8DDBA /* MLXProvider.swift */,
+			);
+			path = Providers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -527,6 +567,8 @@
 				526676562C85F903001EF113 /* MLXCommunityItemView.swift in Sources */,
 				526676442C85F903001EF113 /* UltramanMinimalistWindowModifier.swift in Sources */,
 				5266764A2C85F903001EF113 /* UltramanWindow.swift in Sources */,
+				52B0532A2CAFDFB000E8DDBA /* ProviderView.swift in Sources */,
+				52B0532C2CAFEFD800E8DDBA /* Color+Extensions.swift in Sources */,
 				526676702C85F903001EF113 /* Defaults+Extensions.swift in Sources */,
 				526676462C85F903001EF113 /* UltramanSecureField.swift in Sources */,
 				5266766C2C85F903001EF113 /* HubApi.swift in Sources */,
@@ -535,6 +577,8 @@
 				526676572C85F903001EF113 /* MLXCommunityView.swift in Sources */,
 				528D82262CABE19900163AAB /* Date+Extensions.swift in Sources */,
 				5266766D2C85F903001EF113 /* LLMRunner.swift in Sources */,
+				52B053542CB0F5B300E8DDBA /* LabeledContentStyle+Extensions.swift in Sources */,
+				52B0534D2CB02C4600E8DDBA /* ModelManagerView.swift in Sources */,
 				5266764E2C85F903001EF113 /* ConversationView.swift in Sources */,
 				5266766A2C85F903001EF113 /* Downloader.swift in Sources */,
 				526676732C85F903001EF113 /* String+Extensions.swift in Sources */,
@@ -549,14 +593,17 @@
 				526676532C85F903001EF113 /* DownloadTaskView.swift in Sources */,
 				52A689F82CAE8DA30078CDF9 /* SettingsViewModel.swift in Sources */,
 				5266764C2C85F903001EF113 /* ConversationSidebarItem.swift in Sources */,
+				52B053572CB0F8EE00E8DDBA /* Binding+Extensions.swift in Sources */,
 				526676622C85F903001EF113 /* Language.swift in Sources */,
 				526676722C85F903001EF113 /* NSWindow+Extensions.swift in Sources */,
+				52B053502CB02CF900E8DDBA /* MLXProvider.swift in Sources */,
 				526676412C85F903001EF113 /* SplashCodeSyntaxHighlighter.swift in Sources */,
 				526676542C85F903001EF113 /* LocalModelItemView.swift in Sources */,
 				526676632C85F903001EF113 /* LocalModel.swift in Sources */,
 				526676692C85F903001EF113 /* Styles.swift in Sources */,
 				5266765A2C85F903001EF113 /* GeneralView.swift in Sources */,
 				526675462C85EDCB001EF113 /* ChatMLXApp.swift in Sources */,
+				52B053272CAFD6DB00E8DDBA /* ModelConfig.swift in Sources */,
 				526676492C85F903001EF113 /* UltramanTextField.swift in Sources */,
 				5266765E2C85F903001EF113 /* SettingsView.swift in Sources */,
 				528D831C2CAD49E600163AAB /* PersistenceController.swift in Sources */,
@@ -569,6 +616,7 @@
 				5266765B2C85F903001EF113 /* HuggingFaceView.swift in Sources */,
 				526676642C85F903001EF113 /* LocalModelGroup.swift in Sources */,
 				526676522C85F903001EF113 /* DownloadManagerView.swift in Sources */,
+				52B053522CB0385800E8DDBA /* OpenAIProvider.swift in Sources */,
 				526676482C85F903001EF113 /* UltramanTextEditorWithPlaceholder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -702,7 +750,7 @@
 				CODE_SIGN_ENTITLEMENTS = ChatMLX/ChatMLX.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatMLX/Preview Content\"";
 				DEVELOPMENT_TEAM = RFGFKQEKRH;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -715,7 +763,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = johnmai.ChatMLX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -731,7 +779,7 @@
 				CODE_SIGN_ENTITLEMENTS = ChatMLX/ChatMLXRelease.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"ChatMLX/Preview Content\"";
 				DEVELOPMENT_TEAM = RFGFKQEKRH;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -744,7 +792,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = johnmai.ChatMLX;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

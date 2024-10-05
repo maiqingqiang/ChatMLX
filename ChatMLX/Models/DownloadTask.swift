@@ -36,9 +36,12 @@ class DownloadTask: Identifiable, Equatable {
         self.isDownloading = true
         self.error = nil
         self.progress = 0
+
+        // todo: token & custom endpoint
         let currentEndpoint = Defaults[.huggingFaceEndpoint]
         self.hub = HubApi(
-            downloadBase: FileManager.default.temporaryDirectory, endpoint: currentEndpoint)
+            downloadBase: FileManager.default.temporaryDirectory, endpoint: currentEndpoint
+        )
 
         Task { [self] in
             do {
@@ -55,7 +58,7 @@ class DownloadTask: Identifiable, Equatable {
 
                 self.hub = nil
 
-                try await moveToDocumentsDirectory(from: temporaryModelDirectory)
+                try await self.moveToDocumentsDirectory(from: temporaryModelDirectory)
 
                 await MainActor.run {
                     self.isDownloading = false
@@ -63,7 +66,7 @@ class DownloadTask: Identifiable, Equatable {
                     self.progress = 1.0
                 }
             } catch {
-                logger.error("DownloadTask Error: \(error.localizedDescription)")
+                self.logger.error("DownloadTask Error: \(error.localizedDescription)")
                 self.hub = nil
                 await MainActor.run {
                     self.error = error
@@ -95,6 +98,6 @@ class DownloadTask: Identifiable, Equatable {
 
         try fileManager.copyItem(at: temporaryModelDirectory, to: destinationPath)
 
-        logger.info("Model moved to: \(destinationPath.path)")
+        self.logger.info("Model moved to: \(destinationPath.path)")
     }
 }
