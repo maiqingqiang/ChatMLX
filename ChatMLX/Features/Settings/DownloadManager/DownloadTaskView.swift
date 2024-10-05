@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct DownloadTaskView: View {
-    @Bindable var task: DownloadTask
-    @Environment(SettingsViewModel.self) private var settingsViewModel
+    let task: DownloadTask
+
+    @Environment(SettingsViewModel.self) private var vm
 
     var body: some View {
         HStack {
@@ -64,7 +65,7 @@ struct DownloadTaskView: View {
                         }
 
                         Button(action: {
-                            settingsViewModel.tasks.removeAll(where: {
+                            vm.tasks.removeAll(where: {
                                 $0.id == task.id
                             })
                         }) {

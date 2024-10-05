@@ -43,9 +43,7 @@ struct DefaultConversationView: View {
                 }
 
                 LuminareSection("Model Settings") {
-                    HStack {
-                        Text("Model")
-                        Spacer()
+                    LabeledContent("Model") {
                         Picker(
                             selection: $defaultModel,
                             label: Image(systemName: "brain")
@@ -57,16 +55,10 @@ struct DefaultConversationView: View {
                                 }
                             }
                         }
-                        .labelsHidden()
-                        .buttonStyle(.borderless)
-                        .foregroundStyle(.white)
-                        .tint(.white)
                     }
                     .padding(padding)
 
-                    HStack {
-                        Text("Temperature")
-                        Spacer()
+                    LabeledContent("Temperature") {
                         CompactSlider(
                             value: $defaultTemperature, in: 0 ... 2, step: 0.01
                         ) {
@@ -77,9 +69,7 @@ struct DefaultConversationView: View {
                     }
                     .padding(padding)
 
-                    HStack {
-                        Text("Top P")
-                        Spacer()
+                    LabeledContent("Top P") {
                         CompactSlider(
                             value: $defaultTopP, in: 0 ... 1, step: 0.01
                         ) {
@@ -90,23 +80,15 @@ struct DefaultConversationView: View {
                     }
                     .padding(padding)
 
-                    HStack {
-                        Text("Use Max Length")
-                        Spacer()
+                    LabeledContent("Use Max Length") {
                         Toggle("", isOn: $defaultUseMaxLength)
-                            .toggleStyle(.switch)
                     }
                     .padding(padding)
 
                     if defaultUseMaxLength {
-                        HStack {
-                            Text("Max Length")
-                            Spacer()
+                        LabeledContent("Max Length") {
                             CompactSlider(
-                                value: Binding(
-                                    get: { Double(defaultMaxLength) },
-                                    set: { defaultMaxLength = Int64($0) }
-                                ), in: 0 ... 8192, step: 1
+                                value: $defaultMaxLength.asDouble(), in: 0 ... 8192, step: 1
                             ) {
                                 Text("\(defaultMaxLength)")
                                     .foregroundStyle(.white)
@@ -116,14 +98,9 @@ struct DefaultConversationView: View {
                         .padding(padding)
                     }
 
-                    HStack {
-                        Text("Repetition Context Size")
-                        Spacer()
+                    LabeledContent("Repetition Context Size") {
                         CompactSlider(
-                            value: Binding(
-                                get: { Double(defaultRepetitionContextSize) },
-                                set: { defaultRepetitionContextSize = Int32($0) }
-                            ), in: 0 ... 100, step: 1
+                            value: $defaultRepetitionContextSize.asDouble(), in: 0 ... 100, step: 1
                         ) {
                             Text("\(defaultRepetitionContextSize)")
                                 .foregroundStyle(.white)
@@ -132,18 +109,13 @@ struct DefaultConversationView: View {
                     }
                     .padding(padding)
 
-                    HStack {
-                        Text("Use Repetition Penalty")
-                        Spacer()
+                    LabeledContent("Use Repetition Penalty") {
                         Toggle("", isOn: $defaultUseRepetitionPenalty)
-                            .toggleStyle(.switch)
                     }
                     .padding(padding)
 
                     if defaultUseRepetitionPenalty {
-                        HStack {
-                            Text("Repetition Penalty")
-                            Spacer()
+                        LabeledContent("Repetition Penalty") {
                             CompactSlider(
                                 value: $defaultRepetitionPenalty, in: 1 ... 2,
                                 step: 0.01
@@ -158,26 +130,17 @@ struct DefaultConversationView: View {
                         .padding(padding)
                     }
                 }
-                .compactSliderSecondaryColor(.white)
 
                 LuminareSection("Message Control") {
-                    HStack {
-                        Text("Use Max Messages Limit")
-                        Spacer()
+                    LabeledContent("Use Max Messages Limit") {
                         Toggle("", isOn: $defaultUseMaxMessagesLimit)
-                            .toggleStyle(.switch)
                     }
                     .padding(padding)
 
                     if defaultUseMaxMessagesLimit {
-                        HStack {
-                            Text("Max Messages Limit")
-                            Spacer()
+                        LabeledContent("Max Messages Limit") {
                             CompactSlider(
-                                value: Binding(
-                                    get: { Double(defaultMaxMessagesLimit) },
-                                    set: { defaultMaxMessagesLimit = Int32($0) }
-                                ), in: 1 ... 50, step: 1
+                                value: $defaultMaxMessagesLimit.asDouble(), in: 1 ... 50, step: 1
                             ) {
                                 Text("\(defaultMaxMessagesLimit)")
                                     .foregroundStyle(.white)
@@ -187,14 +150,10 @@ struct DefaultConversationView: View {
                         .padding(padding)
                     }
                 }
-                .compactSliderSecondaryColor(.white)
 
                 LuminareSection("System Prompt") {
-                    HStack {
-                        Text("Use System Prompt")
-                        Spacer()
+                    LabeledContent("Use System Prompt") {
                         Toggle("", isOn: $defaultUseSystemPrompt)
-                            .toggleStyle(.switch)
                     }
                     .padding(padding)
 
@@ -213,9 +172,16 @@ struct DefaultConversationView: View {
             }
             .padding()
         }
+        .labeledContentStyle(.horizontal)
+        .compactSliderSecondaryColor(.white)
         .scrollContentBackground(.hidden)
         .onAppear(perform: loadModels)
         .ultramanNavigationTitle("Default Conversation")
+        .labelsHidden()
+        .buttonStyle(.borderless)
+        .foregroundStyle(.white)
+        .tint(.white)
+        .toggleStyle(.switch)
     }
 
     private func loadModels() {

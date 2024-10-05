@@ -29,9 +29,7 @@ struct GeneralView: View {
     var body: some View {
         VStack(spacing: 18) {
             LuminareSection("Language") {
-                HStack {
-                    Text("Language")
-                    Spacer()
+                LabeledContent("Language") {
                     Picker(
                         "Language",
                         selection: $language
@@ -40,7 +38,6 @@ struct GeneralView: View {
                             Text(language.displayName).tag(language)
                         }
                     }
-                    .labelsHidden()
                     .buttonStyle(.borderless)
                     .foregroundStyle(.white)
                     .tint(.white)
@@ -49,9 +46,7 @@ struct GeneralView: View {
             }
 
             LuminareSection("Window Appearance") {
-                HStack {
-                    Text("Blur")
-                    Spacer()
+                LabeledContent("Blur") {
                     CompactSlider(value: $blurRadius, in: 0 ... 100) {
                         Text("\(Int(blurRadius))")
                             .foregroundStyle(.white)
@@ -61,38 +56,13 @@ struct GeneralView: View {
                 }
                 .padding(5)
 
-                HStack {
-                    Text("Color")
-                    Spacer()
+                LabeledContent("Color") {
                     ColorPicker("", selection: $backgroundColor)
-                        .labelsHidden()
                 }
                 .padding(5)
             }
 
             LuminareSection("System Settings") {
-                HStack {
-                    Text("GPU Cache Limit")
-                    Spacer()
-                    CompactSlider(
-                        value: Binding(
-                            get: { Double(gpuCacheLimit) },
-                            set: { gpuCacheLimit = Int32($0) }
-                        ), in: 0 ... Double(maxRAM), step: 128
-                    ) {
-                        Text("\(Int(gpuCacheLimit))MB")
-                            .foregroundStyle(.white)
-                    }
-                    .frame(width: 200)
-                    .compactSliderSecondaryColor(.white)
-                    .onChange(of: gpuCacheLimit) { oldValue, newValue in
-                        if oldValue != newValue {
-                            runner.loadState = .idle
-                        }
-                    }
-                }
-                .padding(5)
-
                 Button("Clear All Conversations", action: clearAllConversations)
                     .frame(height: 35)
                 Button("Reset All Settings", action: resetAllSettings)
@@ -102,33 +72,14 @@ struct GeneralView: View {
 
             Spacer()
         }
-
+        .labeledContentStyle(.horizontal)
         .ultramanNavigationTitle("General")
         .padding()
+        .labelsHidden()
     }
 
     private func resetAllSettings() {
-        Defaults.reset(.defaultModel)
-        Defaults.reset(.language)
-        Defaults.reset(.backgroundBlurRadius)
-        Defaults.reset(.backgroundColor)
-        Defaults.reset(.huggingFaceEndpoint)
-        Defaults.reset(.customHuggingFaceEndpoints)
-        Defaults.reset(.useCustomHuggingFaceEndpoint)
-        Defaults.reset(.huggingFaceToken)
-        Defaults.reset(.defaultTitle)
-        Defaults.reset(.defaultTemperature)
-        Defaults.reset(.defaultTopP)
-        Defaults.reset(.defaultUseMaxLength)
-        Defaults.reset(.defaultMaxLength)
-        Defaults.reset(.defaultRepetitionContextSize)
-        Defaults.reset(.defaultMaxMessagesLimit)
-        Defaults.reset(.defaultUseMaxMessagesLimit)
-        Defaults.reset(.defaultRepetitionPenalty)
-        Defaults.reset(.defaultUseRepetitionPenalty)
-        Defaults.reset(.defaultUseSystemPrompt)
-        Defaults.reset(.defaultSystemPrompt)
-        Defaults.reset(.gpuCacheLimit)
+        Defaults.removeAll()
     }
 
     private func clearAllConversations() {
