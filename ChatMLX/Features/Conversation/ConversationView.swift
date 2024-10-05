@@ -19,7 +19,7 @@ struct ConversationView: View {
                     selectedConversation: $conversationViewModel.selectedConversation)
             },
             detail: {
-                Detail()
+                detailView()
             }
         )
         .foregroundColor(.white)
@@ -28,7 +28,7 @@ struct ConversationView: View {
 
     @MainActor
     @ViewBuilder
-    private func Detail() -> some View {
+    private func detailView() -> some View {
         Group {
             if let conversation = conversationViewModel.selectedConversation {
                 ConversationDetailView(

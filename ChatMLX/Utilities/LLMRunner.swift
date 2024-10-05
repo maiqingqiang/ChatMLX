@@ -6,10 +6,10 @@
 //
 
 import Defaults
+import Metal
 import MLX
 import MLXLLM
 import MLXRandom
-import Metal
 import SwiftUI
 import Tokenizers
 
@@ -113,13 +113,18 @@ class LLMRunner {
     }
 
     func generate(
-        conversation: Conversation, in context: NSManagedObjectContext,
+        conversation: Conversation,
+        in context: NSManagedObjectContext,
         progressing: @escaping () -> Void = {}
     ) {
         guard !running else { return }
         running = true
 
-        let assistantMessage = Message(context: context).assistant(conversation: conversation)
+        let assistantMessage: Message = if let message = conversation.messages.last, message.role == .assistant {
+            message
+        } else {
+            Message(context: context).assistant(conversation: conversation)
+        }
 
         let parameters = GenerateParameters(
             temperature: conversation.temperature,

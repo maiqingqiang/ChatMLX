@@ -87,7 +87,7 @@ struct ConversationDetailView: View {
                         MessageBubbleView(
                             message: message,
                             displayStyle: $displayStyle
-                        ).id(message.id)
+                        )
                     }
                 }
                 .padding()
