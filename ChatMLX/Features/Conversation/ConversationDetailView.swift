@@ -35,6 +35,9 @@ struct ConversationDetailView: View {
 
     @FocusState private var isInputFocused: Bool
 
+    @Default(.enableAppleIntelligenceEffect) var enableAppleIntelligenceEffect
+    @Default(.appleIntelligenceEffectDisplay) var appleIntelligenceEffectDisplay
+
     var body: some View {
         ZStack(alignment: .trailing) {
             VStack(spacing: 0) {
@@ -298,8 +301,9 @@ struct ConversationDetailView: View {
 
         Message(context: viewContext).user(content: trimmedMessage, conversation: conversation)
 
-        let appleIntelligenceEffectManager = AppleIntelligenceEffectManager.shared
-        appleIntelligenceEffectManager.setupEffect()
+        if enableAppleIntelligenceEffect, appleIntelligenceEffectDisplay == .global {
+            AppleIntelligenceEffectManager.shared.setupEffect()
+        }
 
         runner.generate(conversation: conversation, in: viewContext) {
             Task { @MainActor in
@@ -307,7 +311,9 @@ struct ConversationDetailView: View {
             }
         } completion: {
             Task { @MainActor in
-                appleIntelligenceEffectManager.closeEffect()
+                if enableAppleIntelligenceEffect, appleIntelligenceEffectDisplay == .global {
+                    AppleIntelligenceEffectManager.shared.closeEffect()
+                }
                 scrollToBottom()
             }
         }

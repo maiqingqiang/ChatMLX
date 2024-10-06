@@ -89,6 +89,7 @@
 		52B0539D2CB2BF0D00E8DDBA /* AppleIntelligenceEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B0539A2CB2BF0D00E8DDBA /* AppleIntelligenceEffectView.swift */; };
 		52B0539E2CB2BF0D00E8DDBA /* AppleIntelligenceEffectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053992CB2BF0D00E8DDBA /* AppleIntelligenceEffectController.swift */; };
 		52B053A02CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B0539F2CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift */; };
+		52B053A22CB2F6F900E8DDBA /* AppleIntelligenceEffectDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053A12CB2F6F900E8DDBA /* AppleIntelligenceEffectDisplay.swift */; };
 		52E50B1D2C8D6E81005A89DE /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B1C2C8D6E81005A89DE /* LLM */; };
 		52E50B202C8D719B005A89DE /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B1F2C8D719B005A89DE /* LLM */; };
 		52E50B222C8D719B005A89DE /* MNIST in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B212C8D719B005A89DE /* MNIST */; };
@@ -176,6 +177,7 @@
 		52B053992CB2BF0D00E8DDBA /* AppleIntelligenceEffectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceEffectController.swift; sourceTree = "<group>"; };
 		52B0539A2CB2BF0D00E8DDBA /* AppleIntelligenceEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceEffectView.swift; sourceTree = "<group>"; };
 		52B0539F2CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceEffectManager.swift; sourceTree = "<group>"; };
+		52B053A12CB2F6F900E8DDBA /* AppleIntelligenceEffectDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceEffectDisplay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -357,6 +359,7 @@
 				526676252C85F903001EF113 /* DisplayStyle.swift */,
 				526676262C85F903001EF113 /* DownloadTask.swift */,
 				526676272C85F903001EF113 /* Language.swift */,
+				52B053A12CB2F6F900E8DDBA /* AppleIntelligenceEffectDisplay.swift */,
 				526676282C85F903001EF113 /* LocalModel.swift */,
 				526676292C85F903001EF113 /* LocalModelGroup.swift */,
 				528D83382CAE51EC00163AAB /* Role.swift */,
@@ -593,6 +596,7 @@
 				528D83372CADB64600163AAB /* ConversationViewModel.swift in Sources */,
 				5266765D2C85F903001EF113 /* SettingsSidebarView.swift in Sources */,
 				5266764B2C85F903001EF113 /* ConversationDetailView.swift in Sources */,
+				52B053A22CB2F6F900E8DDBA /* AppleIntelligenceEffectDisplay.swift in Sources */,
 				526676602C85F903001EF113 /* DisplayStyle.swift in Sources */,
 				5266765B2C85F903001EF113 /* HuggingFaceView.swift in Sources */,
 				526676642C85F903001EF113 /* LocalModelGroup.swift in Sources */,
