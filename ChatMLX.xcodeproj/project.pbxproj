@@ -84,6 +84,11 @@
 		52A689F62CAE8AAB0078CDF9 /* TimeInterval+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A689F52CAE8AAB0078CDF9 /* TimeInterval+Extensions.swift */; };
 		52A689F82CAE8DA30078CDF9 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A689F72CAE8DA00078CDF9 /* SettingsViewModel.swift */; };
 		52A689FA2CAECFE00078CDF9 /* ErrorAlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52A689F92CAECFDE0078CDF9 /* ErrorAlertModifier.swift */; };
+		52B053932CB2B0D500E8DDBA /* ColorWheel.metal in Sources */ = {isa = PBXBuildFile; fileRef = 52B053922CB2B0D300E8DDBA /* ColorWheel.metal */; };
+		52B053952CB2B64500E8DDBA /* NoneInteractWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053942CB2B64500E8DDBA /* NoneInteractWindow.swift */; };
+		52B0539D2CB2BF0D00E8DDBA /* AppleIntelligenceEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B0539A2CB2BF0D00E8DDBA /* AppleIntelligenceEffectView.swift */; };
+		52B0539E2CB2BF0D00E8DDBA /* AppleIntelligenceEffectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053992CB2BF0D00E8DDBA /* AppleIntelligenceEffectController.swift */; };
+		52B053A02CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B0539F2CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift */; };
 		52E50B1D2C8D6E81005A89DE /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B1C2C8D6E81005A89DE /* LLM */; };
 		52E50B202C8D719B005A89DE /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B1F2C8D719B005A89DE /* LLM */; };
 		52E50B222C8D719B005A89DE /* MNIST in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B212C8D719B005A89DE /* MNIST */; };
@@ -166,6 +171,11 @@
 		52A689F52CAE8AAB0078CDF9 /* TimeInterval+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extensions.swift"; sourceTree = "<group>"; };
 		52A689F72CAE8DA00078CDF9 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		52A689F92CAECFDE0078CDF9 /* ErrorAlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertModifier.swift; sourceTree = "<group>"; };
+		52B053922CB2B0D300E8DDBA /* ColorWheel.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = ColorWheel.metal; sourceTree = "<group>"; };
+		52B053942CB2B64500E8DDBA /* NoneInteractWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoneInteractWindow.swift; sourceTree = "<group>"; };
+		52B053992CB2BF0D00E8DDBA /* AppleIntelligenceEffectController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceEffectController.swift; sourceTree = "<group>"; };
+		52B0539A2CB2BF0D00E8DDBA /* AppleIntelligenceEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceEffectView.swift; sourceTree = "<group>"; };
+		52B0539F2CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceEffectManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +266,8 @@
 		526676092C85F903001EF113 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				52B053942CB2B64500E8DDBA /* NoneInteractWindow.swift */,
+				52B0538B2CB2B03200E8DDBA /* AppleIntelligenceEffect */,
 				52A689F92CAECFDE0078CDF9 /* ErrorAlertModifier.swift */,
 				526676002C85F903001EF113 /* SyntaxHighlighter */,
 				526676012C85F903001EF113 /* EffectView.swift */,
@@ -396,6 +408,17 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		52B0538B2CB2B03200E8DDBA /* AppleIntelligenceEffect */ = {
+			isa = PBXGroup;
+			children = (
+				52B0539F2CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift */,
+				52B053992CB2BF0D00E8DDBA /* AppleIntelligenceEffectController.swift */,
+				52B0539A2CB2BF0D00E8DDBA /* AppleIntelligenceEffectView.swift */,
+				52B053922CB2B0D300E8DDBA /* ColorWheel.metal */,
+			);
+			path = AppleIntelligenceEffect;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -513,8 +536,10 @@
 				526676682C85F903001EF113 /* SettingsTabGroup.swift in Sources */,
 				526676452C85F903001EF113 /* UltramanNavigationSplitView.swift in Sources */,
 				526676672C85F903001EF113 /* SettingsTab.swift in Sources */,
+				52B053932CB2B0D500E8DDBA /* ColorWheel.metal in Sources */,
 				5266765C2C85F903001EF113 /* SettingsSidebarItemView.swift in Sources */,
 				526676592C85F903001EF113 /* DefaultConversationView.swift in Sources */,
+				52B053A02CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift in Sources */,
 				5266766E2C85F903001EF113 /* Logger.swift in Sources */,
 				526676612C85F903001EF113 /* DownloadTask.swift in Sources */,
 				52A689F62CAE8AAB0078CDF9 /* TimeInterval+Extensions.swift in Sources */,
@@ -544,6 +569,7 @@
 				528D832A2CAD5C9100163AAB /* Conversation+CoreDataProperties.swift in Sources */,
 				528D832B2CAD5C9100163AAB /* Message+CoreDataClass.swift in Sources */,
 				528D83392CAE51EC00163AAB /* Role.swift in Sources */,
+				52B053952CB2B64500E8DDBA /* NoneInteractWindow.swift in Sources */,
 				528D832C2CAD5C9100163AAB /* Message+CoreDataProperties.swift in Sources */,
 				526676712C85F903001EF113 /* MarkdownUI+Theme+Extensions.swift in Sources */,
 				526676532C85F903001EF113 /* DownloadTaskView.swift in Sources */,
@@ -554,6 +580,8 @@
 				526676412C85F903001EF113 /* SplashCodeSyntaxHighlighter.swift in Sources */,
 				526676542C85F903001EF113 /* LocalModelItemView.swift in Sources */,
 				526676632C85F903001EF113 /* LocalModel.swift in Sources */,
+				52B0539D2CB2BF0D00E8DDBA /* AppleIntelligenceEffectView.swift in Sources */,
+				52B0539E2CB2BF0D00E8DDBA /* AppleIntelligenceEffectController.swift in Sources */,
 				526676692C85F903001EF113 /* Styles.swift in Sources */,
 				5266765A2C85F903001EF113 /* GeneralView.swift in Sources */,
 				526675462C85EDCB001EF113 /* ChatMLXApp.swift in Sources */,

@@ -298,21 +298,17 @@ struct ConversationDetailView: View {
 
         Message(context: viewContext).user(content: trimmedMessage, conversation: conversation)
 
+        let appleIntelligenceEffectManager = AppleIntelligenceEffectManager.shared
+        appleIntelligenceEffectManager.setupEffect()
+
         runner.generate(conversation: conversation, in: viewContext) {
-            scrollToBottom()
-        }
-
-        scrollToBottom()
-
-        Task(priority: .background) {
-            do {
-                try await viewContext.perform {
-                    if viewContext.hasChanges {
-                        try viewContext.save()
-                    }
-                }
-            } catch {
-                vm.throwError(error, title: "Send Message Failed")
+            Task { @MainActor in
+                scrollToBottom()
+            }
+        } completion: {
+            Task { @MainActor in
+                appleIntelligenceEffectManager.closeEffect()
+                scrollToBottom()
             }
         }
     }

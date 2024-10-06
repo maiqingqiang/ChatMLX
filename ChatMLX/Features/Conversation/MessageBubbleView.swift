@@ -177,7 +177,7 @@ struct MessageBubbleView: View {
             }
 
             await MainActor.run {
-                runner.generate(conversation: conversation, in: viewContext)
+                runner.generate(conversation: conversation, in: viewContext, completion: nil)
             }
         }
     }

@@ -32,9 +32,10 @@ struct ConversationSidebarItem: View {
                         .lineLimit(1)
 
                     Spacer()
-
-                    Text(conversation.updatedAt.toFormatted())
-                        .font(.caption)
+                    if !(conversation.isFault || conversation.isDeleted) {
+                        Text(conversation.updatedAt.toFormatted())
+                            .font(.caption)
+                    }
                 }
                 .foregroundStyle(.white.opacity(0.7))
             }

@@ -109,7 +109,8 @@ class LLMRunner {
 
     func generate(
         conversation: Conversation, in context: NSManagedObjectContext,
-        progressing: @escaping () -> Void = {}
+        progressing: @escaping () -> Void = {},
+        completion: (() -> Void)?
     ) {
         guard !running else { return }
         running = true
@@ -202,6 +203,8 @@ class LLMRunner {
                     }
                 }
             }
+
+            completion?()
         }
     }
 }
