@@ -76,6 +76,9 @@
         }
       }
     },
+    "Apple Intelligence Effect" : {
+
+    },
     "Are you sure you want to delete '%@'?" : {
       "localizations" : {
         "ja" : {
@@ -538,6 +541,9 @@
         }
       }
     },
+    "Display Mode" : {
+
+    },
     "Done" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -707,6 +713,12 @@
           }
         }
       }
+    },
+    "Experimental Features" : {
+
+    },
+    "Experimental features may have performance limitations. Features and programmatic interfaces are subject to change at any time." : {
+
     },
     "Feedback" : {
       "localizations" : {

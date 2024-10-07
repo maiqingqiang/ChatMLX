@@ -113,7 +113,10 @@ class LLMRunner {
         completion: (() -> Void)?
     ) {
         guard !running else { return }
-        running = true
+        withAnimation {
+            running = true
+        }
+        
 
         let assistantMessage = Message(context: context).assistant(conversation: conversation)
 
@@ -192,7 +195,9 @@ class LLMRunner {
                 await MainActor.run {
                     assistantMessage.inferring = false
                     assistantMessage.error = error.localizedDescription
-                    running = false
+                    withAnimation {
+                        running = false
+                    }
                 }
             }
 

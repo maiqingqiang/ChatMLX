@@ -19,6 +19,7 @@ struct SettingsTab: Identifiable, Equatable {
         case models = "Models"
         case mlxCommunity = "MLX Community"
         case downloadManager = "Download Manager"
+        case experimentalFeatures = "Experimental Features"
         case about = "About"
     }
 

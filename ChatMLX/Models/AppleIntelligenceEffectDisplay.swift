@@ -7,7 +7,9 @@
 
 import Defaults
 
-enum AppleIntelligenceEffectDisplay: String, Defaults.Serializable {
+enum AppleIntelligenceEffectDisplay: String, CaseIterable, Identifiable, Defaults.Serializable {
     case global = "Global"
     case appInternal = "Internal"
+
+    var id: String { self.rawValue }
 }

@@ -38,5 +38,5 @@ extension Defaults.Keys {
     static let gpuCacheLimit = Key<Int32>("gpuCacheLimit", default: 128)
 
     static let enableAppleIntelligenceEffect = Key<Bool>("enableAppleIntelligenceEffect", default: false)
-    static let appleIntelligenceEffectDisplay = Key<AppleIntelligenceEffectDisplay>("enableAppleIntelligenceEffect", default: .global)
+    static let appleIntelligenceEffectDisplay = Key<AppleIntelligenceEffectDisplay>("appleIntelligenceEffectDisplay", default: .global)
 }

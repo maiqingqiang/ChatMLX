@@ -90,6 +90,7 @@
 		52B0539E2CB2BF0D00E8DDBA /* AppleIntelligenceEffectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053992CB2BF0D00E8DDBA /* AppleIntelligenceEffectController.swift */; };
 		52B053A02CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B0539F2CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift */; };
 		52B053A22CB2F6F900E8DDBA /* AppleIntelligenceEffectDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053A12CB2F6F900E8DDBA /* AppleIntelligenceEffectDisplay.swift */; };
+		52B053A62CB38E8700E8DDBA /* ExperimentalFeaturesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B053A52CB38E7F00E8DDBA /* ExperimentalFeaturesView.swift */; };
 		52E50B1D2C8D6E81005A89DE /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B1C2C8D6E81005A89DE /* LLM */; };
 		52E50B202C8D719B005A89DE /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B1F2C8D719B005A89DE /* LLM */; };
 		52E50B222C8D719B005A89DE /* MNIST in Frameworks */ = {isa = PBXBuildFile; productRef = 52E50B212C8D719B005A89DE /* MNIST */; };
@@ -178,6 +179,7 @@
 		52B0539A2CB2BF0D00E8DDBA /* AppleIntelligenceEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceEffectView.swift; sourceTree = "<group>"; };
 		52B0539F2CB2C2CD00E8DDBA /* AppleIntelligenceEffectManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceEffectManager.swift; sourceTree = "<group>"; };
 		52B053A12CB2F6F900E8DDBA /* AppleIntelligenceEffectDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleIntelligenceEffectDisplay.swift; sourceTree = "<group>"; };
+		52B053A52CB38E7F00E8DDBA /* ExperimentalFeaturesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExperimentalFeaturesView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -329,6 +331,7 @@
 		526676222C85F903001EF113 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				52B053A52CB38E7F00E8DDBA /* ExperimentalFeaturesView.swift */,
 				52A689F72CAE8DA00078CDF9 /* SettingsViewModel.swift */,
 				526676142C85F903001EF113 /* DownloadManager */,
 				526676172C85F903001EF113 /* LocalModels */,
@@ -536,6 +539,7 @@
 			files = (
 				526676422C85F903001EF113 /* TextOutputFormat.swift in Sources */,
 				526676512C85F903001EF113 /* RightSidebarView.swift in Sources */,
+				52B053A62CB38E8700E8DDBA /* ExperimentalFeaturesView.swift in Sources */,
 				526676682C85F903001EF113 /* SettingsTabGroup.swift in Sources */,
 				526676452C85F903001EF113 /* UltramanNavigationSplitView.swift in Sources */,
 				526676672C85F903001EF113 /* SettingsTab.swift in Sources */,
