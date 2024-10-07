@@ -109,10 +109,13 @@ class LLMRunner {
 
     func generate(
         conversation: Conversation, in context: NSManagedObjectContext,
-        progressing: @escaping () -> Void = {}
+        progressing: @escaping () -> Void = {},
+        completion: (() -> Void)?
     ) {
         guard !running else { return }
-        running = true
+        withAnimation {
+            running = true
+        }
 
         let assistantMessage = Message(context: context).assistant(conversation: conversation)
 
@@ -191,7 +194,9 @@ class LLMRunner {
                 await MainActor.run {
                     assistantMessage.inferring = false
                     assistantMessage.error = error.localizedDescription
-                    running = false
+                    withAnimation {
+                        running = false
+                    }
                 }
             }
 
@@ -202,6 +207,8 @@ class LLMRunner {
                     }
                 }
             }
+
+            completion?()
         }
     }
 }

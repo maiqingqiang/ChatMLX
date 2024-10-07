@@ -13,7 +13,7 @@ struct SettingsView: View {
     var body: some View {
         @Bindable var vm = vm
 
-        UltramanNavigationSplitView(sidebarWidth: 210) {
+        UltramanNavigationSplitView(sidebarWidth: 220) {
             SettingsSidebarView()
         } detail: {
             Group {
@@ -30,6 +30,8 @@ struct SettingsView: View {
                     DownloadManagerView()
                 case .mlxCommunity:
                     MLXCommunityView()
+                case .experimentalFeatures:
+                    ExperimentalFeaturesView()
                 case .about:
                     AboutView()
                 }

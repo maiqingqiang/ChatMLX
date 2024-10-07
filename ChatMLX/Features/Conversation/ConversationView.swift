@@ -5,10 +5,15 @@
 //  Created by John Mai on 2024/8/3.
 //
 
+import Defaults
 import SwiftUI
 
 struct ConversationView: View {
     @Environment(ConversationViewModel.self) private var conversationViewModel
+    @Environment(LLMRunner.self) private var runner
+
+    @Default(.enableAppleIntelligenceEffect) var enableAppleIntelligenceEffect
+    @Default(.appleIntelligenceEffectDisplay) var appleIntelligenceEffectDisplay
 
     var body: some View {
         @Bindable var conversationViewModel = conversationViewModel
@@ -24,6 +29,15 @@ struct ConversationView: View {
         )
         .foregroundColor(.white)
         .ultramanMinimalistWindowStyle()
+        .overlay {
+            if enableAppleIntelligenceEffect, appleIntelligenceEffectDisplay == .appInternal,
+                runner.running
+            {
+                AppleIntelligenceEffectView(useRoundedRectangle: false)
+                    .ignoresSafeArea()
+                    .allowsHitTesting(false)
+            }
+        }
     }
 
     @MainActor

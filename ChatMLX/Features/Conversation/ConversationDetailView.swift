@@ -35,6 +35,9 @@ struct ConversationDetailView: View {
 
     @FocusState private var isInputFocused: Bool
 
+    @Default(.enableAppleIntelligenceEffect) var enableAppleIntelligenceEffect
+    @Default(.appleIntelligenceEffectDisplay) var appleIntelligenceEffectDisplay
+
     var body: some View {
         ZStack(alignment: .trailing) {
             VStack(spacing: 0) {
@@ -298,21 +301,20 @@ struct ConversationDetailView: View {
 
         Message(context: viewContext).user(content: trimmedMessage, conversation: conversation)
 
-        runner.generate(conversation: conversation, in: viewContext) {
-            scrollToBottom()
+        if enableAppleIntelligenceEffect, appleIntelligenceEffectDisplay == .global {
+            AppleIntelligenceEffectManager.shared.setupEffect()
         }
 
-        scrollToBottom()
-
-        Task(priority: .background) {
-            do {
-                try await viewContext.perform {
-                    if viewContext.hasChanges {
-                        try viewContext.save()
-                    }
+        runner.generate(conversation: conversation, in: viewContext) {
+            Task { @MainActor in
+                scrollToBottom()
+            }
+        } completion: {
+            Task { @MainActor in
+                if enableAppleIntelligenceEffect, appleIntelligenceEffectDisplay == .global {
+                    AppleIntelligenceEffectManager.shared.closeEffect()
                 }
-            } catch {
-                vm.throwError(error, title: "Send Message Failed")
+                scrollToBottom()
             }
         }
     }

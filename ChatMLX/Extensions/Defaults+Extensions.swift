@@ -36,4 +36,9 @@ extension Defaults.Keys {
     static let defaultSystemPrompt = Key<String>("defaultSystemPrompt", default: "")
 
     static let gpuCacheLimit = Key<Int32>("gpuCacheLimit", default: 128)
+
+    static let enableAppleIntelligenceEffect = Key<Bool>(
+        "enableAppleIntelligenceEffect", default: false)
+    static let appleIntelligenceEffectDisplay = Key<AppleIntelligenceEffectDisplay>(
+        "appleIntelligenceEffectDisplay", default: .appInternal)
 }

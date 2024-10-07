@@ -26,6 +26,7 @@ struct SettingsSidebarView: View {
             .downloadManager, Image(systemName: "arrow.down.circle"),
             showIndicator: { $0.tasks.contains { $0.isDownloading } }
         ),
+        .init(.experimentalFeatures, Image(systemName: "flask")),
         .init(.about, Image(systemName: "info.circle")),
     ]
 
