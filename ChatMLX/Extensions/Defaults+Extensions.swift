@@ -40,5 +40,5 @@ extension Defaults.Keys {
     static let enableAppleIntelligenceEffect = Key<Bool>(
         "enableAppleIntelligenceEffect", default: false)
     static let appleIntelligenceEffectDisplay = Key<AppleIntelligenceEffectDisplay>(
-        "appleIntelligenceEffectDisplay", default: .global)
+        "appleIntelligenceEffectDisplay", default: .appInternal)
 }
