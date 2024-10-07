@@ -13,6 +13,8 @@ struct AppleIntelligenceEffectView: View {
     private let maxBlurRadiusBase: CGFloat = 18
     private let minBlurRadiusBase: CGFloat = 6
 
+    var useRoundedRectangle: Bool = true
+
     var body: some View {
         TimelineView(.animation) { timeline in
             ZStack {
@@ -28,7 +30,8 @@ struct AppleIntelligenceEffectView: View {
         let time = date.timeIntervalSince1970
         let blurRadius =
             angle > 0
-            ? maxBlurRadiusBase + 6 * sin(time * 2) : minBlurRadiusBase + 3 * sin(time * 4)
+            ? maxBlurRadiusBase + 6 * sin(time * 2)
+            : minBlurRadiusBase + 3 * sin(time * 4)
 
         return Rectangle()
             .fill(shader)
@@ -36,16 +39,22 @@ struct AppleIntelligenceEffectView: View {
             .scaleEffect(2.4)
             .rotationEffect(.degrees(time * angle))
             .mask(alignment: .center) {
-                UnevenRoundedRectangle(
-                    cornerRadii: .init(
-                        topLeading: 20,
-                        bottomLeading: 0,
-                        bottomTrailing: 0,
-                        topTrailing: 20
+                if useRoundedRectangle {
+                    UnevenRoundedRectangle(
+                        cornerRadii: .init(
+                            topLeading: 20,
+                            bottomLeading: 0,
+                            bottomTrailing: 0,
+                            topTrailing: 20
+                        )
                     )
-                )
-                .stroke(lineWidth: maxBlurRadiusBase)
-                .blur(radius: blurRadius)
+                    .stroke(lineWidth: maxBlurRadiusBase)
+                    .blur(radius: blurRadius)
+                } else {
+                    Rectangle()
+                        .stroke(lineWidth: maxBlurRadiusBase)
+                        .blur(radius: blurRadius)
+                }
             }
     }
 }

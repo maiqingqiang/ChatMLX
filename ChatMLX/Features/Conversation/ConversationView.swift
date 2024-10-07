@@ -33,7 +33,7 @@ struct ConversationView: View {
             if enableAppleIntelligenceEffect, appleIntelligenceEffectDisplay == .appInternal,
                 runner.running
             {
-                AppleIntelligenceEffectView()
+                AppleIntelligenceEffectView(useRoundedRectangle: false)
                     .ignoresSafeArea()
                     .allowsHitTesting(false)
             }
