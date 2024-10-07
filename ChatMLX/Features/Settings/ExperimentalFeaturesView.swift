@@ -35,7 +35,7 @@ struct ExperimentalFeaturesView: View {
                             selection: $appleIntelligenceEffectDisplay
                         ) {
                             ForEach(AppleIntelligenceEffectDisplay.allCases) { display in
-                                Text(display.rawValue).tag(display)
+                                Text(display.localized).tag(display)
                             }
                         }
                         .labelsHidden()
