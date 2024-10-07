@@ -116,7 +116,6 @@ class LLMRunner {
         withAnimation {
             running = true
         }
-        
 
         let assistantMessage = Message(context: context).assistant(conversation: conversation)
 

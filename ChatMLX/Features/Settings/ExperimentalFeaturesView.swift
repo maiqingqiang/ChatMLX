@@ -57,9 +57,11 @@ struct ExperimentalFeaturesView: View {
             .buttonStyle(.plain)
             .symbolRenderingMode(.multicolor)
             .popover(isPresented: $showingPopover, arrowEdge: .bottom) {
-                Text("Experimental features may have performance limitations. Features and programmatic interfaces are subject to change at any time.")
-                    .frame(width: 200)
-                    .padding()
+                Text(
+                    "Experimental features may have performance limitations. Features and programmatic interfaces are subject to change at any time."
+                )
+                .frame(width: 200)
+                .padding()
             }
         }
         .ultramanNavigationTitle("Experimental Features")

@@ -30,7 +30,9 @@ struct ConversationView: View {
         .foregroundColor(.white)
         .ultramanMinimalistWindowStyle()
         .overlay {
-            if enableAppleIntelligenceEffect, appleIntelligenceEffectDisplay == .appInternal, runner.running {
+            if enableAppleIntelligenceEffect, appleIntelligenceEffectDisplay == .appInternal,
+                runner.running
+            {
                 AppleIntelligenceEffectView()
                     .ignoresSafeArea()
                     .allowsHitTesting(false)

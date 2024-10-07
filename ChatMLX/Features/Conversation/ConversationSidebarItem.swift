@@ -32,7 +32,7 @@ struct ConversationSidebarItem: View {
                         .lineLimit(1)
 
                     Spacer()
-                    if (conversation.isFault || conversation.isDeleted) {
+                    if conversation.isFault || conversation.isDeleted {
                         Text(conversation.updatedAt.toFormatted())
                             .font(.caption)
                     }
