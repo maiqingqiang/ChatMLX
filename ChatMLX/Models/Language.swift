@@ -55,7 +55,7 @@ enum Language: String, CaseIterable, Identifiable, Defaults.Serializable {
         switch self {
         case .english: return "English"
         case .arabic: return "العربية"
-        case .chineseHongKong: return "香港中文"
+        case .chineseHongKong: return "中文（香港）"
         case .simplifiedChinese: return "简体中文"
         case .traditionalChinese: return "繁體中文"
         case .catalan: return "Català"
