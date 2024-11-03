@@ -46,6 +46,56 @@
 
 ![iShot_2024-08-31_23.55.39.png](images/iShot_2024-08-31_23.55.39.png)
 
+## FAQ
+
+### 1. 在 macOS 安装后，打开时显示“文件损坏”或没有响应
+
+由于 ChatMLX 未经过签名，因此被 macOS 安全检查阻止。
+
+如果在安装后遇到“文件损坏”的错误，请按照以下步骤操作：
+
+```bash
+xattr -cr /Applications/ChatMLX.app
+```
+
+之后，您应该能够正常打 ChatMLX。
+
+如果出现以下信息：
+
+```sh
+option -r not recognized
+
+usage: xattr [-slz] file [file ...]
+       xattr -p [-slz] attr_name file [file ...]
+       xattr -w [-sz] attr_name attr_value file [file ...]
+       xattr -d [-s] attr_name file [file ...]
+       xattr -c [-s] file [file ...]
+
+The first form lists the names of all xattrs on the given file(s).
+The second form (-p) prints the value of the xattr attr_name.
+The third form (-w) sets the value of the xattr attr_name to attr_value.
+The fourth form (-d) deletes the xattr attr_name.
+The fifth form (-c) deletes (clears) all xattrs.
+
+options:
+  -h: print this help
+  -s: act on symbolic links themselves rather than their targets
+  -l: print long format (attr_name: attr_value)
+  -z: compress or decompress (if compressed) attribute value in zip format
+```
+
+那就执行下面这个命令：
+
+```bash
+xattr -c /Applications/ChatMLX.app/*
+```
+
+如果以上命令仍然无效，可以尝试以下命令：
+
+```bash
+sudo xattr -d com.apple.quarantine /Applications/ChatMLX.app/
+```
+
 ## Star 历史 🌟
 
 [![星标历史图表](https://api.star-history.com/svg?repos=maiqingqiang/ChatMLX&type=Date)](https://star-history.com/#maiqingqiang/ChatMLX&Date)
