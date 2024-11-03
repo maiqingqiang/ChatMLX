@@ -31,7 +31,7 @@ English | [简体中文](./README-zh_CN.md)
 
 ## Features 🚀
 
-- **Multilingual**: Supports English, Simplified Chinese, Traditional Chinese, Japanese, and Korean.
+- **Multilingual:** Supports all 39 major App Store languages, including English, Simplified Chinese, Traditional Chinese, Japanese, and Korean.
 - **Multiple Models**: Provides multiple models, including Llama, OpenELM, Phi, Qwen, Starcoder, Cohere, Gemma.
 - **High Performance**: Based on the powerful performance of MLX and Apple silicon.
 - **Privacy and Security**: Run LLM locally to ensure user privacy and security.
