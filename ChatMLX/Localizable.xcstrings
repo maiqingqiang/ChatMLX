@@ -2371,13 +2371,13 @@
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Apple智能效能"
+            "value" : "Apple 智能效果"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "苹果智能效果"
+            "value" : "Apple 智能效果"
           }
         },
         "zh-Hant" : {
@@ -12375,7 +12375,7 @@
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "型號"
+            "value" : "模型"
           }
         },
         "zh-Hans" : {
